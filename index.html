@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BinMaster Prep Letter Tool</title>
+<style>
+  :root {
+    --bm-red: #c0392b;
+    --bm-dark: #1a1a2e;
+    --bm-mid: #2c2c54;
+    --bm-accent: #e74c3c;
+    --bm-light: #f8f9fa;
+    --bm-border: #dee2e6;
+    --bm-selected: #27ae60;
+    --bm-selected-light: #d5f5e3;
+    --text-muted: #6c757d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--bm-dark);
+    color: white;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  header .logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--bm-accent);
+  }
+
+  header .subtitle {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 2px;
+  }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+  .top-bar {
+    background: white;
+    border-radius: 10px;
+    padding: 18px 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-bottom: 16px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 200px;
+  }
+
+  .field-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .field-group input {
+    border: 1.5px solid var(--bm-border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field-group input:focus { border-color: var(--bm-accent); }
+
+  .btn {
+    padding: 9px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--bm-accent);
+    color: white;
+  }
+  .btn-primary:hover { background: #c0392b; }
+
+  .btn-secondary {
+    background: #ecf0f1;
+    color: #555;
+  }
+  .btn-secondary:hover { background: #dde3e7; }
+
+  .btn-generate {
+    background: var(--bm-selected);
+    color: white;
+    padding: 9px 28px;
+    font-size: 14px;
+  }
+  .btn-generate:hover { background: #219a52; }
+
+  .btn-generate:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+  }
+
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 14px 18px;
+    background: var(--bm-dark);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-body { padding: 16px; }
+
+  .product-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .product-btn {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1.5px solid var(--bm-border);
+    background: white;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #444;
+  }
+
+  .product-btn:hover {
+    border-color: var(--bm-accent);
+    color: var(--bm-accent);
+    background: #fff5f5;
+  }
+
+  .product-btn.selected {
+    background: var(--bm-selected);
+    border-color: var(--bm-selected);
+    color: white;
+  }
+
+  .selected-count {
+    font-size: 11px;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead { position: sticky; top: 0; z-index: 2; }
+
+  thead th {
+    background: #f0f2f5;
+    padding: 9px 10px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 700;
+    border-bottom: 2px solid var(--bm-border);
+  }
+
+  tbody tr:nth-child(even) { background: #fafafa; }
+  tbody tr:hover { background: #fff3f3; }
+
+  tbody td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+  }
+
+  .editable {
+    border: none;
+    background: transparent;
+    width: 100%;
+    font-size: 13px;
+    font-family: inherit;
+    padding: 2px 4px;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  .editable:focus {
+    background: #fff9e6;
+    box-shadow: 0 0 0 2px #f39c12;
+  }
+
+  .url-cell input { color: #2980b9; }
+
+  .row-actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+
+  .icon-btn.add { background: #d5f5e3; color: #27ae60; }
+  .icon-btn.add:hover { background: #27ae60; color: white; }
+  .icon-btn.del { background: #fde8e8; color: #e74c3c; }
+  .icon-btn.del:hover { background: #e74c3c; color: white; }
+
+  .history-table { font-size: 12px; }
+  .history-table td { padding: 6px 10px; }
+
+  .ord-badge {
+    display: inline-block;
+    background: #eaf4ff;
+    color: #2980b9;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 11px;
+  }
+
+  .preview-area {
+    background: #f8f9fa;
+    border: 1.5px solid var(--bm-border);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    max-height: 280px;
+    overflow-y: auto;
+    color: #2c3e50;
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+
+  .modal-icon { font-size: 48px; margin-bottom: 12px; }
+  .modal h3 { font-size: 20px; margin-bottom: 8px; color: var(--bm-accent); }
+  .modal p { color: #555; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+  .modal-btns { display: flex; gap: 10px; justify-content: center; }
+
+  .notif {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #2ecc71;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 999;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+  }
+
+  .notif.show { transform: translateX(0); }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    background: var(--bm-dark);
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.15s;
+    border-bottom: 3px solid transparent;
+  }
+
+  .tab.active { color: white; border-bottom-color: var(--bm-accent); }
+  .tab:hover { color: white; background: rgba(255,255,255,0.05); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .info-row {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 4px 18px 8px;
+  }
+
+  .del-history-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ccc;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.15s;
+  }
+  .del-history-btn:hover { color: #e74c3c; }
+
+  .empty-state {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .empty-state .icon { font-size: 36px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">&#9881; BinMaster</div>
+    <div class="subtitle">Preparation Email Tool</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="top-bar">
+    <div class="field-group">
+      <label>ORD Number</label>
+      <input type="text" id="ordNumber" placeholder="e.g. 12345" />
+    </div>
+    <div class="field-group" style="min-width: 280px;">
+      <label>Customer Email Address</label>
+      <input type="email" id="emailAddr" placeholder="customer@example.com" />
+    </div>
+    <button class="btn btn-generate" onclick="generateEmail()">&#9993; Generate &amp; Send Email</button>
+    <button class="btn btn-secondary" onclick="clearSelections()">&#8635; Clear Selections</button>
+  </div>
+
+  <div class="main-grid">
+
+    <div>
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-header">
+          Product Buttons
+          <span class="selected-count" id="selCount">0 selected</span>
+        </div>
+        <div class="card-body">
+          <div class="product-buttons" id="productButtons"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Email Preview</div>
+        <div class="card-body">
+          <div class="preview-area" id="previewArea">Select products and fill in ORD Number &amp; Email to see a preview...</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="tab-bar">
+          <div class="tab active" onclick="switchTab('links')">Resource Links Table</div>
+          <div class="tab" onclick="switchTab('history')">Send History</div>
+        </div>
+
+        <div id="tab-links" class="tab-content active">
+          <div class="info-row">Edit product names, link text, or URLs. Click &#128465; to delete rows.</div>
+          <div class="table-wrap">
+            <table id="linksTable">
+              <thead>
+                <tr>
+                  <th style="width:24%">Product Name</th>
+                  <th style="width:40%">Link Text</th>
+                  <th style="width:30%">Link URL</th>
+                  <th style="width:6%"></th>
+                </tr>
+              </thead>
+              <tbody id="linksBody"></tbody>
+            </table>
+          </div>
+          <div style="padding: 10px 14px;">
+            <button class="btn btn-secondary" onclick="addRow()" style="font-size:12px;">+ Add Row</button>
+          </div>
+        </div>
+
+        <div id="tab-history" class="tab-content">
+          <div class="table-wrap">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>ORD Number</th>
+                  <th>Email</th>
+                  <th>Products</th>
+                  <th>Date Sent</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="historyBody"></tbody>
+            </table>
+            <div id="historyEmpty" class="empty-state">
+              <div class="icon">&#128203;</div>
+              No emails sent yet.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="dupModal">
+  <div class="modal">
+    <div class="modal-icon">&#9888;&#65039;</div>
+    <h3>ORD Number Already Sent</h3>
+    <p id="dupModalMsg">This ORD Number has already been sent. Do you want to send it again?</p>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="proceedSend()">Send Anyway</button>
+      <button class="btn btn-secondary" onclick="closeDupModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+const INITIAL_TABLE_DATA = [
+  {"product_name":"NCR-80, NCR-86","link_text":"BinDisc Setup Wizard","link_url":"https://bmtchspprt.github.io/radar-setup/bindisc.html"},
+  {"product_name":"NCR","link_text":"NCR Manuals here","link_url":"https://support.binmaster.com/kb/view/bc8e6a67-a401-4bc6-aa83-3423a0282860"},
+  {"product_name":"NCR-80, NCR-86","link_text":"NCR Wiring","link_url":"https://support.binmaster.com/kb/view/a5d3b4e0-a336-43f4-94f4-962eeef7d7af"},
+  {"product_name":"NCR-80, NCR-86","link_text":"CNCR and NCR distance A and distance B","link_url":"https://support.binmaster.com/kb/view/354aa685-9ca4-429e-bc12-c8133f120720"},
+  {"product_name":"NCR-80, NCR-86","link_text":"Video: NCR radar material calibration, vessel height, max, min distance","link_url":"https://support.binmaster.com/kb/view/0267ba21-6439-408a-b1f5-1e5963f3fe16"},
+  {"product_name":"NCR-80","link_text":"NCR-80 BinDisc Quick setup","link_url":"https://binmaster.com/amfile/file/download/file/1195/product/4274/"},
+  {"product_name":"NCR-86","link_text":"NCR-86 BinDisc Quick setup","link_url":"https://binmaster.com/amfile/file/download/file/1045/product/4700/"},
+  {"product_name":"NCR-86","link_text":"NCR-86 material calibration, vessel height, min-max","link_url":"https://support.binmaster.com/kb/view/902c7769-9671-45ab-a52c-6ada011925ec"},
+  {"product_name":"NCR-86","link_text":"QR: NCR-86: BinDisc (BinDisk) setup guide","link_url":"https://support.binmaster.com/kb/view/ca0065b4-4870-4586-b804-350da88e5572"},
+  {"product_name":"CNCR-110, CNCR-120, CNCR-130, CNCR-190, CNCR-210, CNCR-220, CNCR-230, CNCR-390, CNCR-400","link_text":"CNCR Manuals Click here","link_url":"https://support.binmaster.com/kb/view/d71297d9-77ac-49f8-97a4-6d183bf3adbc"},
+  {"product_name":"CNCR-110, CNCR-120, CNCR-130, CNCR-190, CNCR-210, CNCR-220, CNCR-230, CNCR-390, CNCR-400","link_text":"CNCR Wiring","link_url":"https://support.binmaster.com/kb/view/9ab4c1b8-9795-4e4a-90a7-192da74a5729"},
+  {"product_name":"CNCR-110, CNCR-120, CNCR-130, CNCR-190, CNCR-210, CNCR-220, CNCR-230, CNCR-390, CNCR-400","link_text":"CNCR: Bluetooth Setup Guide","link_url":"https://support.binmaster.com/kb/view/a0e315ac-84e8-49a7-823e-b263d44a3017"},
+  {"product_name":"SmartBob","link_text":"SmartBob Manual","link_url":"https://support.binmaster.com/kb/view/c63c227b-5e08-4171-8c7f-58a804e3f06a"},
+  {"product_name":"SmartBob","link_text":"SmartBob Wiring","link_url":"https://support.binmaster.com/kb/view/3ae8f673-3dfd-466f-b9fd-2e814996426a"},
+  {"product_name":"TX-100, TS-200","link_text":"Radar installation location","link_url":"https://support.binmaster.com/kb/view/b13307c4-f239-4135-8214-df1eed4578b4"},
+  {"product_name":"TX-100, TS-200","link_text":"Senix Toughsonic manual","link_url":"https://support.binmaster.com/kb/view/376df1e4-4906-4f01-b9e6-c4e8e0943da0"},
+  {"product_name":"TX-100, TS-200","link_text":"Senix - How To Videos","link_url":"https://support.binmaster.com/kb/view/92f66ca8-5cfd-4ad5-ba42-8bd67a5406db"},
+  {"product_name":"TX-100, TS-200","link_text":"Video: Senix tutorials (esp. Senixview)","link_url":"https://support.binmaster.com/kb/view/5e5b0d82-30f7-4b15-a51f-c73242481125"},
+  {"product_name":"TS-100","link_text":"Senix Toughsonic TS-100, Gateway","link_url":"https://support.binmaster.com/kb/view/ad65d8bc-ee56-47d5-9354-086c7cf0ae21"},
+  {"product_name":"TS-200","link_text":"Senix Toughsonic-200 need a driver?","link_url":"https://support.binmaster.com/kb/view/aaa5f679-d2ed-4e3b-b912-58bd4c975ee9"},
+  {"product_name":"LL-100, FVL-200, SPL-200","link_text":"Downloads, Drivers, Software, Tools","link_url":"https://support.binmaster.com/kb/view/cecac1da-e4ab-4ac1-a511-9672176f3dd6"},
+  {"product_name":"LL-100, FVL-200, SPL-200","link_text":"FVL sensor aiming","link_url":"https://support.binmaster.com/kb/view/8da155fc-5b7f-4eef-a31c-2442838c5f9c"},
+  {"product_name":"LL-100, FVL-200, SPL-200","link_text":"FVL laser manual","link_url":"https://support.binmaster.com/kb/view/227a57c9-c5f3-47ab-b12d-e7349d808790"},
+  {"product_name":"LL-100","link_text":"LL-100 Laser Setup Software","link_url":"https://spaces.hightail.com/receive/fhAqZT5taB"},
+  {"product_name":"LL-100","link_text":"LL-100 Manual","link_url":"https://www.binmaster.com/amfile/file/download/file/1172/product/4238/"},
+  {"product_name":"FVL-200","link_text":"SPL-FVL-200 Quick Start Guide","link_url":"https://binmaster.com/amfile/file/download/file/1266/product/4263/"},
+  {"product_name":"SPL-200","link_text":"SPL-FVL-200 Quick Start Guide","link_url":"https://binmaster.com/amfile/file/download/file/1266/product/4263/"},
+  {"product_name":"3D-Level-Scanner","link_text":"3D scanner manual","link_url":"https://support.binmaster.com/kb/view/c33bfffd-6111-4b65-961c-17a2b1797374"},
+  {"product_name":"3D-Level-Scanner","link_text":"3D wiring","link_url":"https://support.binmaster.com/kb/view/52912f26-04f4-4aeb-b3ba-10db7226afcd"},
+  {"product_name":"3D-Level-Scanner","link_text":"3D scanner extension installation: videos and manuals","link_url":"https://support.binmaster.com/kb/view/70cbec26-fa02-4934-a95c-593cf5092229"},
+  {"product_name":"3D-Level-Scanner","link_text":"Installation: 3D Scanner Downloads","link_url":"https://support.binmaster.com/kb/view/22e6518c-bebc-46e3-affe-c835e61088ce"},
+  {"product_name":"3D Vision","link_text":"3D Vision connect software","link_url":"https://support.binmaster.com/kb/view/7d8bee17-d629-4075-a18b-7e0725f4b52a"},
+  {"product_name":"GWR-2000, GWR-3000","link_text":"Guided Wave Radar manuals","link_url":"https://support.binmaster.com/kb/view/e29fbc11-0526-4ff9-9c76-da324a5a9ca3"},
+  {"product_name":"GWR-2000, GWR-3000","link_text":"Guided Wave Radar wiring","link_url":"https://support.binmaster.com/kb/view/baa0c650-0575-4b4f-a0dc-86911ca25a66"},
+  {"product_name":"BMRX-100, BMRX-200, BMRX-300, Maxima +, Mini Rotary","link_text":"BMRX Rotary manual","link_url":"https://support.binmaster.com/kb/view/66e6b142-438c-4f2f-85c2-bda53cba000f"},
+  {"product_name":"ProCap I, ProCap II, Mini Capacitance Probe","link_text":"Capacitance probe manual","link_url":"https://support.binmaster.com/kb/view/4895275b-1f7c-4b28-8fec-925faa017f46"},
+  {"product_name":"ProCap I, ProCap II, Mini Capacitance Probe","link_text":"Procap capacitance probe adjustments video","link_url":"https://support.binmaster.com/kb/view/c67bbd67-e00b-46ef-9f72-38a83856a103"},
+  {"product_name":"CVR-600, CVR-625, SHT 120, SHT 140, VR-90, VF-90, VRX21, VRX-31, VRX-41, VRX-51","link_text":"Vibrating rod manual","link_url":"https://support.binmaster.com/kb/view/bd8af8e0-e43b-4771-bd52-52b8748f7c96"},
+  {"product_name":"BM-25, BM-45, BM-65","link_text":"Diaphragm switch manual","link_url":"https://support.binmaster.com/kb/view/9cf52a34-53ce-469c-8d0f-adffd00ab0c4"},
+  {"product_name":"BM-T, BM-TSM","link_text":"Tilt switch manual","link_url":"https://support.binmaster.com/kb/view/b9b5eac2-8ab5-4379-91cb-d753cc51927a"},
+  {"product_name":"C-100","link_text":"C-100 Manual","link_url":"https://support.binmaster.com/kb/view/811e6e4d-81ec-4906-be46-981773c71a69"},
+  {"product_name":"C-100","link_text":"C-100 Setup Guide","link_url":"https://binmastercody.github.io/c100/"},
+  {"product_name":"C-50","link_text":"C-50 Expansion Model","link_url":"https://binmaster.com/amfile/file/download/file/1253/product/4260/"},
+  {"product_name":"DPM-100, DPM-200, DPM-300, DPM-400, DPM-500","link_text":"DPM Manuals","link_url":"https://support.binmaster.com/kb/view/717dead8-a1c3-4518-8238-857ecac445e3"},
+  {"product_name":"DPM-100 Modbus","link_text":"DPM-100 Modbus Quick Start","link_url":"https://binmaster.com/amfile/file/download/file/1049/product/4799/"},
+  {"product_name":"AEH","link_text":"Wiring CNCR 4-20, PLC, AEH, Gateway","link_url":"https://support.binmaster.com/kb/view/d173cef9-94a1-42ce-b043-2e297a195134"},
+  {"product_name":"AEH","link_text":"NCR 2-wire to AEH-100 to Gateway","link_url":"https://support.binmaster.com/kb/view/e4056ddf-f834-4cd3-a47e-7df72d071c86"},
+  {"product_name":"HCM","link_text":"Wiring NCR HART, HCM, GATEWAY","link_url":"https://support.binmaster.com/kb/view/7f8bdc4e-48a6-4ed4-b773-cc6a858c3b05"},
+  {"product_name":"LTR-100","link_text":"LTR-100 manual","link_url":"https://support.binmaster.com/kb/view/d33f37bb-9332-420a-869f-8f30113caf49"},
+  {"product_name":"LTR-100","link_text":"LTR communication with Gateway for 4-20 sensors","link_url":"https://support.binmaster.com/kb/view/7201c8aa-0bb0-480d-9400-1c12389dcdbc"},
+  {"product_name":"TC-100","link_text":"CNCR Modbus to TC-100 to Gateway","link_url":"https://support.binmaster.com/kb/view/e8e8f1c6-6635-4f2d-9798-528b2df6d3e9"},
+  {"product_name":"BinCloud, Gateway","link_text":"Form: BinCloud, Binventory, 3D Vessel Setup","link_url":"https://support-genie--davezelnio.replit.app/kb/view/d65c70fd-45a6-4720-9db6-de9f61348bae"},
+  {"product_name":"BinCloud, Gateway","link_text":"Firewall details","link_url":"https://support.binmaster.com/kb/view/6eba9a1b-a15f-4ef6-b96b-c50478438d5d"},
+  {"product_name":"Binventory, Ebob","link_text":"Binventory install, upgrade, move to another computer","link_url":"https://support.binmaster.com/kb/view/5d310bc3-e081-4124-a491-57b62a079870"},
+  {"product_name":"FD-2000","link_text":"Flow Detect Manual","link_url":"https://binmaster.com/amfile/file/download/file/1151/product/4230/"},
+  {"product_name":"Airbrator","link_text":"Airpad, Airbrator manuals","link_url":"https://support.binmaster.com/kb/view/b5fefb58-7dd4-463b-9f32-3adaa07b5d3b"},
+  {"product_name":"Airpad","link_text":"Airpad, Airbrator manuals","link_url":"https://support.binmaster.com/kb/view/b5fefb58-7dd4-463b-9f32-3adaa07b5d3b"}
+];
+
+const PRODUCT_BUTTONS = [
+  "3D Level Scanner","3D Vision","A-Frame Load Cell","AEH-100/200 - wiring","Air Pads","Airbrator",
+  "BM-25","BM-45","BM-65","BM-T","BM-TSM","BMRX-100","BMRX-200","BMRX-300",
+  "BinCloud","Binventory/Ebob","C-100","C-50","CNCR","Canister Load Cell","Compact",
+  "DPM-100 Modbus","DPMs","Extended","FVL-200","Flow Detect 2000","GWR-2000","GWR-3000",
+  "HCM-100 Wiring","LL-100","LTR-100","Maxima +","Mini Rotary","NCR","Pancake Load Cell",
+  "Plugged Chute Detector","Pro Cap","SPL-200","SmartBob","Standard","TC-100","TS-100","TS-200",
+  "Wireless Transcievers"
+];
+
+let tableData = JSON.parse(JSON.stringify(INITIAL_TABLE_DATA));
+let selectedProducts = new Set();
+let sendHistory = loadHistory();
+
+function init() {
+  renderProductButtons();
+  renderLinksTable();
+  renderHistory();
+  document.getElementById('ordNumber').addEventListener('input', updatePreview);
+  document.getElementById('emailAddr').addEventListener('input', updatePreview);
+}
+
+function renderProductButtons() {
+  const container = document.getElementById('productButtons');
+  container.innerHTML = '';
+  PRODUCT_BUTTONS.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'product-btn' + (selectedProducts.has(name) ? ' selected' : '');
+    btn.textContent = name;
+    btn.onclick = () => toggleProduct(name, btn);
+    container.appendChild(btn);
+  });
+  updateSelCount();
+}
+
+function toggleProduct(name, btn) {
+  if (selectedProducts.has(name)) {
+    selectedProducts.delete(name);
+    btn.classList.remove('selected');
+  } else {
+    selectedProducts.add(name);
+    btn.classList.add('selected');
+  }
+  updateSelCount();
+  updatePreview();
+}
+
+function updateSelCount() {
+  document.getElementById('selCount').textContent = selectedProducts.size + ' selected';
+}
+
+function clearSelections() {
+  selectedProducts.clear();
+  renderProductButtons();
+  updatePreview();
+}
+
+function renderLinksTable() {
+  const tbody = document.getElementById('linksBody');
+  tbody.innerHTML = '';
+  tableData.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><input class="editable" value="' + esc(row.product_name) + '" onchange="tableData[' + i + '].product_name=this.value;updatePreview()" /></td>' +
+      '<td><input class="editable" value="' + esc(row.link_text) + '" onchange="tableData[' + i + '].link_text=this.value;updatePreview()" /></td>' +
+      '<td class="url-cell"><input class="editable" value="' + esc(row.link_url) + '" onchange="tableData[' + i + '].link_url=this.value;updatePreview()" /></td>' +
+      '<td><div class="row-actions"><button class="icon-btn del" onclick="deleteRow(' + i + ')" title="Delete row">&#128465;</button></div></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function addRow() {
+  tableData.push({ product_name: '', link_text: '', link_url: '' });
+  renderLinksTable();
+  document.getElementById('linksBody').lastChild.querySelector('input').focus();
+}
+
+function deleteRow(i) {
+  tableData.splice(i, 1);
+  renderLinksTable();
+  updatePreview();
+}
+
+function esc(str) {
+  return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function getMatchingLinks() {
+  if (selectedProducts.size === 0) return [];
+  const sel = [...selectedProducts].map(s => s.toLowerCase());
+  return tableData.filter(row => {
+    if (!row.link_text || !row.link_url) return false;
+    const pn = (row.product_name || '').toLowerCase();
+    return sel.some(s => {
+      const parts = pn.split(',').map(p => p.trim());
+      return parts.some(p => p.includes(s) || s.includes(p));
+    });
+  });
+}
+
+function buildEmailBody() {
+  const email = document.getElementById('emailAddr').value.trim();
+  const links = getMatchingLinks();
+  const productList = [...selectedProducts].join(', ');
+
+  let body = email + '\r\n';
+  body += productList + '\r\n';
+  body += 'Greetings!\r\n';
+  body += 'Thanks again for choosing BinMaster for your state-of-the-art level measurement system.\r\n';
+  body += 'Looking ahead to your system, we figure you could use some resources.\r\n';
+  links.forEach(row => {
+    body += row.link_text + ' \u2013 ' + row.link_url + '\r\n';
+  });
+  body += '\r\nRemember to bookmark https://support.binmaster.com/ if you need to chat, search our knowledge base, or contact BinMaster Tech.\r\n';
+  body += '\r\nBinMaster Technical Support\r\nhttps://www.binmaster.com\r\n402-434-9102\r\n3435 Schworer Dr\r\nLincoln, NE 68504';
+  return body;
+}
+
+function updatePreview() {
+  const ord = document.getElementById('ordNumber').value.trim();
+  const email = document.getElementById('emailAddr').value.trim();
+
+  if (!ord && !email && selectedProducts.size === 0) {
+    document.getElementById('previewArea').textContent = 'Select products and fill in ORD Number & Email to see a preview...';
+    return;
+  }
+
+  const links = getMatchingLinks();
+  const productList = [...selectedProducts].join(', ');
+
+  let preview = 'TO: ' + (email || '[email address]') + '\n';
+  preview += 'SUBJECT: BinMaster Preparation ' + (ord || '[ORD Number]') + '\n';
+  preview += '\u2500'.repeat(50) + '\n';
+  preview += (email || '[email]') + '\n';
+  preview += (productList || '[no products selected]') + '\n';
+  preview += 'Greetings!\n';
+  preview += 'Thanks again for choosing BinMaster for your state-of-the-art level measurement system.\n';
+  preview += 'Looking ahead to your system, we figure you could use some resources.\n';
+  if (links.length > 0) {
+    links.forEach(row => { preview += row.link_text + ' \u2013 ' + row.link_url + '\n'; });
+  } else {
+    preview += '[No matching links for selected products]\n';
+  }
+  preview += '\nRemember to bookmark https://support.binmaster.com/ ...\n';
+  preview += '\nBinMaster Technical Support\nhttps://www.binmaster.com\n402-434-9102\n3435 Schworer Dr\nLincoln, NE 68504';
+  document.getElementById('previewArea').textContent = preview;
+}
+
+function generateEmail() {
+  const ord = document.getElementById('ordNumber').value.trim();
+  const email = document.getElementById('emailAddr').value.trim();
+
+  if (!ord) { showNotif('Please enter an ORD Number', '#e67e22'); return; }
+  if (!email) { showNotif('Please enter an email address', '#e67e22'); return; }
+  if (selectedProducts.size === 0) { showNotif('Please select at least one product', '#e67e22'); return; }
+
+  const isDup = sendHistory.some(h => h.ord === ord);
+  if (isDup) {
+    const existing = sendHistory.find(h => h.ord === ord);
+    document.getElementById('dupModalMsg').textContent =
+      'ORD Number "' + ord + '" was previously sent to ' + existing.email + ' on ' + existing.date + '. Send again?';
+    document.getElementById('dupModal').classList.add('show');
+    return;
+  }
+  doSend();
+}
+
+function proceedSend() {
+  closeDupModal();
+  doSend();
+}
+
+function closeDupModal() {
+  document.getElementById('dupModal').classList.remove('show');
+}
+
+function doSend() {
+  const ord = document.getElementById('ordNumber').value.trim();
+  const email = document.getElementById('emailAddr').value.trim();
+  const subject = 'BinMaster Preparation ' + ord;
+  const body = buildEmailBody();
+
+  window.location.href = 'mailto:' + encodeURIComponent(email) +
+    '?subject=' + encodeURIComponent(subject) +
+    '&body=' + encodeURIComponent(body);
+
+  const record = {
+    ord: ord,
+    email: email,
+    products: [...selectedProducts].join(', '),
+    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+  };
+  sendHistory.unshift(record);
+  saveHistory();
+  renderHistory();
+  showNotif('Email client opened for ORD ' + ord);
+}
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem('bmPrepHistory') || '[]'); }
+  catch(e) { return []; }
+}
+
+function saveHistory() {
+  try { localStorage.setItem('bmPrepHistory', JSON.stringify(sendHistory)); } catch(e) {}
+}
+
+function renderHistory() {
+  const tbody = document.getElementById('historyBody');
+  const empty = document.getElementById('historyEmpty');
+  tbody.innerHTML = '';
+  if (sendHistory.length === 0) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  sendHistory.forEach((h, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><span class="ord-badge">' + esc(h.ord) + '</span></td>' +
+      '<td style="font-size:12px;color:#555">' + esc(h.email) + '</td>' +
+      '<td style="font-size:11px;color:#888;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(h.products) + '">' + esc(h.products) + '</td>' +
+      '<td style="font-size:11px;color:#888;white-space:nowrap">' + esc(h.date) + '</td>' +
+      '<td><button class="del-history-btn" onclick="deleteHistory(' + i + ')" title="Remove">&#10005;</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function deleteHistory(i) {
+  sendHistory.splice(i, 1);
+  saveHistory();
+  renderHistory();
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ['links','history'][i] === name);
+  });
+  document.getElementById('tab-links').classList.toggle('active', name === 'links');
+  document.getElementById('tab-history').classList.toggle('active', name === 'history');
+}
+
+function showNotif(msg, color) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.style.background = color || '#2ecc71';
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+init();
+</script>
+</body>
+</html>
