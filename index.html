@@ -9,519 +9,123 @@
   :root {
     --red: #c8102e;
     --red-dark: #9e0c23;
-    --red-light: #f5e6e9;
+    --red-light: #f9e6e9;
     --gray-900: #1a1a1a;
-    --gray-800: #2d2d2d;
+    --gray-700: #3d3d3d;
     --gray-600: #555;
     --gray-400: #999;
     --gray-200: #e5e5e5;
     --gray-100: #f5f5f5;
     --white: #fff;
-    --green: #1a7f3c;
-    --green-light: #e6f4ec;
     --amber: #b45309;
     --amber-light: #fef3c7;
-    --shadow: 0 2px 8px rgba(0,0,0,0.12);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
+    --shadow: 0 2px 8px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.18);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Barlow', sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; }
 
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-900);
-    min-height: 100vh;
-  }
+  header { background: var(--gray-900); color: var(--white); display: flex; align-items: stretch; border-bottom: 4px solid var(--red); }
+  .hbar { background: var(--red); width: 8px; flex-shrink: 0; }
+  .hinner { padding: 16px 24px; display: flex; align-items: center; gap: 14px; }
+  .hinner h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.55rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .hinner p { font-size: 0.75rem; color: #aaa; margin-top: 2px; letter-spacing: 0.05em; text-transform: uppercase; }
 
-  header {
-    background: var(--gray-900);
-    color: var(--white);
-    padding: 0;
-    display: flex;
-    align-items: stretch;
-    border-bottom: 4px solid var(--red);
-  }
+  .layout { display: grid; grid-template-columns: 1fr 370px; gap: 18px; padding: 20px; max-width: 1400px; margin: 0 auto; }
+  @media(max-width:900px){ .layout { grid-template-columns: 1fr; } }
 
-  .header-accent {
-    background: var(--red);
-    width: 8px;
-    flex-shrink: 0;
-  }
+  .card { background: var(--white); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
+  .ch { background: var(--gray-900); color: var(--white); padding: 11px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+  .cb { padding: 18px; }
 
-  .header-content {
-    padding: 18px 28px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .frow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .fg label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-600); margin-bottom: 5px; }
+  .fg input { width: 100%; border: 2px solid var(--gray-200); border-radius: 5px; padding: 9px 11px; font-family: 'Barlow', sans-serif; font-size: 0.88rem; transition: border-color 0.15s; }
+  .fg input:focus { outline: none; border-color: var(--red); }
+  .fg input.warn { border-color: var(--amber); background: var(--amber-light); }
+  .dupmsg { display: none; font-size: 0.75rem; font-weight: 600; color: var(--amber); margin-top: 5px; }
+  .dupmsg.show { display: block; }
 
-  .header-icon {
-    font-size: 2rem;
-    line-height: 1;
-  }
+  .bwrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pb { background: var(--gray-100); border: 2px solid var(--gray-200); border-radius: 5px; padding: 5px 11px; font-family: 'Barlow', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s; color: var(--gray-700); white-space: nowrap; }
+  .pb:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
+  .pb.on { background: var(--red); border-color: var(--red-dark); color: var(--white); box-shadow: 0 2px 6px rgba(200,16,46,.3); }
 
-  header h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  header p {
-    font-size: 0.8rem;
-    color: #aaa;
-    margin-top: 2px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .main-grid {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 20px;
-    padding: 24px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  /* ── SECTION CARD ── */
-  .card {
-    background: var(--white);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-
-  .card-header {
-    background: var(--gray-900);
-    color: var(--white);
-    padding: 12px 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .card-body { padding: 20px; }
-
-  /* ── RECIPIENT FIELDS ── */
-  .fields-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 0;
-  }
-
-  .field-group label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--gray-600);
-    margin-bottom: 5px;
-  }
-
-  .field-group input {
-    width: 100%;
-    border: 2px solid var(--gray-200);
-    border-radius: 5px;
-    padding: 9px 12px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.9rem;
-    transition: border-color 0.15s;
-    background: var(--white);
-  }
-
-  .field-group input:focus {
-    outline: none;
-    border-color: var(--red);
-  }
-
-  .field-group input.duplicate-warning {
-    border-color: var(--amber);
-    background: var(--amber-light);
-  }
-
-  .ord-warning {
-    display: none;
-    margin-top: 6px;
-    font-size: 0.78rem;
-    color: var(--amber);
-    font-weight: 600;
-    align-items: center;
-    gap: 4px;
-  }
-  .ord-warning.visible { display: flex; }
-
-  /* ── PRODUCT BUTTONS ── */
-  .product-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-  }
-
-  .prod-btn {
-    background: var(--gray-100);
-    border: 2px solid var(--gray-200);
-    border-radius: 5px;
-    padding: 6px 12px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-    color: var(--gray-800);
-  }
-
-  .prod-btn:hover {
-    border-color: var(--red);
-    color: var(--red);
-    background: var(--red-light);
-  }
-
-  .prod-btn.active {
-    background: var(--red);
-    border-color: var(--red-dark);
-    color: var(--white);
-    box-shadow: 0 2px 6px rgba(200,16,46,0.35);
-  }
-
-  /* ── EDITABLE TABLE ── */
-  .table-wrap {
-    overflow-x: auto;
-    max-height: 420px;
-    overflow-y: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.82rem;
-  }
-
-  thead th {
-    background: var(--gray-900);
-    color: var(--white);
-    padding: 10px 12px;
-    text-align: left;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-size: 0.78rem;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  }
-
+  .twrap { overflow-x: auto; max-height: 400px; overflow-y: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  thead th { background: var(--gray-900); color: var(--white); padding: 9px 11px; text-align: left; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.75rem; position: sticky; top: 0; z-index: 2; }
   tbody tr { border-bottom: 1px solid var(--gray-200); }
   tbody tr:hover { background: var(--gray-100); }
-  tbody tr.selected-row { background: var(--red-light); }
+  tbody tr.sel { background: var(--red-light); }
+  tbody td { padding: 5px 8px; vertical-align: middle; }
+  td[contenteditable=true] { cursor: text; }
+  td[contenteditable=true]:focus { outline: 2px solid var(--red); outline-offset: -2px; background: #fff8f8; }
+  .tcc { width: 34px; text-align: center; }
+  .tcc input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--red); }
+  td.tp { min-width: 160px; max-width: 220px; word-break: break-word; font-weight: 600; }
+  td.tl { min-width: 190px; max-width: 280px; word-break: break-word; }
+  td.tu { min-width: 240px; max-width: 340px; word-break: break-word; color: var(--red); font-size: 0.72rem; font-family: monospace; }
+  td.ti { min-width: 100px; color: var(--gray-400); font-style: italic; }
+  .delbtn { background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 0.95rem; padding: 2px 5px; border-radius: 3px; transition: all .15s; }
+  .delbtn:hover { color: var(--red); background: var(--red-light); }
+  .addbar { padding: 9px 13px; border-top: 1px solid var(--gray-200); background: var(--gray-100); }
+  .addbar button { background: var(--gray-900); color: var(--white); border: none; border-radius: 5px; padding: 6px 15px; font-family: 'Barlow', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background .15s; }
+  .addbar button:hover { background: var(--red); }
 
-  tbody td {
-    padding: 6px 8px;
-    vertical-align: middle;
-  }
+  .sidebar { display: flex; flex-direction: column; gap: 18px; }
 
-  tbody td[contenteditable="true"] {
-    cursor: text;
-  }
-  tbody td[contenteditable="true"]:focus {
-    outline: 2px solid var(--red);
-    outline-offset: -2px;
-    background: #fff8f8;
-  }
+  .slist { list-style: none; max-height: 200px; overflow-y: auto; }
+  .slist li { display: flex; align-items: flex-start; gap: 7px; padding: 6px 0; border-bottom: 1px solid var(--gray-200); font-size: 0.8rem; }
+  .slist li:last-child { border-bottom: none; }
+  .slbl { font-weight: 600; line-height: 1.3; }
+  .ssub { font-size: 0.7rem; color: var(--gray-400); margin-top: 1px; }
+  .sx { flex-shrink: 0; background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 0.85rem; margin-left: auto; padding: 0 3px; transition: color .12s; }
+  .sx:hover { color: var(--red); }
+  .emsg { color: var(--gray-400); font-size: 0.82rem; text-align: center; padding: 18px 0; font-style: italic; }
 
-  .row-check {
-    width: 36px;
-    text-align: center;
-  }
+  .pvbox { background: #fafafa; border: 1px solid var(--gray-200); border-radius: 6px; padding: 14px; font-size: 0.78rem; line-height: 1.7; color: var(--gray-700); max-height: 300px; overflow-y: auto; font-family: 'Barlow', sans-serif; white-space: pre-wrap; word-break: break-word; }
+  .pvbox a { color: var(--red); text-decoration: underline; }
+  .pvlabel { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gray-400); margin-bottom: 6px; }
 
-  .row-check input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    accent-color: var(--red);
-  }
+  .genbtn { display: block; width: 100%; background: var(--red); color: var(--white); border: none; border-radius: 7px; padding: 15px; font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background .15s, transform .1s; box-shadow: 0 4px 16px rgba(200,16,46,.28); }
+  .genbtn:hover { background: var(--red-dark); transform: translateY(-1px); }
+  .genbtn:active { transform: translateY(0); }
 
-  td.cell-product { min-width: 180px; max-width: 240px; word-break: break-word; font-weight: 600; }
-  td.cell-linktext { min-width: 200px; max-width: 300px; word-break: break-word; }
-  td.cell-url { min-width: 260px; max-width: 360px; word-break: break-word; color: var(--red); font-family: monospace; font-size: 0.75rem; }
-  td.cell-info { min-width: 120px; color: var(--gray-400); font-style: italic; }
+  .hlist { list-style: none; max-height: 190px; overflow-y: auto; }
+  .hlist li { display: flex; align-items: center; gap: 7px; padding: 6px 0; border-bottom: 1px solid var(--gray-200); font-size: 0.78rem; }
+  .hlist li:last-child { border-bottom: none; }
+  .ho { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--red); min-width: 65px; }
+  .he { color: var(--gray-600); flex: 1; word-break: break-all; }
+  .hd { color: var(--gray-400); font-size: 0.7rem; white-space: nowrap; }
+  .hdel { background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 0.82rem; padding: 0 3px; transition: color .12s; }
+  .hdel:hover { color: var(--red); }
 
-  .del-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--gray-400);
-    font-size: 1rem;
-    padding: 2px 6px;
-    border-radius: 3px;
-    transition: all 0.15s;
-  }
-  .del-btn:hover { color: var(--red); background: var(--red-light); }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; align-items: center; justify-content: center; }
+  .overlay.open { display: flex; }
+  .modal { background: var(--white); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 30px; max-width: 400px; width: 90%; text-align: center; }
+  .micon { font-size: 2.4rem; margin-bottom: 10px; }
+  .modal h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.35rem; color: var(--amber); text-transform: uppercase; margin-bottom: 8px; }
+  .modal p { font-size: 0.87rem; color: var(--gray-600); margin-bottom: 22px; line-height: 1.5; }
+  .mbtns { display: flex; gap: 10px; justify-content: center; }
+  .mbtn { border: none; border-radius: 6px; padding: 10px 22px; font-family: 'Barlow', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; }
+  .mbtn:hover { opacity: 0.85; }
+  .mbtn.pri { background: var(--red); color: var(--white); }
+  .mbtn.sec { background: var(--gray-200); color: var(--gray-700); }
 
-  /* ── ADD ROW ── */
-  .add-row-bar {
-    padding: 10px 14px;
-    border-top: 1px solid var(--gray-200);
-    display: flex;
-    gap: 8px;
-    background: var(--gray-100);
-  }
-
-  .add-row-bar button {
-    background: var(--gray-900);
-    color: var(--white);
-    border: none;
-    border-radius: 5px;
-    padding: 7px 16px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .add-row-bar button:hover { background: var(--red); }
-
-  /* ── SIDEBAR ── */
-  .sidebar { display: flex; flex-direction: column; gap: 20px; }
-
-  /* ── SELECTED LINKS PREVIEW ── */
-  .selected-list {
-    list-style: none;
-    max-height: 220px;
-    overflow-y: auto;
-    padding: 0;
-  }
-
-  .selected-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--gray-200);
-    font-size: 0.82rem;
-  }
-
-  .selected-list li:last-child { border-bottom: none; }
-
-  .selected-list .lbl {
-    font-weight: 600;
-    color: var(--gray-900);
-    line-height: 1.3;
-  }
-
-  .selected-list .url-preview {
-    font-size: 0.72rem;
-    color: var(--gray-400);
-    word-break: break-all;
-  }
-
-  .selected-list .remove-sel {
-    flex-shrink: 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--gray-400);
-    font-size: 0.9rem;
-    margin-left: auto;
-    padding: 0 4px;
-    transition: color 0.12s;
-  }
-  .selected-list .remove-sel:hover { color: var(--red); }
-
-  .empty-sel {
-    color: var(--gray-400);
-    font-size: 0.85rem;
-    text-align: center;
-    padding: 20px 0;
-    font-style: italic;
-  }
-
-  /* ── GENERATE BUTTON ── */
-  .generate-btn {
-    display: block;
-    width: 100%;
-    background: var(--red);
-    color: var(--white);
-    border: none;
-    border-radius: 7px;
-    padding: 16px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
-    box-shadow: 0 4px 16px rgba(200,16,46,0.3);
-  }
-  .generate-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
-  .generate-btn:active { transform: translateY(0); }
-
-  /* ── HISTORY ── */
-  .history-list {
-    list-style: none;
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 0;
-  }
-
-  .history-list li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--gray-200);
-    font-size: 0.8rem;
-  }
-  .history-list li:last-child { border-bottom: none; }
-
-  .history-ord {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 0.88rem;
-    color: var(--red);
-    min-width: 70px;
-  }
-
-  .history-email { color: var(--gray-600); flex: 1; word-break: break-all; }
-  .history-date { color: var(--gray-400); font-size: 0.72rem; white-space: nowrap; }
-
-  .history-del {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--gray-400);
-    font-size: 0.85rem;
-    padding: 0 4px;
-    transition: color 0.12s;
-  }
-  .history-del:hover { color: var(--red); }
-
-  .no-history {
-    color: var(--gray-400);
-    font-size: 0.85rem;
-    text-align: center;
-    padding: 16px 0;
-    font-style: italic;
-  }
-
-  /* ── MODAL ── */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-overlay.open { display: flex; }
-
-  .modal {
-    background: var(--white);
-    border-radius: 10px;
-    box-shadow: var(--shadow-lg);
-    padding: 32px;
-    max-width: 420px;
-    width: 90%;
-    text-align: center;
-  }
-
-  .modal-icon { font-size: 2.5rem; margin-bottom: 12px; }
-  .modal h2 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.4rem;
-    color: var(--amber);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-  .modal p { font-size: 0.9rem; color: var(--gray-600); margin-bottom: 24px; line-height: 1.5; }
-
-  .modal-actions { display: flex; gap: 10px; justify-content: center; }
-
-  .modal-btn {
-    border: none;
-    border-radius: 6px;
-    padding: 10px 24px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .modal-btn:hover { opacity: 0.85; }
-  .modal-btn.primary { background: var(--red); color: var(--white); }
-  .modal-btn.secondary { background: var(--gray-200); color: var(--gray-800); }
-
-  /* ── TABS ── */
-  .tab-bar {
-    display: flex;
-    border-bottom: 2px solid var(--gray-200);
-    margin-bottom: 16px;
-  }
-
-  .tab {
-    padding: 10px 18px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    color: var(--gray-400);
-    transition: all 0.15s;
-  }
-  .tab.active { color: var(--red); border-bottom-color: var(--red); }
-  .tab:hover:not(.active) { color: var(--gray-800); }
-
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* ── CLEAR BTN ── */
-  .clear-btn {
-    background: none;
-    border: 1px solid var(--gray-200);
-    border-radius: 5px;
-    padding: 5px 12px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--gray-600);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .clear-btn:hover { border-color: var(--red); color: var(--red); }
-
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  .clrbtn { background: none; border: 1px solid var(--gray-200); border-radius: 5px; padding: 4px 11px; font-family: 'Barlow', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--gray-600); cursor: pointer; transition: all .15s; }
+  .clrbtn:hover { border-color: var(--red); color: var(--red); }
+  .badge { background: var(--red); color: var(--white); border-radius: 10px; padding: 1px 7px; font-size: 0.75rem; }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: var(--gray-100); }
   ::-webkit-scrollbar-thumb { background: var(--gray-400); border-radius: 3px; }
-
-  @media (max-width: 900px) {
-    .main-grid { grid-template-columns: 1fr; }
-    .fields-grid { grid-template-columns: 1fr 1fr; }
-  }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-accent"></div>
-  <div class="header-content">
-    <div class="header-icon">📬</div>
+  <div class="hbar"></div>
+  <div class="hinner">
+    <span style="font-size:1.9rem;">📬</span>
     <div>
       <h1>BinMaster Prep Letter Generator</h1>
       <p>Technical Support · Email Automation Tool</p>
@@ -529,125 +133,122 @@
   </div>
 </header>
 
-<div class="main-grid">
+<div class="layout">
 
-  <!-- LEFT COLUMN -->
-  <div style="display:flex;flex-direction:column;gap:20px;">
+  <div style="display:flex;flex-direction:column;gap:18px;">
 
-    <!-- RECIPIENT INFO -->
+    <!-- Recipient -->
     <div class="card">
-      <div class="card-header">📋 Recipient Information</div>
-      <div class="card-body">
-        <div class="fields-grid">
-          <div class="field-group">
+      <div class="ch">📋 Recipient Information</div>
+      <div class="cb">
+        <div class="frow">
+          <div class="fg">
             <label>ORD Number</label>
-            <input type="text" id="ordNumber" placeholder="e.g. ORD-12345" oninput="checkDuplicate()">
-            <div class="ord-warning" id="ordWarning">⚠ This ORD number was already sent</div>
+            <input id="ordNum" type="text" placeholder="e.g. ORD-12345" oninput="checkDup()">
+            <div class="dupmsg" id="dupMsg">⚠ Already sent for this ORD</div>
           </div>
-          <div class="field-group">
+          <div class="fg">
             <label>Email Address</label>
-            <input type="email" id="emailAddress" placeholder="customer@example.com">
+            <input id="emailAddr" type="email" placeholder="customer@example.com" oninput="refreshPreview()">
           </div>
-          <div class="field-group">
+          <div class="fg">
             <label>Email Name (Greeting)</label>
-            <input type="text" id="emailName" placeholder="e.g. John">
+            <input id="emailName" type="text" placeholder="e.g. John" oninput="refreshPreview()">
           </div>
         </div>
       </div>
     </div>
 
-    <!-- PRODUCT BUTTONS -->
+    <!-- Product buttons -->
     <div class="card">
-      <div class="card-header">
-        🏷 Quick-Select Products
-        <button class="clear-btn" style="margin-left:auto;" onclick="clearSelection()">Clear All</button>
+      <div class="ch">
+        🏷 Quick-Select by Product
+        <button class="clrbtn" style="margin-left:auto;" onclick="clearSel()">Clear All</button>
       </div>
-      <div class="card-body">
-        <div class="product-buttons" id="productButtons"></div>
+      <div class="cb">
+        <div class="bwrap" id="btnGrid"></div>
       </div>
     </div>
 
-    <!-- TABLE -->
+    <!-- Table -->
     <div class="card">
-      <div class="card-header">📎 Product Links Reference Table (Editable)</div>
-      <div class="table-wrap">
-        <table id="linksTable">
+      <div class="ch">📎 Product Links Table (Editable)</div>
+      <div class="twrap">
+        <table>
           <thead>
             <tr>
-              <th class="row-check">✓</th>
+              <th class="tcc">✓</th>
               <th>Product Name</th>
               <th>Link Text</th>
               <th>URL</th>
               <th>Info</th>
-              <th style="width:36px;"></th>
+              <th style="width:32px;"></th>
             </tr>
           </thead>
-          <tbody id="tableBody"></tbody>
+          <tbody id="tBody"></tbody>
         </table>
       </div>
-      <div class="add-row-bar">
-        <button onclick="addRow()">+ Add Row</button>
-      </div>
+      <div class="addbar"><button onclick="addRow()">+ Add Row</button></div>
     </div>
 
   </div>
 
-  <!-- RIGHT SIDEBAR -->
+  <!-- Sidebar -->
   <div class="sidebar">
 
-    <!-- SELECTED LINKS -->
     <div class="card">
-      <div class="card-header">✅ Selected Links
-        <span id="selCount" style="margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:1px 8px;font-size:0.78rem;">0</span>
+      <div class="ch">
+        ✅ Selected Links
+        <span class="badge" id="selBadge" style="margin-left:auto;">0</span>
       </div>
-      <div class="card-body" style="padding:12px 16px;">
-        <ul class="selected-list" id="selectedList">
-          <li><span class="empty-sel">No links selected yet</span></li>
-        </ul>
+      <div class="cb" style="padding:12px 16px;">
+        <ul class="slist" id="selList"><li><span class="emsg">No links selected yet</span></li></ul>
       </div>
     </div>
 
-    <!-- GENERATE -->
     <div class="card">
-      <div class="card-header">📧 Generate Email</div>
-      <div class="card-body">
-        <button class="generate-btn" onclick="generateEmail()">⚡ Generate &amp; Open in Mail</button>
-        <p style="font-size:0.75rem;color:var(--gray-400);margin-top:10px;text-align:center;line-height:1.4;">
-          Opens your default email client with the prepared letter
-        </p>
+      <div class="ch">👁 Email Preview</div>
+      <div class="cb" style="padding:14px 16px;">
+        <div class="pvlabel">Live preview — links are clickable here</div>
+        <div class="pvbox" id="preview">Fill in fields and select products to see a preview.</div>
       </div>
     </div>
 
-    <!-- HISTORY -->
+    <div class="card">
+      <div class="ch">📧 Send</div>
+      <div class="cb">
+        <button class="genbtn" onclick="generate()">⚡ Generate &amp; Open in Mail</button>
+        <p style="font-size:0.72rem;color:var(--gray-400);margin-top:9px;text-align:center;line-height:1.4;">Opens your default email client with the prepared letter</p>
+      </div>
+    </div>
+
     <div class="card" style="flex:1;">
-      <div class="card-header">
+      <div class="ch">
         🕐 Sent History
-        <button class="clear-btn" style="margin-left:auto;" onclick="clearHistory()">Clear</button>
+        <button class="clrbtn" style="margin-left:auto;" onclick="clearHist()">Clear</button>
       </div>
-      <div class="card-body" style="padding:12px 16px;">
-        <ul class="history-list" id="historyList"></ul>
+      <div class="cb" style="padding:12px 16px;">
+        <ul class="hlist" id="histList"></ul>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- DUPLICATE MODAL -->
-<div class="modal-overlay" id="dupModal">
+<div class="overlay" id="dupModal">
   <div class="modal">
-    <div class="modal-icon">⚠️</div>
+    <div class="micon">⚠️</div>
     <h2>ORD Number Already Sent</h2>
-    <p id="dupModalMsg">This ORD number has already been sent. Do you want to send it again anyway?</p>
-    <div class="modal-actions">
-      <button class="modal-btn primary" onclick="proceedAnyway()">Send Anyway</button>
-      <button class="modal-btn secondary" onclick="closeDupModal()">Cancel</button>
+    <p id="dupModalMsg">This ORD number has a prior send on record. Send again anyway?</p>
+    <div class="mbtns">
+      <button class="mbtn pri" onclick="doGenerate()">Send Anyway</button>
+      <button class="mbtn sec" onclick="closeModal()">Cancel</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
-const SOURCE_DATA = [
+const SRC = [
   {"product":"3D Vision","link_text":"3D Vision connect software","url":"https://support.binmaster.com/kb/view/7d8bee17-d629-4075-a18b-7e0725f4b52a"},
   {"product":"3D-Level-Scanner","link_text":"3D scanner manual","url":"https://support.binmaster.com/kb/view/c33bfffd-6111-4b65-961c-17a2b1797374"},
   {"product":"3D-Level-Scanner","link_text":"3D wiring","url":"https://support.binmaster.com/kb/view/52912f26-04f4-4aeb-b3ba-10db7226afcd"},
@@ -739,277 +340,217 @@ const SOURCE_DATA = [
 ];
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let tableRows = SOURCE_DATA.map((d, i) => ({id: i, ...d, info: ''}));
-let selectedRowIds = new Set();
-let history = JSON.parse(localStorage.getItem('bm_history') || '[]');
-let pendingGenerate = false;
+let rows = SRC.map((d,i)=>({id:i,...d,info:''}));
+let nextId = rows.length;
+let sel = new Set();
+let history = JSON.parse(localStorage.getItem('bm_hist')||'[]');
 
-// ── UNIQUE PRODUCTS for buttons ───────────────────────────────────────────────
-function getUniqueProducts() {
-  const all = [];
-  tableRows.forEach(r => {
-    r.product.split(',').map(p => p.trim()).forEach(p => {
-      if (p && !all.includes(p)) all.push(p);
-    });
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// Split link_text: everything before the last space = prefix, last word(s) = anchor text
+// "NCR Manuals here" → prefix="NCR Manuals", anchor="here"
+// "SmartBob Manual"  → prefix="SmartBob",    anchor="Manual"
+// "3D wiring"        → prefix="3D",           anchor="wiring"
+function splitLink(lt){
+  const t=(lt||'').trim();
+  const idx=t.lastIndexOf(' ');
+  if(idx===-1) return {prefix:'',anchor:t};
+  return {prefix:t.substring(0,idx), anchor:t.substring(idx+1)};
+}
+
+// HTML preview line: "prefix – <a>anchor</a>"
+function htmlLine(row){
+  const {prefix,anchor}=splitLink(row.link_text);
+  const pre=prefix?`${esc(prefix)} \u2013 `:'';
+  return `${pre}<a href="${esc(row.url)}" target="_blank">${esc(anchor)}</a>`;
+}
+
+// Plain-text line for mailto: "prefix – anchor: url"
+// (many email clients auto-hyperlink the url; we include it so the link works)
+function plainLine(row){
+  const {prefix,anchor}=splitLink(row.link_text);
+  const pre=prefix?`${prefix} \u2013 `:'';
+  return `${pre}${anchor}: ${row.url}`;
+}
+
+function uniqueProds(){
+  const seen=new Set(),out=[];
+  rows.forEach(r=>r.product.split(',').map(p=>p.trim()).filter(Boolean).forEach(p=>{
+    if(!seen.has(p)){seen.add(p);out.push(p);}
+  }));
+  return out.sort((a,b)=>a.localeCompare(b));
+}
+
+// ── BUTTONS ───────────────────────────────────────────────────────────────────
+function renderBtns(){
+  const g=document.getElementById('btnGrid'); g.innerHTML='';
+  uniqueProds().forEach(p=>{
+    const b=document.createElement('button');
+    b.className='pb'; b.textContent=p; b.dataset.p=p;
+    b.onclick=()=>toggleProd(p);
+    g.appendChild(b);
   });
-  return all.sort((a, b) => a.localeCompare(b));
+  syncBtns();
 }
 
-// ── RENDER PRODUCT BUTTONS ────────────────────────────────────────────────────
-function renderButtons() {
-  const container = document.getElementById('productButtons');
-  const products = getUniqueProducts();
-  container.innerHTML = '';
-  products.forEach(p => {
-    const btn = document.createElement('button');
-    btn.className = 'prod-btn';
-    btn.textContent = p;
-    btn.dataset.product = p;
-    btn.onclick = () => toggleProductSelection(p, btn);
-    container.appendChild(btn);
-  });
+function toggleProd(p){
+  const ids=rows.filter(r=>r.product.split(',').map(x=>x.trim()).includes(p)).map(r=>r.id);
+  const allOn=ids.every(id=>sel.has(id));
+  ids.forEach(id=>allOn?sel.delete(id):sel.add(id));
+  syncBtns(); syncCbs(); renderSel(); refreshPreview();
 }
 
-function toggleProductSelection(product, btn) {
-  // Find all row ids that match this product
-  const matchingIds = tableRows
-    .filter(r => r.product.split(',').map(x => x.trim()).includes(product))
-    .map(r => r.id);
-
-  const allSelected = matchingIds.every(id => selectedRowIds.has(id));
-
-  if (allSelected) {
-    matchingIds.forEach(id => selectedRowIds.delete(id));
-    btn.classList.remove('active');
-  } else {
-    matchingIds.forEach(id => selectedRowIds.add(id));
-    btn.classList.add('active');
-  }
-
-  syncTableCheckboxes();
-  renderSelectedList();
-}
-
-// ── RENDER TABLE ──────────────────────────────────────────────────────────────
-function renderTable() {
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
-  tableRows.forEach(row => {
-    const tr = document.createElement('tr');
-    if (selectedRowIds.has(row.id)) tr.classList.add('selected-row');
-    tr.innerHTML = `
-      <td class="row-check"><input type="checkbox" data-id="${row.id}" ${selectedRowIds.has(row.id) ? 'checked' : ''} onchange="toggleRowById(${row.id}, this.checked)"></td>
-      <td class="cell-product" contenteditable="true" onblur="updateCell(${row.id},'product',this.textContent)">${esc(row.product)}</td>
-      <td class="cell-linktext" contenteditable="true" onblur="updateCell(${row.id},'link_text',this.textContent)">${esc(row.link_text)}</td>
-      <td class="cell-url" contenteditable="true" onblur="updateCell(${row.id},'url',this.textContent)">${esc(row.url)}</td>
-      <td class="cell-info" contenteditable="true" onblur="updateCell(${row.id},'info',this.textContent)">${esc(row.info)}</td>
-      <td><button class="del-btn" onclick="deleteRow(${row.id})" title="Delete row">✕</button></td>
-    `;
-    tbody.appendChild(tr);
+function syncBtns(){
+  document.querySelectorAll('.pb').forEach(b=>{
+    const ids=rows.filter(r=>r.product.split(',').map(x=>x.trim()).includes(b.dataset.p)).map(r=>r.id);
+    b.classList.toggle('on',ids.length>0&&ids.every(id=>sel.has(id)));
   });
 }
 
-function esc(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function updateCell(id, field, value) {
-  const row = tableRows.find(r => r.id === id);
-  if (row) {
-    row[field] = value.trim();
-    if (field === 'product') {
-      renderButtons(); // refresh buttons if product name changed
-    }
-    renderSelectedList();
-  }
-}
-
-function toggleRowById(id, checked) {
-  if (checked) selectedRowIds.add(id);
-  else selectedRowIds.delete(id);
-  syncButtonStates();
-  renderSelectedList();
-  // Update row highlight
-  document.querySelectorAll('#tableBody tr').forEach((tr, i) => {
-    const cb = tr.querySelector('input[type=checkbox]');
-    if (cb && parseInt(cb.dataset.id) === id) {
-      tr.classList.toggle('selected-row', checked);
-    }
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+function renderTable(){
+  const tb=document.getElementById('tBody'); tb.innerHTML='';
+  rows.forEach(row=>{
+    const tr=document.createElement('tr');
+    if(sel.has(row.id)) tr.classList.add('sel');
+    tr.innerHTML=`
+      <td class="tcc"><input type="checkbox" data-id="${row.id}" ${sel.has(row.id)?'checked':''} onchange="chkRow(${row.id},this.checked)"></td>
+      <td class="tp" contenteditable="true" onblur="upd(${row.id},'product',this.textContent)">${esc(row.product)}</td>
+      <td class="tl" contenteditable="true" onblur="upd(${row.id},'link_text',this.textContent)">${esc(row.link_text)}</td>
+      <td class="tu" contenteditable="true" onblur="upd(${row.id},'url',this.textContent)">${esc(row.url)}</td>
+      <td class="ti" contenteditable="true" onblur="upd(${row.id},'info',this.textContent)">${esc(row.info)}</td>
+      <td><button class="delbtn" onclick="delRow(${row.id})">✕</button></td>`;
+    tb.appendChild(tr);
   });
 }
 
-function syncTableCheckboxes() {
-  document.querySelectorAll('#tableBody input[type=checkbox]').forEach(cb => {
-    const id = parseInt(cb.dataset.id);
-    cb.checked = selectedRowIds.has(id);
-    cb.closest('tr').classList.toggle('selected-row', selectedRowIds.has(id));
+function upd(id,f,v){
+  const r=rows.find(r=>r.id===id); if(!r) return;
+  r[f]=v.trim();
+  if(f==='product') renderBtns();
+  renderSel(); refreshPreview();
+}
+
+function chkRow(id,on){
+  on?sel.add(id):sel.delete(id);
+  document.querySelectorAll('#tBody tr').forEach(tr=>{
+    const cb=tr.querySelector('input[type=checkbox]');
+    if(cb&&+cb.dataset.id===id) tr.classList.toggle('sel',on);
+  });
+  syncBtns(); renderSel(); refreshPreview();
+}
+
+function syncCbs(){
+  document.querySelectorAll('#tBody input[type=checkbox]').forEach(cb=>{
+    const id=+cb.dataset.id; cb.checked=sel.has(id);
+    cb.closest('tr').classList.toggle('sel',sel.has(id));
   });
 }
 
-function syncButtonStates() {
-  document.querySelectorAll('.prod-btn').forEach(btn => {
-    const product = btn.dataset.product;
-    const matchingIds = tableRows
-      .filter(r => r.product.split(',').map(x => x.trim()).includes(product))
-      .map(r => r.id);
-    const allSelected = matchingIds.length > 0 && matchingIds.every(id => selectedRowIds.has(id));
-    btn.classList.toggle('active', allSelected);
-  });
+function delRow(id){ rows=rows.filter(r=>r.id!==id); sel.delete(id); renderTable(); renderBtns(); renderSel(); refreshPreview(); }
+
+function addRow(){
+  rows.push({id:nextId,product:'New Product',link_text:'Link Text',url:'https://',info:''});
+  nextId++; renderTable(); renderBtns();
 }
 
-function deleteRow(id) {
-  tableRows = tableRows.filter(r => r.id !== id);
-  selectedRowIds.delete(id);
-  renderTable();
-  renderButtons();
-  renderSelectedList();
-}
+function clearSel(){ sel.clear(); syncCbs(); syncBtns(); renderSel(); refreshPreview(); }
 
-function addRow() {
-  const newId = tableRows.length > 0 ? Math.max(...tableRows.map(r => r.id)) + 1 : 0;
-  tableRows.push({id: newId, product: 'New Product', link_text: 'Link Text', url: 'https://', info: ''});
-  renderTable();
-  renderButtons();
-}
-
-function clearSelection() {
-  selectedRowIds.clear();
-  syncTableCheckboxes();
-  syncButtonStates();
-  renderSelectedList();
-}
-
-// ── RENDER SELECTED LIST ──────────────────────────────────────────────────────
-function renderSelectedList() {
-  const ul = document.getElementById('selectedList');
-  const selected = tableRows.filter(r => selectedRowIds.has(r.id));
-  document.getElementById('selCount').textContent = selected.length;
-
-  if (selected.length === 0) {
-    ul.innerHTML = '<li><span class="empty-sel">No links selected yet</span></li>';
-    return;
-  }
-
-  ul.innerHTML = selected.map(r => `
+// ── SELECTED LIST ─────────────────────────────────────────────────────────────
+function renderSel(){
+  const ul=document.getElementById('selList');
+  const items=rows.filter(r=>sel.has(r.id));
+  document.getElementById('selBadge').textContent=items.length;
+  if(!items.length){ul.innerHTML='<li><span class="emsg">No links selected yet</span></li>';return;}
+  ul.innerHTML=items.map(r=>`
     <li>
       <div style="flex:1;min-width:0;">
-        <div class="lbl">${esc(r.link_text)}</div>
-        <div class="url-preview">${esc(r.product)} · ${esc(r.url)}</div>
+        <div class="slbl">${htmlLine(r)}</div>
+        <div class="ssub">${esc(r.product)}</div>
       </div>
-      <button class="remove-sel" onclick="toggleRowById(${r.id},false);syncTableCheckboxes();syncButtonStates();renderSelectedList();" title="Remove">✕</button>
-    </li>
-  `).join('');
+      <button class="sx" onclick="chkRow(${r.id},false);syncCbs();" title="Remove">✕</button>
+    </li>`).join('');
 }
 
-// ── HISTORY ───────────────────────────────────────────────────────────────────
-function saveHistory() {
-  localStorage.setItem('bm_history', JSON.stringify(history));
+// ── PREVIEW ───────────────────────────────────────────────────────────────────
+function refreshPreview(){
+  const email=document.getElementById('emailAddr').value.trim();
+  const name=document.getElementById('emailName').value.trim();
+  const items=rows.filter(r=>sel.has(r.id));
+  const prodList=items.map(r=>r.product).join(', ')||'[products]';
+  const linkLines=items.length?items.map(r=>`  ${htmlLine(r)}`).join('\n'):'  [no links selected]';
+
+  document.getElementById('preview').innerHTML=[
+    `<b>To:</b> ${esc(email)||'[email]'}`,
+    `<b>Products:</b> ${esc(prodList)}`,
+    '',
+    `Hi ${esc(name)||'[name]'},`,
+    '',
+    'Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.',
+    '',
+    linkLines,
+    '',
+    '💡 <b>Protip:</b> Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.',
+    '💡 <b>Protip:</b> Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.',
+    "💡 <b>Protip:</b> Vessel dimensions and bulk density settings are key to good software results. Don't shortcut those measurements!",
+    '',
+    'Remember to bookmark <a href="https://support.binmaster.com/" target="_blank">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.',
+    '',
+    'BinMaster Technical Support',
+    'https://www.binmaster.com',
+    '402-434-9102',
+    '3435 Schworer Dr',
+    'Lincoln, NE 68504'
+  ].join('\n');
 }
 
-function renderHistory() {
-  const ul = document.getElementById('historyList');
-  if (history.length === 0) {
-    ul.innerHTML = '<li><span class="no-history">No emails sent yet</span></li>';
-    return;
-  }
-  ul.innerHTML = history.slice().reverse().map((h, ri) => {
-    const i = history.length - 1 - ri;
-    return `
-      <li>
-        <span class="history-ord">${esc(h.ord)}</span>
-        <span class="history-email">${esc(h.email)}</span>
-        <span class="history-date">${esc(h.date)}</span>
-        <button class="history-del" onclick="deleteHistory(${i})" title="Remove">✕</button>
-      </li>
-    `;
-  }).join('');
-}
-
-function deleteHistory(i) {
-  history.splice(i, 1);
-  saveHistory();
-  renderHistory();
-}
-
-function clearHistory() {
-  if (confirm('Clear all sent history?')) {
-    history = [];
-    saveHistory();
-    renderHistory();
-  }
-}
-
-// ── DUPLICATE CHECK ───────────────────────────────────────────────────────────
-function checkDuplicate() {
-  const ord = document.getElementById('ordNumber').value.trim();
-  const input = document.getElementById('ordNumber');
-  const warning = document.getElementById('ordWarning');
-  const isDup = ord && history.some(h => h.ord.toLowerCase() === ord.toLowerCase());
-  input.classList.toggle('duplicate-warning', isDup);
-  warning.classList.toggle('visible', isDup);
-}
-
-// ── GENERATE EMAIL ────────────────────────────────────────────────────────────
-function generateEmail() {
-  const ord = document.getElementById('ordNumber').value.trim();
-  const email = document.getElementById('emailAddress').value.trim();
-  const name = document.getElementById('emailName').value.trim();
-
-  if (!ord || !email || !name) {
-    alert('Please fill in ORD Number, Email Address, and Email Name before generating.');
-    return;
-  }
-
-  if (!email.includes('@')) {
-    alert('Please enter a valid email address.');
-    return;
-  }
-
-  const selected = tableRows.filter(r => selectedRowIds.has(r.id));
-  if (selected.length === 0) {
-    alert('Please select at least one product link.');
-    return;
-  }
-
-  const isDup = history.some(h => h.ord.toLowerCase() === ord.toLowerCase());
-  if (isDup) {
-    pendingGenerate = true;
-    document.getElementById('dupModalMsg').textContent =
-      `ORD Number "${ord}" has already been sent on a previous email. Do you want to send it again anyway?`;
+// ── GENERATE ──────────────────────────────────────────────────────────────────
+function generate(){
+  const ord=document.getElementById('ordNum').value.trim();
+  const email=document.getElementById('emailAddr').value.trim();
+  const name=document.getElementById('emailName').value.trim();
+  if(!ord||!email||!name){alert('Please fill in ORD Number, Email Address, and Email Name.');return;}
+  if(!email.includes('@')){alert('Please enter a valid email address.');return;}
+  if(sel.size===0){alert('Please select at least one product link.');return;}
+  const dup=history.some(h=>h.ord.toLowerCase()===ord.toLowerCase());
+  if(dup){
+    document.getElementById('dupModalMsg').textContent=`ORD Number "${ord}" was previously sent. Send again?`;
     document.getElementById('dupModal').classList.add('open');
     return;
   }
-
-  doGenerate(ord, email, name, selected);
+  doGenerate();
 }
 
-function proceedAnyway() {
-  closeDupModal();
-  const ord = document.getElementById('ordNumber').value.trim();
-  const email = document.getElementById('emailAddress').value.trim();
-  const name = document.getElementById('emailName').value.trim();
-  const selected = tableRows.filter(r => selectedRowIds.has(r.id));
-  doGenerate(ord, email, name, selected);
-}
+function doGenerate(){
+  closeModal();
+  const ord=document.getElementById('ordNum').value.trim();
+  const email=document.getElementById('emailAddr').value.trim();
+  const name=document.getElementById('emailName').value.trim();
+  const items=rows.filter(r=>sel.has(r.id));
 
-function closeDupModal() {
-  document.getElementById('dupModal').classList.remove('open');
-  pendingGenerate = false;
-}
+  const prodList=items.map(r=>r.product).join(', ');
 
-function doGenerate(ord, email, name, selected) {
-  const subject = `BinMaster Preparation ${ord}`;
+  // Plain-text link lines for mailto body
+  // Format: "prefix – anchor: url"
+  // The URL must appear for the link to work in email; anchor text makes it readable.
+  const linkLines=items.map(r=>plainLine(r)).join('\r\n');
 
-  const linkLines = selected.map(r => `${r.link_text} - ${r.url}`).join('\r\n');
+  const subject=`BinMaster Preparation ${ord}`;
 
-  const body = [
-    `Greetings ${name}!`,
+  const body=[
+    email,
+    prodList,
     '',
-    'Thanks again for choosing BinMaster for your state-of-the-art level measurement system.',
+    `Hi ${name},`,
     '',
-    "Looking ahead to your system, we wanted to share some resources that may be helpful. Based on your order, we've identified that the following links will provide you with manuals, documentation and wiring diagrams that help install and configure your equipment. Please share with your team:",
+    'Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.',
     '',
     linkLines,
+    '',
+    'Protip: Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.',
+    'Protip: Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.',
+    "Protip: Vessel dimensions and bulk density settings are key to good software results. Don't shortcut those measurements!",
     '',
     'Remember to bookmark https://support.binmaster.com/ if you need to chat, search our knowledge base, or contact BinMaster Tech.',
     '',
@@ -1020,23 +561,40 @@ function doGenerate(ord, email, name, selected) {
     'Lincoln, NE 68504'
   ].join('\r\n');
 
-  const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailto;
+  window.location.href=`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-  // Record in history
-  const now = new Date();
-  const date = now.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
-  history.push({ord, email, date});
-  saveHistory();
-  renderHistory();
-  checkDuplicate();
+  const now=new Date();
+  history.push({ord,email,date:now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
+  localStorage.setItem('bm_hist',JSON.stringify(history));
+  renderHist(); checkDup();
 }
 
+function closeModal(){ document.getElementById('dupModal').classList.remove('open'); }
+
+// ── DUPLICATE ─────────────────────────────────────────────────────────────────
+function checkDup(){
+  const ord=document.getElementById('ordNum').value.trim();
+  const dup=ord&&history.some(h=>h.ord.toLowerCase()===ord.toLowerCase());
+  document.getElementById('ordNum').classList.toggle('warn',dup);
+  document.getElementById('dupMsg').classList.toggle('show',dup);
+  refreshPreview();
+}
+
+// ── HISTORY ───────────────────────────────────────────────────────────────────
+function renderHist(){
+  const ul=document.getElementById('histList');
+  if(!history.length){ul.innerHTML='<li><span class="emsg" style="color:var(--gray-400);font-style:italic;font-size:.82rem;text-align:center;display:block;padding:14px 0;">No emails sent yet</span></li>';return;}
+  ul.innerHTML=history.slice().reverse().map((h,ri)=>{
+    const i=history.length-1-ri;
+    return `<li><span class="ho">${esc(h.ord)}</span><span class="he">${esc(h.email)}</span><span class="hd">${esc(h.date)}</span><button class="hdel" onclick="delHist(${i})" title="Remove">✕</button></li>`;
+  }).join('');
+}
+
+function delHist(i){ history.splice(i,1); localStorage.setItem('bm_hist',JSON.stringify(history)); renderHist(); }
+function clearHist(){ if(confirm('Clear all history?')){ history=[]; localStorage.setItem('bm_hist','[]'); renderHist(); } }
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
-renderButtons();
-renderTable();
-renderSelectedList();
-renderHistory();
+renderBtns(); renderTable(); renderSel(); renderHist(); refreshPreview();
 </script>
 </body>
 </html>
