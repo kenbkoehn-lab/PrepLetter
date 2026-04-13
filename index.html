@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BinMaster Prep Letter Generator</title>
+<style>
+:root{
+  --blue:#1565C0;--blue-dark:#0D47A1;--blue-mid:#1976D2;--blue-light:#E3F2FD;
+  --gold:#F9A825;--green:#2E7D32;--green-light:#E8F5E9;
+  --red:#C62828;--red-light:#FFEBEE;
+  --gray:#546E7A;--gray-light:#ECEFF1;--gray-mid:#B0BEC5;
+  --border:#CFD8DC;--white:#fff;--text:#1C2833;--text-m:#546E7A;
+  --r:6px;--sh:0 2px 8px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;color:var(--text);font-size:13px;}
+
+header{background:var(--blue-dark);color:#fff;}
+.hdr-top{display:flex;align-items:center;gap:16px;padding:14px 22px 10px;}
+.hdr-logo{font-size:28px;font-weight:900;color:var(--gold);letter-spacing:-1px;flex-shrink:0;}
+.hdr-title h1{font-size:19px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
+.hdr-title .sub{font-size:10px;color:#90CAF9;text-transform:uppercase;letter-spacing:.7px;margin-top:2px;}
+.hdr-bar{background:var(--gold);height:4px;}
+
+.wrap{max-width:1440px;margin:0 auto;padding:14px;display:flex;flex-direction:column;gap:14px;}
+
+.card{background:#fff;border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);}
+.card-hd{background:var(--gray-light);border-bottom:1px solid var(--border);padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--gray);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.card-hd .note{font-size:10px;font-weight:400;color:#9AB;text-transform:none;letter-spacing:0;font-style:italic;}
+.card-body{padding:14px;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:860px){.two-col{grid-template-columns:1fr;}}
+
+.field-row{display:flex;gap:10px;flex-wrap:wrap;}
+.fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px;}
+.fg label{font-size:10px;font-weight:700;color:var(--text-m);text-transform:uppercase;letter-spacing:.5px;}
+.fg input{border:1px solid var(--border);border-radius:var(--r);padding:7px 10px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s;}
+.fg input:focus{border-color:var(--blue-mid);box-shadow:0 0 0 2px #1976D228;}
+
+#prod-btns{display:flex;flex-wrap:wrap;gap:6px;}
+.pb{padding:5px 11px;border:1.5px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:var(--text);transition:all .13s;display:flex;align-items:center;gap:5px;white-space:nowrap;user-select:none;}
+.pb:hover{border-color:var(--blue-mid);color:var(--blue-mid);background:var(--blue-light);}
+.pb.active{background:var(--blue-mid);color:#fff;border-color:var(--blue-mid);}
+.pb .ic{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;flex-shrink:0;}
+.pb:not(.active) .ic{background:var(--blue-light);color:var(--blue);}
+.pb.active .ic{background:rgba(255,255,255,.25);}
+
+.btn{padding:8px 16px;border-radius:var(--r);border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all .13s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--blue-mid);color:#fff;}
+.btn-primary:hover{background:var(--blue-dark);}
+.btn-success{background:var(--green);color:#fff;}
+.btn-success:hover{background:#1B5E20;}
+.btn-outline{background:#fff;color:var(--blue-mid);border:1.5px solid var(--blue-mid);}
+.btn-outline:hover{background:var(--blue-light);}
+.btn-gray{background:var(--gray-light);color:var(--gray);border:1px solid var(--border);}
+.btn-gray:hover{background:#CFD8DC;}
+.btn-sm{padding:5px 10px;font-size:10px;}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:flex-start;}
+
+.tw{position:relative;display:inline-block;}
+.tw .tip{display:none;position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:#263238;color:#fff;font-size:11px;padding:9px 13px;border-radius:var(--r);width:270px;z-index:200;line-height:1.55;text-align:left;font-weight:400;white-space:normal;pointer-events:none;}
+.tw:hover .tip{display:block;}
+.tw .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#263238;}
+
+#preview-box{background:#FAFCFF;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;min-height:160px;font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;line-height:1.8;color:var(--text);}
+#preview-box a{color:var(--blue-mid);text-decoration:underline;}
+.prev-meta{font-size:11px;color:var(--text-m);margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--border);}
+.prev-meta b{color:var(--text);}
+.prev-empty{color:#90A4AE;font-style:italic;font-size:13px;text-align:center;padding:40px 10px;}
+
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:11.5px;}
+th{background:var(--gray-light);font-weight:700;color:var(--gray);text-align:left;padding:7px 10px;border-bottom:2px solid var(--border);text-transform:uppercase;letter-spacing:.4px;font-size:10px;}
+td{padding:5px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#F5F8FF;}
+td[contenteditable=true]{outline:none;}
+td[contenteditable=true]:focus{background:var(--blue-light);outline:1px solid var(--blue-mid);}
+.td-prod{font-weight:700;white-space:nowrap;}
+.td-url{word-break:break-all;font-size:10px;color:var(--blue-mid);}
+.td-info{color:var(--text-m);font-style:italic;font-size:10px;}
+
+#hist-table th,#hist-table td{font-size:11px;}
+.h-ord{font-weight:700;font-family:monospace;}
+.h-em{color:var(--blue-mid);}
+.h-dt{color:var(--text-m);}
+.del-btn{background:none;border:none;color:var(--gray-mid);cursor:pointer;font-size:16px;padding:1px 5px;border-radius:3px;line-height:1;}
+.del-btn:hover{color:var(--red);background:var(--red-light);}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;font-size:10px;font-weight:700;padding:0 6px;}
+.bdg-blue{background:var(--blue-mid);color:#fff;}
+
+.tbl-foot{padding:9px 14px;border-top:1px solid var(--border);display:flex;gap:8px;}
+
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;}
+.modal-ov.on{display:flex;}
+.modal{background:#fff;border-radius:10px;padding:28px 30px;max-width:390px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.25);text-align:center;}
+.modal-ico{font-size:38px;margin-bottom:10px;}
+.modal h2{font-size:16px;color:var(--red);margin-bottom:8px;}
+.modal p{font-size:12.5px;color:var(--text-m);line-height:1.6;margin-bottom:18px;}
+.modal-btns{display:flex;gap:10px;justify-content:center;}
+
+#toast{position:fixed;bottom:22px;right:22px;background:#263238;color:#fff;padding:10px 18px;border-radius:var(--r);font-size:12px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:2000;max-width:340px;line-height:1.4;}
+#toast.on{opacity:1;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-top">
+    <div class="hdr-logo">BM</div>
+    <div class="hdr-title">
+      <h1>BinMaster Prep Letter Generator</h1>
+      <div class="sub">Technical Support &mdash; Email Automation Tool &mdash; Created by Ken Koehn &mdash; April 2026</div>
+    </div>
+  </div>
+  <div class="hdr-bar"></div>
+</header>
+
+<div class="wrap">
+
+  <!-- RECIPIENT INFORMATION -->
+  <div class="card">
+    <div class="card-hd">&#128100; Recipient Information</div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="fg">
+          <label>ORD Number</label>
+          <input type="text" id="f-ord" placeholder="e.g. ORD-12345" oninput="onOrdInput()">
+        </div>
+        <div class="fg">
+          <label>Email Address</label>
+          <input type="email" id="f-email" placeholder="customer@example.com" oninput="autoPreview()">
+        </div>
+        <div class="fg">
+          <label>Email Name</label>
+          <input type="text" id="f-name" placeholder="First name" oninput="autoPreview()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT SELECTION -->
+  <div class="card">
+    <div class="card-hd">&#128230; Select Products</div>
+    <div class="card-body">
+      <div id="prod-btns"></div>
+      <div class="btn-row">
+        <button class="btn btn-gray btn-sm" onclick="clearSel()">&#10005; Clear Selection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW & GENERATE -->
+  <div class="card">
+    <div class="card-hd">&#128065; Email Preview &amp; Generate</div>
+    <div class="card-body">
+      <div id="preview-box">
+        <div class="prev-empty">Fill in recipient info and select products above &mdash; preview updates automatically.</div>
+      </div>
+      <div class="btn-row">
+        <div class="tw">
+          <button class="btn btn-success" onclick="copyBodyOpen()">&#128203; COPY BODY &amp; OPEN EMAIL</button>
+          <div class="tip"><strong>How it works:</strong> Clicking this button copies the fully-formatted email body (with real clickable hyperlinks) to your clipboard, then opens your mail client with the subject and recipient pre-filled. Just paste (Ctrl+V) into the email body.</div>
+        </div>
+        <div class="tw">
+          <button class="btn btn-primary" onclick="genMailto()">&#128231; GENERATE &amp; OPEN IN MAIL</button>
+          <div class="tip">Opens your default mail client with subject and recipient pre-filled. Body will be plain text &mdash; links appear as URLs. For formatted links use <strong>COPY BODY &amp; OPEN EMAIL</strong>.</div>
+        </div>
+        <button class="btn btn-gray btn-sm" onclick="saveHist()">&#128190; Save to History</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+
+    <!-- PRODUCT TABLE -->
+    <div class="card">
+      <div class="card-hd">
+        &#128230; Product Links
+        <span class="note">(edit products.json to make permanent changes)</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:16%">Product</th>
+              <th style="width:34%">Link Text</th>
+              <th style="width:40%">URL</th>
+              <th style="width:10%">Info</th>
+            </tr>
+          </thead>
+          <tbody id="prod-tbody"></tbody>
+        </table>
+      </div>
+      <div class="tbl-foot">
+        <button class="btn btn-gray btn-sm" onclick="exportJSON()">&#11015; Export JSON</button>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="card">
+      <div class="card-hd">
+        &#128203; Sent Email History
+        <span id="h-count" class="badge bdg-blue" style="margin-left:auto;">0</span>
+      </div>
+      <div class="tbl-wrap">
+        <table id="hist-table">
+          <thead>
+            <tr>
+              <th>ORD Number</th>
+              <th>Email</th>
+              <th>Date Sent</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="hist-tbody">
+            <tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:18px;">No history yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tbl-foot">
+        <button class="btn btn-gray btn-sm" onclick="clearHist()">&#128465; Clear All</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Duplicate ORD Modal -->
+<div class="modal-ov" id="dup-modal">
+  <div class="modal">
+    <div class="modal-ico">&#9888;&#65039;</div>
+    <h2>ORD Number Already Sent</h2>
+    <p id="dup-msg">This ORD Number was previously used.</p>
+    <div class="modal-btns">
+      <button class="btn btn-gray" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal()">Proceed Anyway</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ─── PRODUCT DATA (from products.json) ───────────────────────────────────────
+const RAW = [
+  {product:"NCR",              name:"NCR: BinDisc Setup Guide",                     url:"https://bmtchspprt.github.io/radar-setup/bindisc.html"},
+  {product:"NCR",              name:"NCR Manual",                                    url:"https://support.binmaster.com/kb/view/bc8e6a67-a401-4bc6-aa83-3423a0282860"},
+  {product:"NCR",              name:"NCR Wiring",                                    url:"https://support.binmaster.com/kb/view/a5d3b4e0-a336-43f4-94f4-962eeef7d7af"},
+  {product:"NCR",              name:"NCR-86 Material Calibration Video",             url:"https://support.binmaster.com/kb/view/902c7769-9671-45ab-a52c-6ada011925ec"},
+  {product:"CNCR",             name:"CNCR Manual",                                   url:"https://support.binmaster.com/kb/view/d71297d9-77ac-49f8-97a4-6d183bf3adbc"},
+  {product:"CNCR",             name:"CNCR Wiring",                                   url:"https://support.binmaster.com/kb/view/9ab4c1b8-9795-4e4a-90a7-192da74a5729"},
+  {product:"CNCR",             name:"CNCR: Bluetooth Setup Guide",                   url:"https://support.binmaster.com/kb/view/a0e315ac-84e8-49a7-823e-b263d44a3017"},
+  {product:"SmartBob",         name:"SmartBob Manual",                               url:"https://support.binmaster.com/kb/view/c63c227b-5e08-4171-8c7f-58a804e3f06a"},
+  {product:"SmartBob",         name:"SmartBob Wiring",                               url:"https://support.binmaster.com/kb/view/3ae8f673-3dfd-466f-b9fd-2e814996426a"},
+  {product:"Senix",            name:"Senix Toughsonic Manual",                       url:"https://support.binmaster.com/kb/view/376df1e4-4906-4f01-b9e6-c4e8e0943da0"},
+  {product:"Senix",            name:"Senix Videos",                                  url:"https://support.binmaster.com/kb/view/92f66ca8-5cfd-4ad5-ba42-8bd67a5406db"},
+  {product:"3D",               name:"3D Manual",                                     url:"https://support.binmaster.com/kb/view/7d8bee17-d629-4075-a18b-7e0725f4b52a"},
+  {product:"3D",               name:"3D Wiring",                                     url:"https://support.binmaster.com/kb/view/70cbec26-fa02-4934-a95c-593cf5092229"},
+  {product:"3D",               name:"3D extension installation: videos and manuals", url:"https://support.binmaster.com/kb/view/70cbec26-fa02-4934-a95c-593cf5092229"},
+  {product:"3D",               name:"3D Downloads",                                  url:"https://support.binmaster.com/kb/view/bb6f64b8-6c24-4077-b93e-48cf8ec60767"},
+  {product:"GWR",              name:"Guided Wave Radar Manuals",                     url:"https://support.binmaster.com/kb/view/e29fbc11-0526-4ff9-9c76-da324a5a9ca3"},
+  {product:"GWR",              name:"Guided Wave Radar Wiring",                      url:"https://support.binmaster.com/kb/view/baa0c650-0575-4b4f-a0dc-86911ca25a66"},
+  {product:"Gateway",          name:"Form Vessel Setup",                             url:"https://support.binmaster.com/kb/view/d65c70fd-45a6-4720-9db6-de9f61348bae"},
+  {product:"Gateway",          name:"Firewall Details",                              url:"https://support.binmaster.com/kb/view/6eba9a1b-a15f-4ef6-b96b-c50478438d5d"},
+  {product:"LTX",              name:"Contact technicalsupport@binmaster.com",        url:"mailto:technicalsupport@binmaster.com"},
+  {product:"C100",             name:"C-100 Manual",                                  url:"https://support.binmaster.com/kb/view/811e6e4d-81ec-4906-be46-981773c71a69"},
+  {product:"C100",             name:"C-100 Setup Guide",                             url:"https://binmastercody.github.io/c100/"},
+  {product:"C-50",             name:"C-50 Manual",                                   url:"https://binmaster.com/amfile/file/download/file/1253/product/4260/"},
+  {product:"LTR-100",          name:"LTR-100 Manual",                                url:"https://support.binmaster.com/kb/view/d33f37bb-9332-420a-869f-8f30113caf49"},
+  {product:"LTR-100",          name:"LTR Addressing",                                url:"https://support.binmaster.com/kb/view/7201c8aa-0bb0-480d-9400-1c12389dcdbc"},
+  {product:"DPM",              name:"DPM Manual",                                    url:"https://support.binmaster.com/kb/view/717dead8-a1c3-4518-8238-857ecac445e3"},
+  {product:"DPM",              name:"DPM-100 Modbus Quick Start Guide",              url:"https://binmaster.com/amfile/file/download/file/1049/product/4799/"},
+  {product:"Capacitance Probe",name:"Capacitance Probe Manual",                      url:"https://support.binmaster.com/kb/view/4895275b-1f7c-4b28-8fec-925faa017f46"},
+  {product:"Capacitance Probe",name:"Procap Probe Adjustments Video",                url:"https://support.binmaster.com/kb/view/c67bbd67-e00b-46ef-9f72-38a83856a103"},
+  {product:"Rotary",           name:"BMRX Rotary Manual",                            url:"https://support.binmaster.com/kb/view/66e6b142-438c-4f2f-85c2-bda53cba000f"},
+  {product:"Rotary",           name:"Rotary Wiring",                                 url:"https://support.binmaster.com/kb/view/809dda8f-1de8-44ae-af07-fe2865c03113"},
+  {product:"Vibrating Probe",  name:"Vibrating Rod Manual",                          url:"https://support.binmaster.com/kb/view/bd8af8e0-e43b-4771-bd52-52b8748f7c96"},
+  {product:"Diaphragm",        name:"Diaphragm Switch Manual",                       url:"https://support.binmaster.com/kb/view/9cf52a34-53ce-469c-8d0f-adffd00ab0c4"},
+  {product:"Tilt Switch",      name:"Tilt Switch Manual",                            url:"https://support.binmaster.com/kb/view/b9b5eac2-8ab5-4379-91cb-d753cc51927a"},
+  {product:"BinCloud",         name:"BinCloud \u2014 contact technicalsupport@binmaster.com", url:"mailto:technicalsupport@binmaster.com"},
+  {product:"Binventory",       name:"Binventory Install, Upgrade, Move",             url:"https://support.binmaster.com/kb/view/5d310bc3-e081-4124-a491-57b62a079870"},
+  {product:"FD-2000",          name:"Flow Detect Manual",                            url:"https://binmaster.com/amfile/file/download/file/1151/product/4230/"},
+  {product:"Airbrator",        name:"Airpad, Airbrator Manuals",                     url:"https://support.binmaster.com/kb/view/b5fefb58-7dd4-463b-9f32-3adaa07b5d3b"}
+];
+
+// Unique product names, sorted alpha
+const PRODUCTS = [...new Set(RAW.map(r=>r.product))].sort((a,b)=>a.localeCompare(b));
+
+function linksFor(prod){ return RAW.filter(r=>r.product===prod); }
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let selected = new Set();
+let sentHistory = [];
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', ()=>{
+  loadHist();
+  renderButtons();
+  renderTable();
+});
+
+// ─── BUTTONS ─────────────────────────────────────────────────────────────────
+function renderButtons(){
+  const wrap = document.getElementById('prod-btns');
+  wrap.innerHTML = '';
+  PRODUCTS.forEach(p=>{
+    const btn = document.createElement('button');
+    btn.className = 'pb';
+    btn.dataset.prod = p;
+    // Initials: take first char of each word, up to 2 chars
+    const init = p.split(/[\s\-]+/).map(w=>w[0]||'').join('').substring(0,2).toUpperCase();
+    btn.innerHTML = `<span class="ic">${h(init)}</span>${h(p)}`;
+    btn.onclick = ()=>toggleProd(p, btn);
+    wrap.appendChild(btn);
+  });
+}
+
+function toggleProd(prod, btn){
+  if(selected.has(prod)){ selected.delete(prod); btn.classList.remove('active'); }
+  else { selected.add(prod); btn.classList.add('active'); }
+  autoPreview();
+}
+
+function clearSel(){
+  selected.clear();
+  document.querySelectorAll('.pb').forEach(b=>b.classList.remove('active'));
+  autoPreview();
+}
+
+// ─── TABLE ───────────────────────────────────────────────────────────────────
+function renderTable(){
+  const tbody = document.getElementById('prod-tbody');
+  tbody.innerHTML = '';
+  RAW.forEach((r,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td class="td-prod">${h(r.product)}</td>`+
+      `<td contenteditable="true" oninput="RAW[${i}].name=this.innerText;autoPreview()">${h(r.name)}</td>`+
+      `<td class="td-url" contenteditable="true" oninput="RAW[${i}].url=this.innerText.trim();autoPreview()">${h(r.url)}</td>`+
+      `<td class="td-info" contenteditable="true"></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(RAW,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'products.json';
+  a.click();
+}
+
+// ─── PREVIEW (auto-updates on any input) ─────────────────────────────────────
+function autoPreview(){
+  const ord   = v('f-ord');
+  const email = v('f-email');
+  const name  = v('f-name');
+  const prods = getSelSorted();
+  const box   = document.getElementById('preview-box');
+
+  if(!ord && !email && !name && prods.length===0){
+    box.innerHTML = '<div class="prev-empty">Fill in recipient info and select products above &mdash; preview updates automatically.</div>';
+    return;
+  }
+
+  const subject = `BinMaster Preparation ${ord||'[ORD]'}`;
+  const prodLine = prods.length ? prods.map(p=>`<strong>${h(p)}</strong>`).join('&nbsp;&nbsp;&nbsp;') : '<em style="color:#90A4AE;">[no products selected]</em>';
+
+  let linkLines = '';
+  prods.forEach(p=>{
+    linksFor(p).forEach(lnk=>{
+      const {prefix,linked} = splitName(lnk.name);
+      const isMail = lnk.url.startsWith('mailto:');
+      linkLines += `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? h(prefix)+' &ndash; ' : ''}`;
+      if(isMail){
+        linkLines += `<a href="${ha(lnk.url)}">${h(linked)}</a>`;
+      } else {
+        linkLines += `<a href="${ha(lnk.url)}" target="_blank">${h(linked)}</a>`;
+      }
+      linkLines += '<br>';
+    });
+    linkLines += '<br>';
+  });
+
+  box.innerHTML =
+    `<div class="prev-meta"><div><b>To:</b> ${h(email||'[email address]')}</div><div><b>Subject:</b> ${h(subject)}</div></div>`+
+    `${h(email||'[email address]')}<br><br>`+
+    `${prodLine}<br><br>`+
+    `Hi ${h(name||'[Name]')},<br><br>`+
+    `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.<br><br>`+
+    linkLines+
+    `<b>Protip:</b> Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.<br><br>`+
+    `<b>Protip:</b> Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.<br><br>`+
+    `<b>Protip:</b> Vessel dimensions and bulk density settings are key to good software results. Don\u2019t shortcut those measurements!<br><br>`+
+    `Remember to bookmark <a href="https://support.binmaster.com/" target="_blank">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.<br><br>`+
+    `BinMaster Technical Support<br>`+
+    `<a href="https://www.binmaster.com" target="_blank">https://www.binmaster.com</a><br>`+
+    `402-434-9102<br>`+
+    `3435 Schworer Dr<br>`+
+    `Lincoln, NE 68504`;
+}
+
+// ─── COPY BODY & OPEN EMAIL ──────────────────────────────────────────────────
+// Strategy: write rich HTML to clipboard via ClipboardItem API.
+// Mail clients (Outlook, Apple Mail, Thunderbird) will paste it as formatted HTML
+// including real hyperlinks. Falls back to plain text if ClipboardItem not supported.
+function copyBodyOpen(){
+  const ord   = v('f-ord');
+  const email = v('f-email');
+  const name  = v('f-name');
+  const prods = getSelSorted();
+
+  if(!email){ toast('Please enter an email address.'); return; }
+  if(!prods.length){ toast('Please select at least one product.'); return; }
+
+  const htmlBody = buildHTMLBody(ord, email, name, prods);
+  const plain    = buildPlain(ord, email, name, prods);
+  const subject  = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
+  const mailto   = `mailto:${encodeURIComponent(email)}?subject=${subject}`;
+
+  // Try ClipboardItem (Chrome 66+, Edge, Safari 13.1+)
+  if(window.ClipboardItem){
+    const item = new ClipboardItem({
+      'text/html' : new Blob([htmlBody], {type:'text/html'}),
+      'text/plain': new Blob([plain],    {type:'text/plain'})
+    });
+    navigator.clipboard.write([item])
+      .then(()=>{
+        toast('\u2713 Formatted body copied! Opening mail client\u2026 Paste (Ctrl+V) into the message body.');
+        setTimeout(()=>{ window.location.href = mailto; }, 700);
+      })
+      .catch(()=>fallbackCopy(plain, mailto));
+  } else {
+    fallbackCopy(plain, mailto);
+  }
+}
+
+function fallbackCopy(plain, mailto){
+  navigator.clipboard.writeText(plain)
+    .then(()=>{
+      toast('Plain text copied (browser blocked HTML). Opening mail client\u2026');
+      setTimeout(()=>{ window.location.href = mailto; }, 700);
+    })
+    .catch(()=> toast('Copy failed \u2014 use Generate & Open In Mail.'));
+}
+
+// ─── GENERATE & OPEN IN MAIL ─────────────────────────────────────────────────
+function genMailto(){
+  const ord   = v('f-ord');
+  const email = v('f-email');
+  const name  = v('f-name');
+  const prods = getSelSorted();
+
+  if(!email){ toast('Please enter an email address.'); return; }
+  if(!prods.length){ toast('Please select at least one product.'); return; }
+
+  const plain   = buildPlain(ord, email, name, prods);
+  const subject = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
+  const body    = encodeURIComponent(plain);
+  const full    = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
+
+  if(full.length > 8000){
+    toast('Body too long for direct mailto \u2014 use COPY BODY & OPEN EMAIL and paste.');
+    window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}`;
+    return;
+  }
+  window.location.href = full;
+}
+
+// ─── BUILD HTML BODY (for clipboard) ─────────────────────────────────────────
+function buildHTMLBody(ord, email, name, prods){
+  let linkLines = '';
+  prods.forEach(p=>{
+    linksFor(p).forEach(lnk=>{
+      const {prefix, linked} = splitName(lnk.name);
+      linkLines += `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? he(prefix)+' &ndash; ' : ''}<a href="${ha(lnk.url)}">${he(linked)}</a><br>\n`;
+    });
+    linkLines += '<br>\n';
+  });
+
+  return `<html><body style="font-family:Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.75;color:#1C2833;">
+<p>${he(email)}</p>
+<p>${he(prods.join('   '))}</p>
+<p>Hi ${he(name)},</p>
+<p>Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.</p>
+<p style="margin:0;">${linkLines}</p>
+<p><strong>Protip:</strong> Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.</p>
+<p><strong>Protip:</strong> Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.</p>
+<p><strong>Protip:</strong> Vessel dimensions and bulk density settings are key to good software results. Don\u2019t shortcut those measurements!</p>
+<p>Remember to bookmark <a href="https://support.binmaster.com/">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.</p>
+<p>BinMaster Technical Support<br>
+<a href="https://www.binmaster.com">https://www.binmaster.com</a><br>
+402-434-9102<br>
+3435 Schworer Dr<br>
+Lincoln, NE 68504</p>
+</body></html>`;
+}
+
+// ─── BUILD PLAIN TEXT (for mailto body) ──────────────────────────────────────
+function buildPlain(ord, email, name, prods){
+  let linkLines = '';
+  prods.forEach(p=>{
+    linksFor(p).forEach(lnk=>{
+      const {prefix, linked} = splitName(lnk.name);
+      linkLines += `    ${prefix ? prefix+' - ' : ''}${linked} - ${lnk.url}\r\n`;
+    });
+    linkLines += '\r\n';
+  });
+
+  return `${email}\r\n\r\n`+
+    `${prods.join('   ')}\r\n\r\n`+
+    `Hi ${name},\r\n\r\n`+
+    `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.\r\n\r\n`+
+    linkLines+
+    `Protip: Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.\r\n\r\n`+
+    `Protip: Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.\r\n\r\n`+
+    `Protip: Vessel dimensions and bulk density settings are key to good software results. Don\u2019t shortcut those measurements!\r\n\r\n`+
+    `Remember to bookmark https://support.binmaster.com/ if you need to chat, search our knowledge base, or contact BinMaster Tech.\r\n\r\n`+
+    `BinMaster Technical Support\r\nhttps://www.binmaster.com\r\n402-434-9102\r\n3435 Schworer Dr\r\nLincoln, NE 68504`;
+}
+
+// ─── HISTORY ─────────────────────────────────────────────────────────────────
+function loadHist(){
+  try{ sentHistory = JSON.parse(localStorage.getItem('bm_sent_hist')||'[]'); }
+  catch(e){ sentHistory=[]; }
+  renderHist();
+}
+function storeHist(){ try{ localStorage.setItem('bm_sent_hist',JSON.stringify(sentHistory)); }catch(e){} }
+
+function renderHist(){
+  document.getElementById('h-count').textContent = sentHistory.length;
+  const tbody = document.getElementById('hist-tbody');
+  if(!sentHistory.length){
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:18px;">No history yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML='';
+  [...sentHistory].reverse().forEach((item,ri)=>{
+    const i = sentHistory.length-1-ri;
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td class="h-ord">${h(item.ord)}</td>`+
+      `<td class="h-em">${h(item.email)}</td>`+
+      `<td class="h-dt">${h(item.date)}</td>`+
+      `<td><button class="del-btn" onclick="delHist(${i})" title="Remove">&times;</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function saveHist(){
+  const ord = v('f-ord'); const email = v('f-email');
+  if(!ord){ toast('Enter an ORD Number first.'); return; }
+  if(!email){ toast('Enter an email address first.'); return; }
+  const date = new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+  sentHistory.push({ord, email, date});
+  storeHist(); renderHist();
+  toast('\u2713 Saved to history.');
+}
+
+function delHist(i){ sentHistory.splice(i,1); storeHist(); renderHist(); }
+
+function clearHist(){
+  if(!confirm('Clear all sent history?')) return;
+  sentHistory=[]; storeHist(); renderHist();
+}
+
+// ─── ORD DUPLICATE CHECK ─────────────────────────────────────────────────────
+function onOrdInput(){
+  autoPreview();
+  const ord = v('f-ord');
+  if(!ord) return;
+  const found = sentHistory.find(item => item.ord.toLowerCase()===ord.toLowerCase());
+  if(found){
+    document.getElementById('dup-msg').textContent =
+      `ORD "${found.ord}" was previously sent to ${found.email} on ${found.date}. Verify before continuing.`;
+    document.getElementById('dup-modal').classList.add('on');
+  }
+}
+function closeModal(){ document.getElementById('dup-modal').classList.remove('on'); }
+
+// ─── UTILITIES ────────────────────────────────────────────────────────────────
+function getSelSorted(){ return PRODUCTS.filter(p=>selected.has(p)); }
+
+// Split "NCR Manual" → {prefix:"NCR", linked:"Manual"}
+// Split "Guided Wave Radar Manuals" → {prefix:"Guided Wave Radar", linked:"Manuals"}
+// Single token → {prefix:"", linked:whole}
+function splitName(name){
+  const parts = name.trim().split(/\s+/);
+  if(parts.length===1) return {prefix:'', linked:parts[0]};
+  return {prefix:parts.slice(0,-1).join(' '), linked:parts[parts.length-1]};
+}
+
+function v(id){ return document.getElementById(id).value.trim(); }
+function h(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function he(s){ return h(s); }
+function ha(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+let _tt;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('on');
+  clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('on'),4500);
+}
+</script>
+</body>
+</html>
