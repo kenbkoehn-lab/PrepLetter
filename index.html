@@ -5,124 +5,180 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BinMaster Prep Letter Generator</title>
 <style>
+/* ── BINMASTER BRAND COLORS ──────────────────────────────────────────────────
+   Primary:  #003366 (deep navy)
+   Accent:   #E8A900 (gold/yellow)
+   Mid blue: #005B9F
+   Light bg: #F0F4F9
+   Red CTA:  #CC0000
+──────────────────────────────────────────────────────────────────────────── */
 :root{
-  --blue:#1565C0;--blue-dark:#0D47A1;--blue-mid:#1976D2;--blue-light:#E3F2FD;
-  --gold:#F9A825;--green:#2E7D32;--green-light:#E8F5E9;
-  --red:#C62828;--red-light:#FFEBEE;
-  --gray:#546E7A;--gray-light:#ECEFF1;--gray-mid:#B0BEC5;
-  --border:#CFD8DC;--white:#fff;--text:#1C2833;--text-m:#546E7A;
-  --r:6px;--sh:0 2px 8px rgba(0,0,0,.12);
+  --navy:   #003366;
+  --navy2:  #00254D;
+  --blue:   #005B9F;
+  --gold:   #E8A900;
+  --gold2:  #FFF3CC;
+  --red:    #CC0000;
+  --red-lt: #FFEEEE;
+  --green:  #1D6F2E;
+  --grn-lt: #EAF5EC;
+  --gray:   #4A5568;
+  --gray-lt:#EEF2F7;
+  --border: #C8D5E3;
+  --text:   #1A2535;
+  --text-m: #5A6A7E;
+  --white:  #FFFFFF;
+  --radius: 5px;
+  --shadow: 0 2px 8px rgba(0,0,0,.13);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;color:var(--text);font-size:13px;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-lt);color:var(--text);font-size:13px;min-width:900px;}
 
-header{background:var(--blue-dark);color:#fff;}
-.hdr-top{display:flex;align-items:center;gap:16px;padding:14px 22px 10px;}
-.hdr-logo{font-size:28px;font-weight:900;color:var(--gold);letter-spacing:-1px;flex-shrink:0;}
-.hdr-title h1{font-size:19px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
-.hdr-title .sub{font-size:10px;color:#90CAF9;text-transform:uppercase;letter-spacing:.7px;margin-top:2px;}
-.hdr-bar{background:var(--gold);height:4px;}
+/* ── HEADER ─────────────────────────────────────────────────────────────── */
+header{background:var(--navy2);color:#fff;border-bottom:4px solid var(--gold);}
+.hdr-inner{display:flex;align-items:center;gap:18px;padding:12px 22px 10px;max-width:1480px;margin:0 auto;}
+.hdr-logo-wrap{flex-shrink:0;}
+/* SVG BinMaster wordmark substitute — styled letters */
+.bm-logo{display:flex;flex-direction:column;align-items:flex-start;gap:0;}
+.bm-logo .wm{font-size:26px;font-weight:900;color:var(--gold);letter-spacing:1px;line-height:1;text-transform:uppercase;font-style:italic;}
+.bm-logo .wm span{color:#fff;}
+.bm-logo .tag{font-size:8px;color:#90BAD8;letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+.hdr-divider{width:1px;height:48px;background:rgba(255,255,255,.2);flex-shrink:0;}
+.hdr-titles{display:flex;flex-direction:column;gap:3px;}
+.hdr-titles h1{font-size:17px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#fff;}
+.hdr-titles .sub{font-size:9.5px;color:#90BAD8;text-transform:uppercase;letter-spacing:.8px;}
 
-.wrap{max-width:1440px;margin:0 auto;padding:14px;display:flex;flex-direction:column;gap:14px;}
+/* ── LAYOUT ─────────────────────────────────────────────────────────────── */
+.wrap{max-width:1480px;margin:0 auto;padding:14px;display:flex;flex-direction:column;gap:12px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
-.card{background:#fff;border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);}
-.card-hd{background:var(--gray-light);border-bottom:1px solid var(--border);padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--gray);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.card-hd .note{font-size:10px;font-weight:400;color:#9AB;text-transform:none;letter-spacing:0;font-style:italic;}
-.card-body{padding:14px;}
+/* ── CARDS ──────────────────────────────────────────────────────────────── */
+.card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+.card-hd{background:var(--navy);color:#fff;padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.card-hd .note{font-size:9.5px;font-weight:400;color:#90BAD8;text-transform:none;letter-spacing:0;font-style:italic;}
+.card-body{padding:13px;}
 
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:860px){.two-col{grid-template-columns:1fr;}}
-
+/* ── RECIPIENT FIELDS ───────────────────────────────────────────────────── */
 .field-row{display:flex;gap:10px;flex-wrap:wrap;}
 .fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px;}
 .fg label{font-size:10px;font-weight:700;color:var(--text-m);text-transform:uppercase;letter-spacing:.5px;}
-.fg input{border:1px solid var(--border);border-radius:var(--r);padding:7px 10px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s;}
-.fg input:focus{border-color:var(--blue-mid);box-shadow:0 0 0 2px #1976D228;}
+.fg input{border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s;}
+.fg input:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,91,159,.2);}
 
-#prod-btns{display:flex;flex-wrap:wrap;gap:6px;}
-.pb{padding:5px 11px;border:1.5px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:var(--text);transition:all .13s;display:flex;align-items:center;gap:5px;white-space:nowrap;user-select:none;}
-.pb:hover{border-color:var(--blue-mid);color:var(--blue-mid);background:var(--blue-light);}
-.pb.active{background:var(--blue-mid);color:#fff;border-color:var(--blue-mid);}
-.pb .ic{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;flex-shrink:0;}
-.pb:not(.active) .ic{background:var(--blue-light);color:var(--blue);}
-.pb.active .ic{background:rgba(255,255,255,.25);}
+/* ── PRODUCT BUTTON ROWS ────────────────────────────────────────────────── */
+.btn-rows{display:flex;flex-direction:column;gap:7px;}
+.btn-row-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text-m);margin-bottom:1px;}
+.btn-group{display:flex;flex-wrap:wrap;gap:5px;}
+.pb{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:var(--text);transition:all .13s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;user-select:none;}
+.pb:hover{border-color:var(--blue);color:var(--blue);background:#EBF4FF;}
+.pb.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+.pb .ic{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:800;flex-shrink:0;}
+.pb:not(.active) .ic{background:#DDEAF8;color:var(--navy);}
+.pb.active .ic{background:rgba(255,255,255,.25);color:#fff;}
+.row-divider{border:none;border-top:1px dashed var(--border);margin:2px 0;}
 
-.btn{padding:8px 16px;border-radius:var(--r);border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all .13s;display:inline-flex;align-items:center;gap:6px;}
-.btn-primary{background:var(--blue-mid);color:#fff;}
-.btn-primary:hover{background:var(--blue-dark);}
-.btn-success{background:var(--green);color:#fff;}
-.btn-success:hover{background:#1B5E20;}
-.btn-outline{background:#fff;color:var(--blue-mid);border:1.5px solid var(--blue-mid);}
-.btn-outline:hover{background:var(--blue-light);}
-.btn-gray{background:var(--gray-light);color:var(--gray);border:1px solid var(--border);}
-.btn-gray:hover{background:#CFD8DC;}
+/* ── BUTTONS ────────────────────────────────────────────────────────────── */
+.btn{padding:8px 15px;border-radius:var(--radius);border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all .13s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
+.btn-navy{background:var(--navy);color:#fff;}
+.btn-navy:hover{background:var(--navy2);}
+.btn-gold{background:var(--gold);color:var(--navy2);}
+.btn-gold:hover{background:#D49800;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:#155225;}
+.btn-gray{background:var(--gray-lt);color:var(--gray);border:1px solid var(--border);}
+.btn-gray:hover{background:#DDE4EC;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-red:hover{background:#AA0000;}
+.btn-outline{background:#fff;color:var(--navy);border:1.5px solid var(--navy);}
+.btn-outline:hover{background:#EBF4FF;}
 .btn-sm{padding:5px 10px;font-size:10px;}
-.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:flex-start;}
+.btn-act-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:flex-start;}
 
+/* ── TOOLTIP ────────────────────────────────────────────────────────────── */
 .tw{position:relative;display:inline-block;}
-.tw .tip{display:none;position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:#263238;color:#fff;font-size:11px;padding:9px 13px;border-radius:var(--r);width:270px;z-index:200;line-height:1.55;text-align:left;font-weight:400;white-space:normal;pointer-events:none;}
+.tw .tip{display:none;position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:#1A2535;color:#fff;font-size:11px;padding:9px 13px;border-radius:var(--radius);width:275px;z-index:300;line-height:1.55;text-align:left;font-weight:400;white-space:normal;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.3);}
 .tw:hover .tip{display:block;}
-.tw .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#263238;}
+.tw .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1A2535;}
 
-#preview-box{background:#FAFCFF;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;min-height:160px;font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;line-height:1.8;color:var(--text);}
-#preview-box a{color:var(--blue-mid);text-decoration:underline;}
+/* ── PREVIEW ────────────────────────────────────────────────────────────── */
+#preview-box{background:#FAFCFF;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;min-height:180px;font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;line-height:1.82;color:var(--text);}
+#preview-box a{color:var(--blue);text-decoration:underline;}
 .prev-meta{font-size:11px;color:var(--text-m);margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--border);}
 .prev-meta b{color:var(--text);}
-.prev-empty{color:#90A4AE;font-style:italic;font-size:13px;text-align:center;padding:40px 10px;}
+.prev-empty{color:#90A4AE;font-style:italic;font-size:13px;text-align:center;padding:44px 10px;}
+.pt-line{color:#555;font-style:italic;}
 
+/* ── TABLE ──────────────────────────────────────────────────────────────── */
 .tbl-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:11.5px;}
-th{background:var(--gray-light);font-weight:700;color:var(--gray);text-align:left;padding:7px 10px;border-bottom:2px solid var(--border);text-transform:uppercase;letter-spacing:.4px;font-size:10px;}
+th{background:var(--navy);color:#fff;font-weight:700;text-align:left;padding:7px 10px;text-transform:uppercase;letter-spacing:.4px;font-size:10px;}
 td{padding:5px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
 tr:last-child td{border-bottom:none;}
-tr:hover td{background:#F5F8FF;}
+tr:nth-child(even) td{background:#F7FAFD;}
+tr:hover td{background:#EBF4FF;}
 td[contenteditable=true]{outline:none;}
-td[contenteditable=true]:focus{background:var(--blue-light);outline:1px solid var(--blue-mid);}
+td[contenteditable=true]:focus{background:#EBF4FF;outline:1px solid var(--blue);}
 .td-prod{font-weight:700;white-space:nowrap;}
-.td-url{word-break:break-all;font-size:10px;color:var(--blue-mid);}
+.td-url{word-break:break-all;font-size:10px;color:var(--blue);}
 .td-info{color:var(--text-m);font-style:italic;font-size:10px;}
 
+/* ── HISTORY ────────────────────────────────────────────────────────────── */
+#hist-table th{background:var(--navy);}
 #hist-table th,#hist-table td{font-size:11px;}
-.h-ord{font-weight:700;font-family:monospace;}
-.h-em{color:var(--blue-mid);}
+.h-ord{font-weight:700;font-family:monospace;color:var(--navy);}
+.h-em{color:var(--blue);}
 .h-dt{color:var(--text-m);}
-.del-btn{background:none;border:none;color:var(--gray-mid);cursor:pointer;font-size:16px;padding:1px 5px;border-radius:3px;line-height:1;}
-.del-btn:hover{color:var(--red);background:var(--red-light);}
+.del-btn{background:none;border:none;color:#B0BEC5;cursor:pointer;font-size:16px;padding:1px 5px;border-radius:3px;line-height:1;}
+.del-btn:hover{color:var(--red);background:var(--red-lt);}
 .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;font-size:10px;font-weight:700;padding:0 6px;}
-.bdg-blue{background:var(--blue-mid);color:#fff;}
+.bdg-gold{background:var(--gold);color:var(--navy2);}
 
-.tbl-foot{padding:9px 14px;border-top:1px solid var(--border);display:flex;gap:8px;}
+.tbl-foot{padding:9px 14px;border-top:1px solid var(--border);display:flex;gap:8px;background:#FAFBFD;}
 
-.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;}
+/* ── MODAL ──────────────────────────────────────────────────────────────── */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;}
 .modal-ov.on{display:flex;}
-.modal{background:#fff;border-radius:10px;padding:28px 30px;max-width:390px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.25);text-align:center;}
-.modal-ico{font-size:38px;margin-bottom:10px;}
+.modal{background:#fff;border-radius:10px;padding:28px 32px;max-width:400px;width:90%;box-shadow:0 8px 36px rgba(0,0,0,.28);text-align:center;}
+.modal-ico{font-size:40px;margin-bottom:10px;}
 .modal h2{font-size:16px;color:var(--red);margin-bottom:8px;}
-.modal p{font-size:12.5px;color:var(--text-m);line-height:1.6;margin-bottom:18px;}
+.modal p{font-size:12.5px;color:var(--text-m);line-height:1.6;margin-bottom:20px;}
 .modal-btns{display:flex;gap:10px;justify-content:center;}
 
-#toast{position:fixed;bottom:22px;right:22px;background:#263238;color:#fff;padding:10px 18px;border-radius:var(--r);font-size:12px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:2000;max-width:340px;line-height:1.4;}
+/* ── TOAST ──────────────────────────────────────────────────────────────── */
+#toast{position:fixed;bottom:22px;right:22px;background:var(--navy2);color:#fff;padding:10px 20px;border-radius:var(--radius);font-size:12px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:2000;max-width:360px;line-height:1.4;border-left:4px solid var(--gold);}
 #toast.on{opacity:1;}
+
+/* ── DUPLICATE BADGE ────────────────────────────────────────────────────── */
+.dup-badge{display:none;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+.dup-badge.on{display:inline-block;}
 </style>
 </head>
 <body>
 
+<!-- ── HEADER ──────────────────────────────────────────────────────────── -->
 <header>
-  <div class="hdr-top">
-    <div class="hdr-logo">BM</div>
-    <div class="hdr-title">
+  <div class="hdr-inner">
+    <div class="hdr-logo-wrap">
+      <div class="bm-logo">
+        <div class="wm">Bin<span>Master</span></div>
+        <div class="tag">Level Measurement Solutions</div>
+      </div>
+    </div>
+    <div class="hdr-divider"></div>
+    <div class="hdr-titles">
       <h1>BinMaster Prep Letter Generator</h1>
       <div class="sub">Technical Support &mdash; Email Automation Tool &mdash; Created by Ken Koehn &mdash; April 2026</div>
     </div>
   </div>
-  <div class="hdr-bar"></div>
 </header>
 
 <div class="wrap">
 
-  <!-- RECIPIENT INFORMATION -->
+  <!-- ── RECIPIENT INFORMATION ──────────────────────────────────────────── -->
   <div class="card">
-    <div class="card-hd">&#128100; Recipient Information</div>
+    <div class="card-hd">&#128100; Recipient Information
+      <span id="dup-badge" class="dup-badge">&#9888; Duplicate ORD</span>
+    </div>
     <div class="card-body">
       <div class="field-row">
         <div class="fg">
@@ -141,53 +197,56 @@ td[contenteditable=true]:focus{background:var(--blue-light);outline:1px solid va
     </div>
   </div>
 
-  <!-- PRODUCT SELECTION -->
+  <!-- ── PRODUCT SELECTION ───────────────────────────────────────────────── -->
   <div class="card">
     <div class="card-hd">&#128230; Select Products</div>
     <div class="card-body">
-      <div id="prod-btns"></div>
-      <div class="btn-row">
+      <div class="btn-rows" id="btn-rows"><!-- rendered by JS --></div>
+      <div class="btn-act-row" style="margin-top:10px;">
         <button class="btn btn-gray btn-sm" onclick="clearSel()">&#10005; Clear Selection</button>
       </div>
     </div>
   </div>
 
-  <!-- PREVIEW & GENERATE -->
+  <!-- ── PREVIEW & GENERATE ──────────────────────────────────────────────── -->
   <div class="card">
     <div class="card-hd">&#128065; Email Preview &amp; Generate</div>
     <div class="card-body">
       <div id="preview-box">
-        <div class="prev-empty">Fill in recipient info and select products above &mdash; preview updates automatically.</div>
+        <div class="prev-empty">Fill in recipient info and select products &mdash; preview updates automatically.</div>
       </div>
-      <div class="btn-row">
+      <div class="btn-act-row">
+
         <div class="tw">
-          <button class="btn btn-success" onclick="copyBodyOpen()">&#128203; COPY BODY &amp; OPEN EMAIL</button>
+          <button class="btn btn-green" onclick="copyBodyOpen()">&#128203; COPY BODY &amp; OPEN EMAIL</button>
           <div class="tip"><strong>How it works:</strong> Clicking this button copies the fully-formatted email body (with real clickable hyperlinks) to your clipboard, then opens your mail client with the subject and recipient pre-filled. Just paste (Ctrl+V) into the email body.</div>
         </div>
+
         <div class="tw">
-          <button class="btn btn-primary" onclick="genMailto()">&#128231; GENERATE &amp; OPEN IN MAIL</button>
-          <div class="tip">Opens your default mail client with subject and recipient pre-filled. Body will be plain text &mdash; links appear as URLs. For formatted links use <strong>COPY BODY &amp; OPEN EMAIL</strong>.</div>
+          <button class="btn btn-navy" onclick="genMailto()">&#128231; GENERATE &amp; OPEN IN MAIL</button>
+          <div class="tip">Opens your default mail client with subject and recipient pre-filled. Body will be plain text — links appear as visible URLs. For formatted hyperlinks, use <strong>COPY BODY &amp; OPEN EMAIL</strong> instead.</div>
         </div>
-        <button class="btn btn-gray btn-sm" onclick="saveHist()">&#128190; Save to History</button>
+
       </div>
     </div>
   </div>
 
+  <!-- ── BOTTOM: PRODUCT TABLE + HISTORY ───────────────────────────────── -->
   <div class="two-col">
 
     <!-- PRODUCT TABLE -->
     <div class="card">
       <div class="card-hd">
         &#128230; Product Links
-        <span class="note">(edit products.json to make permanent changes)</span>
+        <span class="note">&nbsp;(edit products.json to make permanent changes)</span>
       </div>
       <div class="tbl-wrap">
         <table>
           <thead>
             <tr>
-              <th style="width:16%">Product</th>
+              <th style="width:14%">Product</th>
               <th style="width:34%">Link Text</th>
-              <th style="width:40%">URL</th>
+              <th style="width:42%">URL</th>
               <th style="width:10%">Info</th>
             </tr>
           </thead>
@@ -195,15 +254,15 @@ td[contenteditable=true]:focus{background:var(--blue-light);outline:1px solid va
         </table>
       </div>
       <div class="tbl-foot">
-        <button class="btn btn-gray btn-sm" onclick="exportJSON()">&#11015; Export JSON</button>
+        <button class="btn btn-gray btn-sm" onclick="exportJSON()">&#11015; Export products.json</button>
       </div>
     </div>
 
-    <!-- HISTORY -->
+    <!-- SENT HISTORY -->
     <div class="card">
       <div class="card-hd">
         &#128203; Sent Email History
-        <span id="h-count" class="badge bdg-blue" style="margin-left:auto;">0</span>
+        <span id="h-count" class="badge bdg-gold" style="margin-left:auto;">0</span>
       </div>
       <div class="tbl-wrap">
         <table id="hist-table">
@@ -216,27 +275,27 @@ td[contenteditable=true]:focus{background:var(--blue-light);outline:1px solid va
             </tr>
           </thead>
           <tbody id="hist-tbody">
-            <tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:18px;">No history yet.</td></tr>
+            <tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:20px;">No history yet.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="tbl-foot">
-        <button class="btn btn-gray btn-sm" onclick="clearHist()">&#128465; Clear All</button>
+        <button class="btn btn-gray btn-sm" onclick="clearHist()">&#128465; Clear All History</button>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- Duplicate ORD Modal -->
+<!-- ── DUPLICATE ORD MODAL ────────────────────────────────────────────── -->
 <div class="modal-ov" id="dup-modal">
   <div class="modal">
     <div class="modal-ico">&#9888;&#65039;</div>
     <h2>ORD Number Already Sent</h2>
-    <p id="dup-msg">This ORD Number was previously used.</p>
+    <p id="dup-msg">This ORD Number was previously used. Please verify before continuing.</p>
     <div class="modal-btns">
       <button class="btn btn-gray" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="closeModal()">Proceed Anyway</button>
+      <button class="btn btn-red" onclick="closeModal(true)">Mark as Duplicate &amp; Proceed</button>
     </div>
   </div>
 </div>
@@ -244,7 +303,9 @@ td[contenteditable=true]:focus{background:var(--blue-light);outline:1px solid va
 <div id="toast"></div>
 
 <script>
-// ─── PRODUCT DATA (from products.json) ───────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA — embedded from products.json
+// ═══════════════════════════════════════════════════════════════════════════
 const RAW = [
   {product:"NCR",              name:"NCR: BinDisc Setup Guide",                     url:"https://bmtchspprt.github.io/radar-setup/bindisc.html"},
   {product:"NCR",              name:"NCR Manual",                                    url:"https://support.binmaster.com/kb/view/bc8e6a67-a401-4bc6-aa83-3423a0282860"},
@@ -286,55 +347,100 @@ const RAW = [
   {product:"Airbrator",        name:"Airpad, Airbrator Manuals",                     url:"https://support.binmaster.com/kb/view/b5fefb58-7dd4-463b-9f32-3adaa07b5d3b"}
 ];
 
-// Unique product names, sorted alpha
-const PRODUCTS = [...new Set(RAW.map(r=>r.product))].sort((a,b)=>a.localeCompare(b));
+// Protips keyed by product
+const PROTIPS = {
+  "CNCR":     ["Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels."],
+  "NCR":      ["Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."],
+  "3D":       ["Water and sensors do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."],
+  "SmartBob": ["Water and sensors do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."]
+};
 
-function linksFor(prod){ return RAW.filter(r=>r.product===prod); }
+// ── BUTTON ROW LAYOUT (as specified) ────────────────────────────────────────
+const ROW_DEFS = [
+  { label: "Radar & Sonar Sensors",    products: ["NCR","CNCR","3D","SmartBob","Senix","GWR"] },
+  { label: "Controllers & Displays",   products: ["Gateway","LTX","C100","C-50","LTR-100","DPM"] },
+  { label: "Point Level & Accessories",products: ["Capacitance Probe","Rotary","Vibrating Probe","Diaphragm","Tilt Switch","FD-2000","Airbrator"] },
+  { label: "Software & Cloud",         products: ["BinCloud","Binventory"] }
+];
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
-let selected = new Set();
+// All product names that have links (non-protip)
+const ALL_PRODS = [...new Set(RAW.map(r => r.product))];
+
+function linksFor(prod) { return RAW.filter(r => r.product === prod); }
+function protipsFor(prod) { return PROTIPS[prod] || []; }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════
+let selected    = new Set();
 let sentHistory = [];
+let isDuplicate = false;
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', ()=>{
+// ═══════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
   loadHist();
-  renderButtons();
+  renderButtonRows();
   renderTable();
 });
 
-// ─── BUTTONS ─────────────────────────────────────────────────────────────────
-function renderButtons(){
-  const wrap = document.getElementById('prod-btns');
+// ═══════════════════════════════════════════════════════════════════════════
+// BUTTON ROWS
+// ═══════════════════════════════════════════════════════════════════════════
+function renderButtonRows() {
+  const wrap = document.getElementById('btn-rows');
   wrap.innerHTML = '';
-  PRODUCTS.forEach(p=>{
-    const btn = document.createElement('button');
-    btn.className = 'pb';
-    btn.dataset.prod = p;
-    // Initials: take first char of each word, up to 2 chars
-    const init = p.split(/[\s\-]+/).map(w=>w[0]||'').join('').substring(0,2).toUpperCase();
-    btn.innerHTML = `<span class="ic">${h(init)}</span>${h(p)}`;
-    btn.onclick = ()=>toggleProd(p, btn);
-    wrap.appendChild(btn);
+
+  ROW_DEFS.forEach((rowDef, ri) => {
+    if (ri > 0) {
+      const hr = document.createElement('hr');
+      hr.className = 'row-divider';
+      wrap.appendChild(hr);
+    }
+    const lbl = document.createElement('div');
+    lbl.className = 'btn-row-label';
+    lbl.textContent = rowDef.label;
+    wrap.appendChild(lbl);
+
+    const grp = document.createElement('div');
+    grp.className = 'btn-group';
+
+    rowDef.products.forEach(prod => {
+      // Only render if product exists in data
+      if (!ALL_PRODS.includes(prod)) return;
+      const btn = document.createElement('button');
+      btn.className = 'pb';
+      btn.dataset.prod = prod;
+      const init = prod.split(/[\s\-]+/).map(w => w[0]||'').join('').substring(0,2).toUpperCase();
+      btn.innerHTML = `<span class="ic">${h(init)}</span>${h(prod)}`;
+      btn.onclick = () => toggleProd(prod, btn);
+      grp.appendChild(btn);
+    });
+
+    wrap.appendChild(grp);
   });
 }
 
-function toggleProd(prod, btn){
-  if(selected.has(prod)){ selected.delete(prod); btn.classList.remove('active'); }
-  else { selected.add(prod); btn.classList.add('active'); }
+function toggleProd(prod, btn) {
+  if (selected.has(prod)) { selected.delete(prod); btn.classList.remove('active'); }
+  else                     { selected.add(prod);    btn.classList.add('active');   }
   autoPreview();
 }
 
-function clearSel(){
+function clearSel() {
   selected.clear();
-  document.querySelectorAll('.pb').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.pb').forEach(b => b.classList.remove('active'));
   autoPreview();
 }
 
-// ─── TABLE ───────────────────────────────────────────────────────────────────
-function renderTable(){
+// ═══════════════════════════════════════════════════════════════════════════
+// PRODUCT TABLE
+// ═══════════════════════════════════════════════════════════════════════════
+function renderTable() {
   const tbody = document.getElementById('prod-tbody');
   tbody.innerHTML = '';
-  RAW.forEach((r,i)=>{
+  RAW.forEach((r, i) => {
     const tr = document.createElement('tr');
     tr.innerHTML =
       `<td class="td-prod">${h(r.product)}</td>`+
@@ -345,151 +451,189 @@ function renderTable(){
   });
 }
 
-function exportJSON(){
-  const blob = new Blob([JSON.stringify(RAW,null,2)],{type:'application/json'});
+function exportJSON() {
+  const out = RAW.map(r => ({product:r.product, name:r.name, url:r.url}));
+  // Add protips back
+  Object.entries(PROTIPS).forEach(([prod, tips]) => {
+    tips.forEach(tip => out.push({product:prod, type:"protip", tip}));
+  });
+  const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'products.json';
   a.click();
 }
 
-// ─── PREVIEW (auto-updates on any input) ─────────────────────────────────────
-function autoPreview(){
+// ═══════════════════════════════════════════════════════════════════════════
+// AUTO PREVIEW
+// ═══════════════════════════════════════════════════════════════════════════
+function autoPreview() {
   const ord   = v('f-ord');
   const email = v('f-email');
   const name  = v('f-name');
-  const prods = getSelSorted();
+  // Ordered by row layout
+  const prods = getSelOrdered();
   const box   = document.getElementById('preview-box');
 
-  if(!ord && !email && !name && prods.length===0){
-    box.innerHTML = '<div class="prev-empty">Fill in recipient info and select products above &mdash; preview updates automatically.</div>';
+  if (!ord && !email && !name && prods.length === 0) {
+    box.innerHTML = '<div class="prev-empty">Fill in recipient info and select products &mdash; preview updates automatically.</div>';
     return;
   }
 
   const subject = `BinMaster Preparation ${ord||'[ORD]'}`;
-  const prodLine = prods.length ? prods.map(p=>`<strong>${h(p)}</strong>`).join('&nbsp;&nbsp;&nbsp;') : '<em style="color:#90A4AE;">[no products selected]</em>';
+  const prodLine = prods.length
+    ? prods.map(p => `<strong>${h(p)}</strong>`).join('&nbsp;&nbsp;&nbsp;')
+    : '<em style="color:#90A4AE;">[no products selected]</em>';
 
-  let linkLines = '';
-  prods.forEach(p=>{
-    linksFor(p).forEach(lnk=>{
-      const {prefix,linked} = splitName(lnk.name);
+  // Build product link lines
+  let linkHTML = '';
+  prods.forEach(p => {
+    linksFor(p).forEach(lnk => {
+      const {prefix, linked} = splitName(lnk.name);
       const isMail = lnk.url.startsWith('mailto:');
-      linkLines += `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? h(prefix)+' &ndash; ' : ''}`;
-      if(isMail){
-        linkLines += `<a href="${ha(lnk.url)}">${h(linked)}</a>`;
-      } else {
-        linkLines += `<a href="${ha(lnk.url)}" target="_blank">${h(linked)}</a>`;
-      }
-      linkLines += '<br>';
+      linkHTML +=
+        `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? h(prefix)+' &ndash; ' : ''}` +
+        `<a href="${ha(lnk.url)}"${isMail?'':' target="_blank"'}>${h(linked)}</a><br>`;
     });
-    linkLines += '<br>';
+    linkHTML += '<br>';
+  });
+
+  // Collect unique protips for selected products (deduplicated by text)
+  const seenTips = new Set();
+  let ptHTML = '';
+  prods.forEach(p => {
+    protipsFor(p).forEach(tip => {
+      if (!seenTips.has(tip)) {
+        seenTips.add(tip);
+        ptHTML += `<span class="pt-line"><strong>Protip:</strong> ${h(tip)}</span><br><br>`;
+      }
+    });
   });
 
   box.innerHTML =
-    `<div class="prev-meta"><div><b>To:</b> ${h(email||'[email address]')}</div><div><b>Subject:</b> ${h(subject)}</div></div>`+
-    `${h(email||'[email address]')}<br><br>`+
-    `${prodLine}<br><br>`+
-    `Hi ${h(name||'[Name]')},<br><br>`+
-    `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.<br><br>`+
-    linkLines+
-    `<b>Protip:</b> Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.<br><br>`+
-    `<b>Protip:</b> Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.<br><br>`+
-    `<b>Protip:</b> Vessel dimensions and bulk density settings are key to good software results. Don\u2019t shortcut those measurements!<br><br>`+
-    `Remember to bookmark <a href="https://support.binmaster.com/" target="_blank">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.<br><br>`+
-    `BinMaster Technical Support<br>`+
-    `<a href="https://www.binmaster.com" target="_blank">https://www.binmaster.com</a><br>`+
-    `402-434-9102<br>`+
-    `3435 Schworer Dr<br>`+
+    `<div class="prev-meta">` +
+      `<div><b>To:</b> ${h(email||'[email address]')}</div>` +
+      `<div><b>Subject:</b> ${h(subject)}</div>` +
+    `</div>` +
+    `${h(email||'[email address]')}<br><br>` +
+    `${prodLine}<br><br>` +
+    `Hi ${h(name||'[Name]')},<br><br>` +
+    `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.<br><br>` +
+    linkHTML +
+    ptHTML +
+    `Remember to bookmark <a href="https://support.binmaster.com/" target="_blank">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.<br><br>` +
+    `BinMaster Technical Support<br>` +
+    `<a href="https://www.binmaster.com" target="_blank">https://www.binmaster.com</a><br>` +
+    `402-434-9102<br>` +
+    `3435 Schworer Dr<br>` +
     `Lincoln, NE 68504`;
 }
 
-// ─── COPY BODY & OPEN EMAIL ──────────────────────────────────────────────────
-// Strategy: write rich HTML to clipboard via ClipboardItem API.
-// Mail clients (Outlook, Apple Mail, Thunderbird) will paste it as formatted HTML
-// including real hyperlinks. Falls back to plain text if ClipboardItem not supported.
-function copyBodyOpen(){
+// ═══════════════════════════════════════════════════════════════════════════
+// COPY BODY & OPEN EMAIL
+// Uses ClipboardItem API to write rich HTML — pastes as formatted email with
+// real hyperlinks in Outlook, Apple Mail, Thunderbird, etc.
+// ═══════════════════════════════════════════════════════════════════════════
+function copyBodyOpen() {
   const ord   = v('f-ord');
   const email = v('f-email');
   const name  = v('f-name');
-  const prods = getSelSorted();
+  const prods = getSelOrdered();
 
-  if(!email){ toast('Please enter an email address.'); return; }
-  if(!prods.length){ toast('Please select at least one product.'); return; }
+  if (!email) { toast('Please enter an email address.'); return; }
+  if (!prods.length) { toast('Please select at least one product.'); return; }
 
-  const htmlBody = buildHTMLBody(ord, email, name, prods);
-  const plain    = buildPlain(ord, email, name, prods);
-  const subject  = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
-  const mailto   = `mailto:${encodeURIComponent(email)}?subject=${subject}`;
+  const htmlBody  = buildHTMLBody(ord, email, name, prods);
+  const plainBody = buildPlain(ord, email, name, prods);
+  const subject   = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
+  const mailtoURL = `mailto:${encodeURIComponent(email)}?subject=${subject}`;
 
-  // Try ClipboardItem (Chrome 66+, Edge, Safari 13.1+)
-  if(window.ClipboardItem){
+  if (window.ClipboardItem) {
     const item = new ClipboardItem({
-      'text/html' : new Blob([htmlBody], {type:'text/html'}),
-      'text/plain': new Blob([plain],    {type:'text/plain'})
+      'text/html' : new Blob([htmlBody],  {type:'text/html'}),
+      'text/plain': new Blob([plainBody], {type:'text/plain'})
     });
     navigator.clipboard.write([item])
-      .then(()=>{
-        toast('\u2713 Formatted body copied! Opening mail client\u2026 Paste (Ctrl+V) into the message body.');
-        setTimeout(()=>{ window.location.href = mailto; }, 700);
+      .then(() => {
+        addToHistory(ord, email);
+        toast('\u2713 Formatted body copied to clipboard! Opening mail client\u2026 Paste (Ctrl+V) into the message body.');
+        setTimeout(() => { window.location.href = mailtoURL; }, 800);
       })
-      .catch(()=>fallbackCopy(plain, mailto));
+      .catch(() => fallbackCopy(plainBody, mailtoURL, ord, email));
   } else {
-    fallbackCopy(plain, mailto);
+    fallbackCopy(plainBody, mailtoURL, ord, email);
   }
 }
 
-function fallbackCopy(plain, mailto){
+function fallbackCopy(plain, mailtoURL, ord, email) {
   navigator.clipboard.writeText(plain)
-    .then(()=>{
-      toast('Plain text copied (browser blocked HTML). Opening mail client\u2026');
-      setTimeout(()=>{ window.location.href = mailto; }, 700);
+    .then(() => {
+      addToHistory(ord, email);
+      toast('Plain text copied (browser blocked HTML clipboard). Opening mail client\u2026');
+      setTimeout(() => { window.location.href = mailtoURL; }, 800);
     })
-    .catch(()=> toast('Copy failed \u2014 use Generate & Open In Mail.'));
+    .catch(() => toast('Clipboard copy failed \u2014 try Generate & Open In Mail.'));
 }
 
-// ─── GENERATE & OPEN IN MAIL ─────────────────────────────────────────────────
-function genMailto(){
+// ═══════════════════════════════════════════════════════════════════════════
+// GENERATE & OPEN IN MAIL (plain-text mailto)
+// ═══════════════════════════════════════════════════════════════════════════
+function genMailto() {
   const ord   = v('f-ord');
   const email = v('f-email');
   const name  = v('f-name');
-  const prods = getSelSorted();
+  const prods = getSelOrdered();
 
-  if(!email){ toast('Please enter an email address.'); return; }
-  if(!prods.length){ toast('Please select at least one product.'); return; }
+  if (!email) { toast('Please enter an email address.'); return; }
+  if (!prods.length) { toast('Please select at least one product.'); return; }
 
   const plain   = buildPlain(ord, email, name, prods);
   const subject = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
   const body    = encodeURIComponent(plain);
   const full    = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
 
-  if(full.length > 8000){
-    toast('Body too long for direct mailto \u2014 use COPY BODY & OPEN EMAIL and paste.');
+  addToHistory(ord, email);
+
+  if (full.length > 8000) {
+    toast('Body too long for direct mailto \u2014 use COPY BODY & OPEN EMAIL and paste for best results.');
     window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}`;
     return;
   }
   window.location.href = full;
 }
 
-// ─── BUILD HTML BODY (for clipboard) ─────────────────────────────────────────
-function buildHTMLBody(ord, email, name, prods){
+// ═══════════════════════════════════════════════════════════════════════════
+// BUILD HTML BODY (for clipboard — renders as formatted email when pasted)
+// ═══════════════════════════════════════════════════════════════════════════
+function buildHTMLBody(ord, email, name, prods) {
   let linkLines = '';
-  prods.forEach(p=>{
-    linksFor(p).forEach(lnk=>{
+  prods.forEach(p => {
+    linksFor(p).forEach(lnk => {
       const {prefix, linked} = splitName(lnk.name);
-      linkLines += `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? he(prefix)+' &ndash; ' : ''}<a href="${ha(lnk.url)}">${he(linked)}</a><br>\n`;
+      linkLines +=
+        `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? he(prefix)+' &ndash; ' : ''}<a href="${ha(lnk.url)}">${he(linked)}</a><br>\n`;
     });
     linkLines += '<br>\n';
   });
 
-  return `<html><body style="font-family:Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.75;color:#1C2833;">
+  const seenTips = new Set();
+  let ptLines = '';
+  prods.forEach(p => {
+    protipsFor(p).forEach(tip => {
+      if (!seenTips.has(tip)) {
+        seenTips.add(tip);
+        ptLines += `<p><em><strong>Protip:</strong> ${he(tip)}</em></p>\n`;
+      }
+    });
+  });
+
+  return `<html><body style="font-family:Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.75;color:#1A2535;">
 <p>${he(email)}</p>
 <p>${he(prods.join('   '))}</p>
 <p>Hi ${he(name)},</p>
 <p>Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.</p>
 <p style="margin:0;">${linkLines}</p>
-<p><strong>Protip:</strong> Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.</p>
-<p><strong>Protip:</strong> Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.</p>
-<p><strong>Protip:</strong> Vessel dimensions and bulk density settings are key to good software results. Don\u2019t shortcut those measurements!</p>
+${ptLines}
 <p>Remember to bookmark <a href="https://support.binmaster.com/">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.</p>
 <p>BinMaster Technical Support<br>
 <a href="https://www.binmaster.com">https://www.binmaster.com</a><br>
@@ -499,15 +643,28 @@ Lincoln, NE 68504</p>
 </body></html>`;
 }
 
-// ─── BUILD PLAIN TEXT (for mailto body) ──────────────────────────────────────
-function buildPlain(ord, email, name, prods){
+// ═══════════════════════════════════════════════════════════════════════════
+// BUILD PLAIN TEXT (for mailto body)
+// ═══════════════════════════════════════════════════════════════════════════
+function buildPlain(ord, email, name, prods) {
   let linkLines = '';
-  prods.forEach(p=>{
-    linksFor(p).forEach(lnk=>{
+  prods.forEach(p => {
+    linksFor(p).forEach(lnk => {
       const {prefix, linked} = splitName(lnk.name);
       linkLines += `    ${prefix ? prefix+' - ' : ''}${linked} - ${lnk.url}\r\n`;
     });
     linkLines += '\r\n';
+  });
+
+  const seenTips = new Set();
+  let ptLines = '';
+  prods.forEach(p => {
+    protipsFor(p).forEach(tip => {
+      if (!seenTips.has(tip)) {
+        seenTips.add(tip);
+        ptLines += `Protip: ${tip}\r\n\r\n`;
+      }
+    });
   });
 
   return `${email}\r\n\r\n`+
@@ -515,34 +672,47 @@ function buildPlain(ord, email, name, prods){
     `Hi ${name},\r\n\r\n`+
     `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.\r\n\r\n`+
     linkLines+
-    `Protip: Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels.\r\n\r\n`+
-    `Protip: Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check.\r\n\r\n`+
-    `Protip: Vessel dimensions and bulk density settings are key to good software results. Don\u2019t shortcut those measurements!\r\n\r\n`+
+    ptLines+
     `Remember to bookmark https://support.binmaster.com/ if you need to chat, search our knowledge base, or contact BinMaster Tech.\r\n\r\n`+
     `BinMaster Technical Support\r\nhttps://www.binmaster.com\r\n402-434-9102\r\n3435 Schworer Dr\r\nLincoln, NE 68504`;
 }
 
-// ─── HISTORY ─────────────────────────────────────────────────────────────────
-function loadHist(){
-  try{ sentHistory = JSON.parse(localStorage.getItem('bm_sent_hist')||'[]'); }
-  catch(e){ sentHistory=[]; }
+// ═══════════════════════════════════════════════════════════════════════════
+// HISTORY — auto-saves on every email generation
+// ═══════════════════════════════════════════════════════════════════════════
+function loadHist() {
+  try { sentHistory = JSON.parse(localStorage.getItem('bm_sent_hist') || '[]'); }
+  catch(e) { sentHistory = []; }
   renderHist();
 }
-function storeHist(){ try{ localStorage.setItem('bm_sent_hist',JSON.stringify(sentHistory)); }catch(e){} }
+function storeHist() {
+  try { localStorage.setItem('bm_sent_hist', JSON.stringify(sentHistory)); } catch(e) {}
+}
 
-function renderHist(){
+function addToHistory(ord, email) {
+  if (!ord && !email) return;
+  const date = new Date().toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+  const dup = isDuplicate ? ' [DUPLICATE]' : '';
+  sentHistory.push({ord: (ord||'—')+dup, email: email||'—', date});
+  storeHist();
+  renderHist();
+  isDuplicate = false; // reset
+}
+
+function renderHist() {
   document.getElementById('h-count').textContent = sentHistory.length;
   const tbody = document.getElementById('hist-tbody');
-  if(!sentHistory.length){
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:18px;">No history yet.</td></tr>';
+  if (!sentHistory.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:20px;">No history yet.</td></tr>';
     return;
   }
-  tbody.innerHTML='';
-  [...sentHistory].reverse().forEach((item,ri)=>{
-    const i = sentHistory.length-1-ri;
+  tbody.innerHTML = '';
+  [...sentHistory].reverse().forEach((item, ri) => {
+    const i = sentHistory.length - 1 - ri;
+    const isDup = item.ord.includes('[DUPLICATE]');
     const tr = document.createElement('tr');
     tr.innerHTML =
-      `<td class="h-ord">${h(item.ord)}</td>`+
+      `<td class="h-ord" style="${isDup?'color:var(--red)':''}">${h(item.ord)}</td>`+
       `<td class="h-em">${h(item.email)}</td>`+
       `<td class="h-dt">${h(item.date)}</td>`+
       `<td><button class="del-btn" onclick="delHist(${i})" title="Remove">&times;</button></td>`;
@@ -550,59 +720,76 @@ function renderHist(){
   });
 }
 
-function saveHist(){
-  const ord = v('f-ord'); const email = v('f-email');
-  if(!ord){ toast('Enter an ORD Number first.'); return; }
-  if(!email){ toast('Enter an email address first.'); return; }
-  const date = new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
-  sentHistory.push({ord, email, date});
-  storeHist(); renderHist();
-  toast('\u2713 Saved to history.');
+function delHist(i) { sentHistory.splice(i, 1); storeHist(); renderHist(); }
+
+function clearHist() {
+  if (!confirm('Clear all sent email history?')) return;
+  sentHistory = []; storeHist(); renderHist();
 }
 
-function delHist(i){ sentHistory.splice(i,1); storeHist(); renderHist(); }
-
-function clearHist(){
-  if(!confirm('Clear all sent history?')) return;
-  sentHistory=[]; storeHist(); renderHist();
-}
-
-// ─── ORD DUPLICATE CHECK ─────────────────────────────────────────────────────
-function onOrdInput(){
+// ═══════════════════════════════════════════════════════════════════════════
+// ORD DUPLICATE CHECK
+// ═══════════════════════════════════════════════════════════════════════════
+let _dupChecked = '';
+function onOrdInput() {
   autoPreview();
   const ord = v('f-ord');
-  if(!ord) return;
-  const found = sentHistory.find(item => item.ord.toLowerCase()===ord.toLowerCase());
-  if(found){
+  const badge = document.getElementById('dup-badge');
+
+  // Check for duplicate (ignore [DUPLICATE] suffix when comparing)
+  const found = sentHistory.find(item =>
+    item.ord.replace(/\s*\[DUPLICATE\]/,'').toLowerCase() === ord.toLowerCase()
+  );
+
+  if (found && ord && ord !== _dupChecked) {
+    _dupChecked = ord;
+    badge.classList.add('on');
     document.getElementById('dup-msg').textContent =
-      `ORD "${found.ord}" was previously sent to ${found.email} on ${found.date}. Verify before continuing.`;
+      `ORD "${found.ord.replace(' [DUPLICATE]','')}" was previously sent to ${found.email} on ${found.date}.`;
     document.getElementById('dup-modal').classList.add('on');
+  } else if (!found) {
+    badge.classList.remove('on');
+    _dupChecked = '';
   }
 }
-function closeModal(){ document.getElementById('dup-modal').classList.remove('on'); }
 
-// ─── UTILITIES ────────────────────────────────────────────────────────────────
-function getSelSorted(){ return PRODUCTS.filter(p=>selected.has(p)); }
-
-// Split "NCR Manual" → {prefix:"NCR", linked:"Manual"}
-// Split "Guided Wave Radar Manuals" → {prefix:"Guided Wave Radar", linked:"Manuals"}
-// Single token → {prefix:"", linked:whole}
-function splitName(name){
-  const parts = name.trim().split(/\s+/);
-  if(parts.length===1) return {prefix:'', linked:parts[0]};
-  return {prefix:parts.slice(0,-1).join(' '), linked:parts[parts.length-1]};
+function closeModal(markDup) {
+  document.getElementById('dup-modal').classList.remove('on');
+  if (markDup) isDuplicate = true;
 }
 
-function v(id){ return document.getElementById(id).value.trim(); }
-function h(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function he(s){ return h(s); }
-function ha(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Return selected products in the order they appear in ROW_DEFS
+function getSelOrdered() {
+  const order = ROW_DEFS.flatMap(r => r.products);
+  const inOrder = order.filter(p => selected.has(p));
+  // add any selected not in ROW_DEFS (shouldn't happen but safety net)
+  selected.forEach(p => { if (!inOrder.includes(p)) inOrder.push(p); });
+  return [...new Set(inOrder)];
+}
+
+// Split "NCR Manual" → {prefix:"NCR", linked:"Manual"}
+// Single word → {prefix:"", linked:"word"}
+function splitName(name) {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return {prefix:'', linked:parts[0]};
+  return {prefix: parts.slice(0,-1).join(' '), linked: parts[parts.length-1]};
+}
+
+function v(id) { return document.getElementById(id).value.trim(); }
+function h(s)  { if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function he(s) { return h(s); }
+function ha(s) { if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 let _tt;
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('on');
-  clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('on'),4500);
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => t.classList.remove('on'), 5000);
 }
 </script>
 </body>
