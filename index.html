@@ -5,181 +5,173 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BinMaster Prep Letter Generator</title>
 <style>
-/* ── BINMASTER BRAND COLORS ──────────────────────────────────────────────────
-   Primary:  #003366 (deep navy)
-   Accent:   #E8A900 (gold/yellow)
-   Mid blue: #005B9F
-   Light bg: #F0F4F9
-   Red CTA:  #CC0000
+/* ─── BINMASTER BRAND ───────────────────────────────────────────────────────
+   Sourced from www.binmaster.com
+   Logo red   : #C8102E   Dark red: #9B0E23
+   Nav bg     : #1C1C1C   (near black)
+   Body text  : #222222
+   Link blue  : #0060A8
+   Light bg   : #F5F6F8
+   Border     : #D2D8E0
 ──────────────────────────────────────────────────────────────────────────── */
 :root{
-  --navy:   #003366;
-  --navy2:  #00254D;
-  --blue:   #005B9F;
-  --gold:   #E8A900;
-  --gold2:  #FFF3CC;
-  --red:    #CC0000;
-  --red-lt: #FFEEEE;
-  --green:  #1D6F2E;
-  --grn-lt: #EAF5EC;
-  --gray:   #4A5568;
-  --gray-lt:#EEF2F7;
-  --border: #C8D5E3;
-  --text:   #1A2535;
-  --text-m: #5A6A7E;
-  --white:  #FFFFFF;
-  --radius: 5px;
-  --shadow: 0 2px 8px rgba(0,0,0,.13);
+  --red      :#C8102E;
+  --red-dk   :#9B0E23;
+  --red-lt   :#FFF0F2;
+  --nav      :#1C1C1C;
+  --text     :#222222;
+  --text-m   :#5A6070;
+  --bg       :#F5F6F8;
+  --white    :#FFFFFF;
+  --border   :#D2D8E0;
+  --blue     :#0060A8;
+  --blue-lt  :#E8F2FB;
+  --green    :#1B6B2F;
+  --grn-lt   :#E8F5EC;
+  --gold     :#E8A000;
+  --r        :5px;
+  --sh       :0 2px 8px rgba(0,0,0,.11);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray-lt);color:var(--text);font-size:13px;min-width:900px;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-width:940px;}
 
-/* ── HEADER ─────────────────────────────────────────────────────────────── */
-header{background:var(--navy2);color:#fff;border-bottom:4px solid var(--gold);}
-.hdr-inner{display:flex;align-items:center;gap:18px;padding:12px 22px 10px;max-width:1480px;margin:0 auto;}
-.hdr-logo-wrap{flex-shrink:0;}
-/* SVG BinMaster wordmark substitute — styled letters */
-.bm-logo{display:flex;flex-direction:column;align-items:flex-start;gap:0;}
-.bm-logo .wm{font-size:26px;font-weight:900;color:var(--gold);letter-spacing:1px;line-height:1;text-transform:uppercase;font-style:italic;}
-.bm-logo .wm span{color:#fff;}
-.bm-logo .tag{font-size:8px;color:#90BAD8;letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
-.hdr-divider{width:1px;height:48px;background:rgba(255,255,255,.2);flex-shrink:0;}
-.hdr-titles{display:flex;flex-direction:column;gap:3px;}
-.hdr-titles h1{font-size:17px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#fff;}
-.hdr-titles .sub{font-size:9.5px;color:#90BAD8;text-transform:uppercase;letter-spacing:.8px;}
+/* ── HEADER ──────────────────────────────────────────────────────────────── */
+header{background:var(--white);border-bottom:4px solid var(--red);box-shadow:0 1px 6px rgba(0,0,0,.1);}
+.hdr{display:flex;align-items:center;gap:18px;padding:10px 22px;max-width:1520px;margin:0 auto;}
 
-/* ── LAYOUT ─────────────────────────────────────────────────────────────── */
-.wrap{max-width:1480px;margin:0 auto;padding:14px;display:flex;flex-direction:column;gap:12px;}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+/* Logo — BinMaster style: italic bold with red "Bin" */
+.logo{flex-shrink:0;line-height:1;display:flex;flex-direction:column;gap:1px;}
+.logo-mark{font-size:32px;font-weight:900;font-style:italic;letter-spacing:-.5px;line-height:1;}
+.logo-mark .r{color:var(--red);}
+.logo-mark .k{color:var(--nav);}
+.logo-tag{font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:var(--text-m);font-weight:600;padding-left:2px;}
 
-/* ── CARDS ──────────────────────────────────────────────────────────────── */
-.card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
-.card-hd{background:var(--navy);color:#fff;padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.card-hd .note{font-size:9.5px;font-weight:400;color:#90BAD8;text-transform:none;letter-spacing:0;font-style:italic;}
-.card-body{padding:13px;}
+.hdr-div{width:1px;height:52px;background:var(--border);}
+.hdr-text h1{font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text);}
+.hdr-text .sub{font-size:9px;text-transform:uppercase;letter-spacing:.9px;color:var(--text-m);margin-top:3px;}
 
-/* ── RECIPIENT FIELDS ───────────────────────────────────────────────────── */
+/* ── LAYOUT ──────────────────────────────────────────────────────────────── */
+.wrap{max-width:1520px;margin:0 auto;padding:13px;display:flex;flex-direction:column;gap:11px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+
+/* ── CARDS ───────────────────────────────────────────────────────────────── */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;}
+.card-hd{background:var(--nav);color:var(--white);padding:7px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.card-hd .note{font-size:9px;font-weight:400;color:#90A0B0;text-transform:none;letter-spacing:0;font-style:italic;}
+.card-bd{padding:13px;}
+
+/* ── FORM FIELDS ─────────────────────────────────────────────────────────── */
 .field-row{display:flex;gap:10px;flex-wrap:wrap;}
 .fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px;}
 .fg label{font-size:10px;font-weight:700;color:var(--text-m);text-transform:uppercase;letter-spacing:.5px;}
-.fg input{border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s;}
-.fg input:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,91,159,.2);}
+.fg input{border:1.5px solid var(--border);border-radius:var(--r);padding:7px 10px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s;}
+.fg input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,96,168,.15);}
 
-/* ── PRODUCT BUTTON ROWS ────────────────────────────────────────────────── */
-.btn-rows{display:flex;flex-direction:column;gap:7px;}
-.btn-row-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text-m);margin-bottom:1px;}
-.btn-group{display:flex;flex-wrap:wrap;gap:5px;}
-.pb{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:var(--text);transition:all .13s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;user-select:none;}
-.pb:hover{border-color:var(--blue);color:var(--blue);background:#EBF4FF;}
-.pb.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+/* ── PRODUCT BUTTONS ─────────────────────────────────────────────────────── */
+.btn-section{display:flex;flex-direction:column;gap:7px;}
+.row-hd{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text-m);border-left:3px solid var(--red);padding-left:7px;}
+.btn-grp{display:flex;flex-wrap:wrap;gap:5px;}
+.row-sep{border:none;border-top:1px dashed var(--border);margin:1px 0;}
+
+.pb{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;background:var(--white);cursor:pointer;font-size:11px;font-weight:600;color:var(--text);transition:all .13s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;user-select:none;}
+.pb:hover{border-color:var(--red);color:var(--red);background:var(--red-lt);}
+.pb.active{background:var(--red);color:var(--white);border-color:var(--red-dk);}
 .pb .ic{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:800;flex-shrink:0;}
-.pb:not(.active) .ic{background:#DDEAF8;color:var(--navy);}
-.pb.active .ic{background:rgba(255,255,255,.25);color:#fff;}
-.row-divider{border:none;border-top:1px dashed var(--border);margin:2px 0;}
+.pb:not(.active) .ic{background:#F0E8E8;color:var(--red);}
+.pb.active .ic{background:rgba(255,255,255,.25);color:var(--white);}
 
-/* ── BUTTONS ────────────────────────────────────────────────────────────── */
-.btn{padding:8px 15px;border-radius:var(--radius);border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all .13s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
-.btn-navy{background:var(--navy);color:#fff;}
-.btn-navy:hover{background:var(--navy2);}
-.btn-gold{background:var(--gold);color:var(--navy2);}
-.btn-gold:hover{background:#D49800;}
-.btn-green{background:var(--green);color:#fff;}
-.btn-green:hover{background:#155225;}
-.btn-gray{background:var(--gray-lt);color:var(--gray);border:1px solid var(--border);}
-.btn-gray:hover{background:#DDE4EC;}
-.btn-red{background:var(--red);color:#fff;}
-.btn-red:hover{background:#AA0000;}
-.btn-outline{background:#fff;color:var(--navy);border:1.5px solid var(--navy);}
-.btn-outline:hover{background:#EBF4FF;}
+/* ── BUTTONS ─────────────────────────────────────────────────────────────── */
+.btn{padding:8px 15px;border-radius:var(--r);border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all .13s;display:inline-flex;align-items:center;gap:6px;}
+.btn-red{background:var(--red);color:var(--white);}
+.btn-red:hover{background:var(--red-dk);}
+.btn-green{background:var(--green);color:var(--white);}
+.btn-green:hover{background:#145224;}
+.btn-dk{background:var(--nav);color:var(--white);}
+.btn-dk:hover{background:#333;}
+.btn-gray{background:var(--bg);color:var(--text-m);border:1px solid var(--border);}
+.btn-gray:hover{background:#E4E7EC;}
 .btn-sm{padding:5px 10px;font-size:10px;}
-.btn-act-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:flex-start;}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;align-items:flex-start;}
 
-/* ── TOOLTIP ────────────────────────────────────────────────────────────── */
+/* ── TOOLTIP WRAPPER ─────────────────────────────────────────────────────── */
 .tw{position:relative;display:inline-block;}
-.tw .tip{display:none;position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:#1A2535;color:#fff;font-size:11px;padding:9px 13px;border-radius:var(--radius);width:275px;z-index:300;line-height:1.55;text-align:left;font-weight:400;white-space:normal;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.tw .tip{display:none;position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#fff;font-size:11px;padding:9px 13px;border-radius:var(--r);width:278px;z-index:300;line-height:1.55;text-align:left;font-weight:400;white-space:normal;pointer-events:none;box-shadow:0 4px 18px rgba(0,0,0,.3);}
 .tw:hover .tip{display:block;}
-.tw .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1A2535;}
+.tw .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1A1A2E;}
 
-/* ── PREVIEW ────────────────────────────────────────────────────────────── */
-#preview-box{background:#FAFCFF;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;min-height:180px;font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;line-height:1.82;color:var(--text);}
+/* ── EMAIL PREVIEW ───────────────────────────────────────────────────────── */
+#preview-box{background:#FAFBFF;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;min-height:180px;font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;line-height:1.82;color:var(--text);}
 #preview-box a{color:var(--blue);text-decoration:underline;}
 .prev-meta{font-size:11px;color:var(--text-m);margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--border);}
 .prev-meta b{color:var(--text);}
-.prev-empty{color:#90A4AE;font-style:italic;font-size:13px;text-align:center;padding:44px 10px;}
-.pt-line{color:#555;font-style:italic;}
+.prev-empty{color:#A0AABB;font-style:italic;font-size:13px;text-align:center;padding:46px 10px;}
+.pt-line{font-style:italic;color:#444;}
 
-/* ── TABLE ──────────────────────────────────────────────────────────────── */
+/* ── PRODUCT TABLE ───────────────────────────────────────────────────────── */
 .tbl-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:11.5px;}
-th{background:var(--navy);color:#fff;font-weight:700;text-align:left;padding:7px 10px;text-transform:uppercase;letter-spacing:.4px;font-size:10px;}
+th{background:var(--nav);color:var(--white);font-weight:700;text-align:left;padding:7px 10px;text-transform:uppercase;letter-spacing:.4px;font-size:10px;}
 td{padding:5px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
-tr:last-child td{border-bottom:none;}
-tr:nth-child(even) td{background:#F7FAFD;}
-tr:hover td{background:#EBF4FF;}
+tr:nth-child(even) td{background:#FAFBFD;}
+tr:hover td{background:var(--blue-lt);}
 td[contenteditable=true]{outline:none;}
-td[contenteditable=true]:focus{background:#EBF4FF;outline:1px solid var(--blue);}
-.td-prod{font-weight:700;white-space:nowrap;}
+td[contenteditable=true]:focus{background:var(--blue-lt);outline:1px solid var(--blue);}
+.td-prod{font-weight:700;white-space:nowrap;color:var(--nav);}
 .td-url{word-break:break-all;font-size:10px;color:var(--blue);}
 .td-info{color:var(--text-m);font-style:italic;font-size:10px;}
-
-/* ── HISTORY ────────────────────────────────────────────────────────────── */
-#hist-table th{background:var(--navy);}
-#hist-table th,#hist-table td{font-size:11px;}
-.h-ord{font-weight:700;font-family:monospace;color:var(--navy);}
-.h-em{color:var(--blue);}
-.h-dt{color:var(--text-m);}
-.del-btn{background:none;border:none;color:#B0BEC5;cursor:pointer;font-size:16px;padding:1px 5px;border-radius:3px;line-height:1;}
-.del-btn:hover{color:var(--red);background:var(--red-lt);}
-.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;font-size:10px;font-weight:700;padding:0 6px;}
-.bdg-gold{background:var(--gold);color:var(--navy2);}
-
 .tbl-foot{padding:9px 14px;border-top:1px solid var(--border);display:flex;gap:8px;background:#FAFBFD;}
 
-/* ── MODAL ──────────────────────────────────────────────────────────────── */
+/* ── HISTORY ─────────────────────────────────────────────────────────────── */
+.h-ord{font-weight:700;font-family:monospace;color:var(--nav);}
+.h-em{color:var(--blue);}
+.h-dt{color:var(--text-m);}
+.del-btn{background:none;border:none;color:#C0CAD8;cursor:pointer;font-size:16px;padding:1px 5px;border-radius:3px;line-height:1;}
+.del-btn:hover{color:var(--red);background:var(--red-lt);}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;font-size:10px;font-weight:700;padding:0 6px;}
+.bdg-red{background:var(--red);color:var(--white);}
+
+/* ── MODAL ───────────────────────────────────────────────────────────────── */
 .modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;}
 .modal-ov.on{display:flex;}
-.modal{background:#fff;border-radius:10px;padding:28px 32px;max-width:400px;width:90%;box-shadow:0 8px 36px rgba(0,0,0,.28);text-align:center;}
-.modal-ico{font-size:40px;margin-bottom:10px;}
-.modal h2{font-size:16px;color:var(--red);margin-bottom:8px;}
-.modal p{font-size:12.5px;color:var(--text-m);line-height:1.6;margin-bottom:20px;}
+.modal{background:var(--white);border-radius:9px;padding:30px 32px;max-width:420px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.28);text-align:center;border-top:5px solid var(--red);}
+.modal-ico{font-size:40px;margin-bottom:12px;}
+.modal h2{font-size:17px;color:var(--red);margin-bottom:10px;font-weight:800;}
+.modal p{font-size:12.5px;color:var(--text-m);line-height:1.65;margin-bottom:22px;}
 .modal-btns{display:flex;gap:10px;justify-content:center;}
 
-/* ── TOAST ──────────────────────────────────────────────────────────────── */
-#toast{position:fixed;bottom:22px;right:22px;background:var(--navy2);color:#fff;padding:10px 20px;border-radius:var(--radius);font-size:12px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:2000;max-width:360px;line-height:1.4;border-left:4px solid var(--gold);}
+/* ── TOAST ───────────────────────────────────────────────────────────────── */
+#toast{position:fixed;bottom:22px;right:22px;background:var(--nav);color:var(--white);padding:11px 20px;border-radius:var(--r);font-size:12px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:2000;max-width:360px;line-height:1.45;border-left:4px solid var(--red);}
 #toast.on{opacity:1;}
-
-/* ── DUPLICATE BADGE ────────────────────────────────────────────────────── */
-.dup-badge{display:none;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;}
-.dup-badge.on{display:inline-block;}
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ──────────────────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════════════════════ -->
 <header>
-  <div class="hdr-inner">
-    <div class="hdr-logo-wrap">
-      <div class="bm-logo">
-        <div class="wm">Bin<span>Master</span></div>
-        <div class="tag">Level Measurement Solutions</div>
-      </div>
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-mark"><span class="r">Bin</span><span class="k">Master</span></div>
+      <div class="logo-tag">Level Measurement</div>
     </div>
-    <div class="hdr-divider"></div>
-    <div class="hdr-titles">
+    <div class="hdr-div"></div>
+    <div class="hdr-text">
       <h1>BinMaster Prep Letter Generator</h1>
       <div class="sub">Technical Support &mdash; Email Automation Tool &mdash; Created by Ken Koehn &mdash; April 2026</div>
     </div>
   </div>
 </header>
 
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE BODY
+══════════════════════════════════════════════════════════════════════════ -->
 <div class="wrap">
 
-  <!-- ── RECIPIENT INFORMATION ──────────────────────────────────────────── -->
+  <!-- RECIPIENT INFORMATION -->
   <div class="card">
-    <div class="card-hd">&#128100; Recipient Information
-      <span id="dup-badge" class="dup-badge">&#9888; Duplicate ORD</span>
-    </div>
-    <div class="card-body">
+    <div class="card-hd">&#128100; Recipient Information</div>
+    <div class="card-bd">
       <div class="field-row">
         <div class="fg">
           <label>ORD Number</label>
@@ -197,56 +189,60 @@ td[contenteditable=true]:focus{background:#EBF4FF;outline:1px solid var(--blue);
     </div>
   </div>
 
-  <!-- ── PRODUCT SELECTION ───────────────────────────────────────────────── -->
+  <!-- SELECT PRODUCTS -->
   <div class="card">
     <div class="card-hd">&#128230; Select Products</div>
-    <div class="card-body">
-      <div class="btn-rows" id="btn-rows"><!-- rendered by JS --></div>
-      <div class="btn-act-row" style="margin-top:10px;">
+    <div class="card-bd">
+      <div class="btn-section" id="btn-section"><!-- rendered by JS --></div>
+      <div class="btn-row" style="margin-top:9px;">
         <button class="btn btn-gray btn-sm" onclick="clearSel()">&#10005; Clear Selection</button>
       </div>
     </div>
   </div>
 
-  <!-- ── PREVIEW & GENERATE ──────────────────────────────────────────────── -->
+  <!-- PREVIEW & GENERATE -->
   <div class="card">
     <div class="card-hd">&#128065; Email Preview &amp; Generate</div>
-    <div class="card-body">
+    <div class="card-bd">
       <div id="preview-box">
         <div class="prev-empty">Fill in recipient info and select products &mdash; preview updates automatically.</div>
       </div>
-      <div class="btn-act-row">
+      <div class="btn-row">
 
         <div class="tw">
-          <button class="btn btn-green" onclick="copyBodyOpen()">&#128203; COPY BODY &amp; OPEN EMAIL</button>
-          <div class="tip"><strong>How it works:</strong> Clicking this button copies the fully-formatted email body (with real clickable hyperlinks) to your clipboard, then opens your mail client with the subject and recipient pre-filled. Just paste (Ctrl+V) into the email body.</div>
+          <button class="btn btn-green" onclick="copyBodyOpen()">&#128203;&nbsp;COPY BODY &amp; OPEN EMAIL</button>
+          <div class="tip">
+            <strong>How it works:</strong> Clicking this button copies the fully-formatted email body (with real clickable hyperlinks) to your clipboard, then opens your mail client with the subject and recipient pre-filled. Just paste (Ctrl+V) into the email body.
+          </div>
         </div>
 
         <div class="tw">
-          <button class="btn btn-navy" onclick="genMailto()">&#128231; GENERATE &amp; OPEN IN MAIL</button>
-          <div class="tip">Opens your default mail client with subject and recipient pre-filled. Body will be plain text — links appear as visible URLs. For formatted hyperlinks, use <strong>COPY BODY &amp; OPEN EMAIL</strong> instead.</div>
+          <button class="btn btn-dk" onclick="genMailto()">&#128231;&nbsp;GENERATE &amp; OPEN IN MAIL</button>
+          <div class="tip">
+            Opens your default mail client with subject and recipient pre-filled. Body will be plain text &mdash; links appear as visible URLs. For formatted hyperlinks, use <strong>COPY BODY &amp; OPEN EMAIL</strong>.
+          </div>
         </div>
 
       </div>
     </div>
   </div>
 
-  <!-- ── BOTTOM: PRODUCT TABLE + HISTORY ───────────────────────────────── -->
+  <!-- PRODUCT TABLE + HISTORY -->
   <div class="two-col">
 
-    <!-- PRODUCT TABLE -->
+    <!-- Product link table -->
     <div class="card">
       <div class="card-hd">
         &#128230; Product Links
-        <span class="note">&nbsp;(edit products.json to make permanent changes)</span>
+        <span class="note">&nbsp;(edit product.json to make permanent changes)</span>
       </div>
       <div class="tbl-wrap">
         <table>
           <thead>
             <tr>
               <th style="width:14%">Product</th>
-              <th style="width:34%">Link Text</th>
-              <th style="width:42%">URL</th>
+              <th style="width:33%">Link Text</th>
+              <th style="width:43%">URL</th>
               <th style="width:10%">Info</th>
             </tr>
           </thead>
@@ -254,15 +250,15 @@ td[contenteditable=true]:focus{background:#EBF4FF;outline:1px solid var(--blue);
         </table>
       </div>
       <div class="tbl-foot">
-        <button class="btn btn-gray btn-sm" onclick="exportJSON()">&#11015; Export products.json</button>
+        <button class="btn btn-gray btn-sm" onclick="exportJSON()">&#11015;&nbsp;Export product.json</button>
       </div>
     </div>
 
-    <!-- SENT HISTORY -->
+    <!-- Sent history -->
     <div class="card">
       <div class="card-hd">
         &#128203; Sent Email History
-        <span id="h-count" class="badge bdg-gold" style="margin-left:auto;">0</span>
+        <span id="h-count" class="badge bdg-red" style="margin-left:auto;">0</span>
       </div>
       <div class="tbl-wrap">
         <table id="hist-table">
@@ -275,36 +271,41 @@ td[contenteditable=true]:focus{background:#EBF4FF;outline:1px solid var(--blue);
             </tr>
           </thead>
           <tbody id="hist-tbody">
-            <tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:20px;">No history yet.</td></tr>
+            <tr><td colspan="4" style="text-align:center;color:#A0AABB;padding:20px;">No emails sent yet.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="tbl-foot">
-        <button class="btn btn-gray btn-sm" onclick="clearHist()">&#128465; Clear All History</button>
+        <button class="btn btn-gray btn-sm" onclick="clearHist()">&#128465;&nbsp;Clear All History</button>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ── DUPLICATE ORD MODAL ────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════════════════════════════════
+     DUPLICATE ORD MODAL
+══════════════════════════════════════════════════════════════════════════ -->
 <div class="modal-ov" id="dup-modal">
   <div class="modal">
     <div class="modal-ico">&#9888;&#65039;</div>
     <h2>ORD Number Already Sent</h2>
-    <p id="dup-msg">This ORD Number was previously used. Please verify before continuing.</p>
+    <p id="dup-msg">This ORD Number was previously sent. Any further emails sent for this ORD Number should be considered a duplicate.</p>
     <div class="modal-btns">
       <button class="btn btn-gray" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-red" onclick="closeModal(true)">Mark as Duplicate &amp; Proceed</button>
+      <button class="btn btn-red" onclick="closeModal()">OK &mdash; Understood</button>
     </div>
   </div>
 </div>
 
 <div id="toast"></div>
 
+<!-- ══════════════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════════════════════ -->
 <script>
 // ═══════════════════════════════════════════════════════════════════════════
-// DATA — embedded from products.json
+// PRODUCT DATA  (embedded from product.json — update RAW array to change)
 // ═══════════════════════════════════════════════════════════════════════════
 const RAW = [
   {product:"NCR",              name:"NCR: BinDisc Setup Guide",                     url:"https://bmtchspprt.github.io/radar-setup/bindisc.html"},
@@ -347,78 +348,82 @@ const RAW = [
   {product:"Airbrator",        name:"Airpad, Airbrator Manuals",                     url:"https://support.binmaster.com/kb/view/b5fefb58-7dd4-463b-9f32-3adaa07b5d3b"}
 ];
 
-// Protips keyed by product
+// Protips keyed by product (deduplicated — unique tips only)
 const PROTIPS = {
-  "CNCR":     ["Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels."],
-  "NCR":      ["Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."],
-  "3D":       ["Water and sensors do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."],
+  "CNCR"    : ["Keep the yellow sheet and do your setup before installing. Trying to Bluetooth after installation can be tough as signals get lost inside of vessels."],
+  "NCR"     : ["Water and radars do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."],
+  "3D"      : ["Water and sensors do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."],
   "SmartBob": ["Water and sensors do not mix. Check your seals. Anticipate water intrusion from conduits. Ask your installer to double check."]
 };
 
-// ── BUTTON ROW LAYOUT (as specified) ────────────────────────────────────────
-const ROW_DEFS = [
-  { label: "Radar & Sonar Sensors",    products: ["NCR","CNCR","3D","SmartBob","Senix","GWR"] },
-  { label: "Controllers & Displays",   products: ["Gateway","LTX","C100","C-50","LTR-100","DPM"] },
-  { label: "Point Level & Accessories",products: ["Capacitance Probe","Rotary","Vibrating Probe","Diaphragm","Tilt Switch","FD-2000","Airbrator"] },
-  { label: "Software & Cloud",         products: ["BinCloud","Binventory"] }
-];
+// ── BUTTON ROW LAYOUT ────────────────────────────────────────────────────────
+// Row 1: NCR, CNCR, 3D, SmartBob, Senix, GWR
+// Row 2: Gateway, LTX, C100, C-50, LTR-100, DPM
+// Row 3: all remaining (alphabetical)
+// Row 4: BinCloud, Binventory
+const ROW1 = ["NCR","CNCR","3D","SmartBob","Senix","GWR"];
+const ROW2 = ["Gateway","LTX","C100","C-50","LTR-100","DPM"];
+const ROW4 = ["BinCloud","Binventory"];
 
-// All product names that have links (non-protip)
+// All product names in the data
 const ALL_PRODS = [...new Set(RAW.map(r => r.product))];
 
-function linksFor(prod) { return RAW.filter(r => r.product === prod); }
-function protipsFor(prod) { return PROTIPS[prod] || []; }
+// Row 3 = everything not in rows 1, 2, or 4, sorted alpha
+const FIXED = new Set([...ROW1, ...ROW2, ...ROW4]);
+const ROW3  = ALL_PRODS.filter(p => !FIXED.has(p)).sort((a,b) => a.localeCompare(b));
+
+const ROWS = [
+  {label:"Radar / Sonic / Wave Sensors",  prods: ROW1},
+  {label:"Controllers & Displays",        prods: ROW2},
+  {label:"Point Level & Accessories",     prods: ROW3},
+  {label:"Software & Cloud",              prods: ROW4}
+];
 
 // ═══════════════════════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════════════════════
-let selected    = new Set();
-let sentHistory = [];
-let isDuplicate = false;
+let selected    = new Set();   // selected product names
+let sentHistory = [];          // [{ord, email, date}]
 
 // ═══════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
   loadHist();
-  renderButtonRows();
+  renderRows();
   renderTable();
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
 // BUTTON ROWS
 // ═══════════════════════════════════════════════════════════════════════════
-function renderButtonRows() {
-  const wrap = document.getElementById('btn-rows');
-  wrap.innerHTML = '';
-
-  ROW_DEFS.forEach((rowDef, ri) => {
+function renderRows() {
+  const sec = document.getElementById('btn-section');
+  sec.innerHTML = '';
+  ROWS.forEach((row, ri) => {
     if (ri > 0) {
-      const hr = document.createElement('hr');
-      hr.className = 'row-divider';
-      wrap.appendChild(hr);
+      const sep = document.createElement('hr');
+      sep.className = 'row-sep';
+      sec.appendChild(sep);
     }
     const lbl = document.createElement('div');
-    lbl.className = 'btn-row-label';
-    lbl.textContent = rowDef.label;
-    wrap.appendChild(lbl);
+    lbl.className = 'row-hd';
+    lbl.textContent = row.label;
+    sec.appendChild(lbl);
 
     const grp = document.createElement('div');
-    grp.className = 'btn-group';
-
-    rowDef.products.forEach(prod => {
-      // Only render if product exists in data
-      if (!ALL_PRODS.includes(prod)) return;
+    grp.className = 'btn-grp';
+    row.prods.forEach(prod => {
+      if (!ALL_PRODS.includes(prod)) return; // skip if not in data
       const btn = document.createElement('button');
       btn.className = 'pb';
       btn.dataset.prod = prod;
-      const init = prod.split(/[\s\-]+/).map(w => w[0]||'').join('').substring(0,2).toUpperCase();
-      btn.innerHTML = `<span class="ic">${h(init)}</span>${h(prod)}`;
-      btn.onclick = () => toggleProd(prod, btn);
+      const init = prod.replace(/[^A-Za-z0-9]/g,'').substring(0,2).toUpperCase();
+      btn.innerHTML = `<span class="ic">${esc(init)}</span>${esc(prod)}`;
+      btn.addEventListener('click', () => toggleProd(prod, btn));
       grp.appendChild(btn);
     });
-
-    wrap.appendChild(grp);
+    sec.appendChild(grp);
   });
 }
 
@@ -443,175 +448,157 @@ function renderTable() {
   RAW.forEach((r, i) => {
     const tr = document.createElement('tr');
     tr.innerHTML =
-      `<td class="td-prod">${h(r.product)}</td>`+
-      `<td contenteditable="true" oninput="RAW[${i}].name=this.innerText;autoPreview()">${h(r.name)}</td>`+
-      `<td class="td-url" contenteditable="true" oninput="RAW[${i}].url=this.innerText.trim();autoPreview()">${h(r.url)}</td>`+
+      `<td class="td-prod">${esc(r.product)}</td>`+
+      `<td contenteditable="true" oninput="RAW[${i}].name=this.innerText;autoPreview()">${esc(r.name)}</td>`+
+      `<td class="td-url" contenteditable="true" oninput="RAW[${i}].url=this.innerText.trim();autoPreview()">${esc(r.url)}</td>`+
       `<td class="td-info" contenteditable="true"></td>`;
     tbody.appendChild(tr);
   });
 }
 
 function exportJSON() {
+  // Include link records + protip records
   const out = RAW.map(r => ({product:r.product, name:r.name, url:r.url}));
-  // Add protips back
   Object.entries(PROTIPS).forEach(([prod, tips]) => {
     tips.forEach(tip => out.push({product:prod, type:"protip", tip}));
   });
   const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'products.json';
-  a.click();
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'product.json'; a.click();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// AUTO PREVIEW
+// AUTO PREVIEW — fires on every keypress / button click
 // ═══════════════════════════════════════════════════════════════════════════
 function autoPreview() {
-  const ord   = v('f-ord');
-  const email = v('f-email');
-  const name  = v('f-name');
-  // Ordered by row layout
+  const ord   = val('f-ord');
+  const email = val('f-email');
+  const name  = val('f-name');
   const prods = getSelOrdered();
   const box   = document.getElementById('preview-box');
 
-  if (!ord && !email && !name && prods.length === 0) {
+  if (!ord && !email && !name && !prods.length) {
     box.innerHTML = '<div class="prev-empty">Fill in recipient info and select products &mdash; preview updates automatically.</div>';
     return;
   }
 
-  const subject = `BinMaster Preparation ${ord||'[ORD]'}`;
   const prodLine = prods.length
-    ? prods.map(p => `<strong>${h(p)}</strong>`).join('&nbsp;&nbsp;&nbsp;')
-    : '<em style="color:#90A4AE;">[no products selected]</em>';
+    ? prods.map(p => `<strong>${esc(p)}</strong>`).join('&nbsp;&nbsp;&nbsp;')
+    : '<em style="color:#A0AABB;">[no products selected]</em>';
 
-  // Build product link lines
+  // Product link lines
   let linkHTML = '';
   prods.forEach(p => {
     linksFor(p).forEach(lnk => {
-      const {prefix, linked} = splitName(lnk.name);
-      const isMail = lnk.url.startsWith('mailto:');
+      const {prefix, last} = splitLast(lnk.name);
       linkHTML +=
-        `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? h(prefix)+' &ndash; ' : ''}` +
-        `<a href="${ha(lnk.url)}"${isMail?'':' target="_blank"'}>${h(linked)}</a><br>`;
+        `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? esc(prefix)+' &ndash; ' : ''}` +
+        `<a href="${escA(lnk.url)}"${lnk.url.startsWith('mailto:')?'':' target="_blank"'}>${esc(last)}</a><br>`;
     });
     linkHTML += '<br>';
   });
 
-  // Collect unique protips for selected products (deduplicated by text)
+  // Protips for selected products (global dedup across all selected)
   const seenTips = new Set();
   let ptHTML = '';
   prods.forEach(p => {
-    protipsFor(p).forEach(tip => {
+    (PROTIPS[p]||[]).forEach(tip => {
       if (!seenTips.has(tip)) {
         seenTips.add(tip);
-        ptHTML += `<span class="pt-line"><strong>Protip:</strong> ${h(tip)}</span><br><br>`;
+        ptHTML += `<span class="pt-line"><strong>Protip:</strong> ${esc(tip)}</span><br><br>`;
       }
     });
   });
 
   box.innerHTML =
     `<div class="prev-meta">` +
-      `<div><b>To:</b> ${h(email||'[email address]')}</div>` +
-      `<div><b>Subject:</b> ${h(subject)}</div>` +
+      `<div><b>To:</b> ${esc(email||'[email address]')}</div>` +
+      `<div><b>Subject:</b> BinMaster Preparation ${esc(ord||'[ORD]')}</div>` +
     `</div>` +
-    `${h(email||'[email address]')}<br><br>` +
+    `${esc(email||'[email address]')}<br><br>` +
     `${prodLine}<br><br>` +
-    `Hi ${h(name||'[Name]')},<br><br>` +
+    `Hi ${esc(name||'[Name]')},<br><br>` +
     `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.<br><br>` +
     linkHTML +
     ptHTML +
     `Remember to bookmark <a href="https://support.binmaster.com/" target="_blank">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.<br><br>` +
     `BinMaster Technical Support<br>` +
     `<a href="https://www.binmaster.com" target="_blank">https://www.binmaster.com</a><br>` +
-    `402-434-9102<br>` +
-    `3435 Schworer Dr<br>` +
-    `Lincoln, NE 68504`;
+    `402-434-9102<br>3435 Schworer Dr<br>Lincoln, NE 68504`;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // COPY BODY & OPEN EMAIL
-// Uses ClipboardItem API to write rich HTML — pastes as formatted email with
-// real hyperlinks in Outlook, Apple Mail, Thunderbird, etc.
+// Writes rich HTML to clipboard via ClipboardItem API.
+// Outlook / Apple Mail / Thunderbird paste it as formatted HTML with live links.
+// Falls back to plain text if browser blocks ClipboardItem.
 // ═══════════════════════════════════════════════════════════════════════════
 function copyBodyOpen() {
-  const ord   = v('f-ord');
-  const email = v('f-email');
-  const name  = v('f-name');
+  const ord   = val('f-ord');
+  const email = val('f-email');
+  const name  = val('f-name');
   const prods = getSelOrdered();
-
-  if (!email) { toast('Please enter an email address.'); return; }
+  if (!email)        { toast('Please enter an email address.'); return; }
   if (!prods.length) { toast('Please select at least one product.'); return; }
 
-  const htmlBody  = buildHTMLBody(ord, email, name, prods);
-  const plainBody = buildPlain(ord, email, name, prods);
-  const subject   = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
-  const mailtoURL = `mailto:${encodeURIComponent(email)}?subject=${subject}`;
+  const htmlBody = buildHTML(ord, email, name, prods);
+  const plain    = buildPlain(ord, email, name, prods);
+  const subj     = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
+  const mailto   = `mailto:${encodeURIComponent(email)}?subject=${subj}`;
 
   if (window.ClipboardItem) {
     const item = new ClipboardItem({
-      'text/html' : new Blob([htmlBody],  {type:'text/html'}),
-      'text/plain': new Blob([plainBody], {type:'text/plain'})
+      'text/html' : new Blob([htmlBody], {type:'text/html'}),
+      'text/plain': new Blob([plain],    {type:'text/plain'})
     });
     navigator.clipboard.write([item])
-      .then(() => {
-        addToHistory(ord, email);
-        toast('\u2713 Formatted body copied to clipboard! Opening mail client\u2026 Paste (Ctrl+V) into the message body.');
-        setTimeout(() => { window.location.href = mailtoURL; }, 800);
-      })
-      .catch(() => fallbackCopy(plainBody, mailtoURL, ord, email));
+      .then(() => { recordSent(ord, email); toast('\u2713 Formatted body copied! Opening mail client\u2026 Paste (Ctrl+V) into the body.'); setTimeout(() => { window.location.href = mailto; }, 800); })
+      .catch(() => fbCopy(plain, mailto, ord, email));
   } else {
-    fallbackCopy(plainBody, mailtoURL, ord, email);
+    fbCopy(plain, mailto, ord, email);
   }
 }
 
-function fallbackCopy(plain, mailtoURL, ord, email) {
+function fbCopy(plain, mailto, ord, email) {
   navigator.clipboard.writeText(plain)
-    .then(() => {
-      addToHistory(ord, email);
-      toast('Plain text copied (browser blocked HTML clipboard). Opening mail client\u2026');
-      setTimeout(() => { window.location.href = mailtoURL; }, 800);
-    })
-    .catch(() => toast('Clipboard copy failed \u2014 try Generate & Open In Mail.'));
+    .then(() => { recordSent(ord, email); toast('Plain text copied (browser blocked HTML). Opening mail client\u2026'); setTimeout(() => { window.location.href = mailto; }, 800); })
+    .catch(() => toast('Clipboard failed \u2014 try Generate & Open In Mail.'));
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// GENERATE & OPEN IN MAIL (plain-text mailto)
+// GENERATE & OPEN IN MAIL  (plain-text mailto)
 // ═══════════════════════════════════════════════════════════════════════════
 function genMailto() {
-  const ord   = v('f-ord');
-  const email = v('f-email');
-  const name  = v('f-name');
+  const ord   = val('f-ord');
+  const email = val('f-email');
+  const name  = val('f-name');
   const prods = getSelOrdered();
-
-  if (!email) { toast('Please enter an email address.'); return; }
+  if (!email)        { toast('Please enter an email address.'); return; }
   if (!prods.length) { toast('Please select at least one product.'); return; }
 
-  const plain   = buildPlain(ord, email, name, prods);
-  const subject = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
-  const body    = encodeURIComponent(plain);
-  const full    = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
+  const plain = buildPlain(ord, email, name, prods);
+  const subj  = encodeURIComponent(`BinMaster Preparation ${ord||'[ORD]'}`);
+  const body  = encodeURIComponent(plain);
+  const full  = `mailto:${encodeURIComponent(email)}?subject=${subj}&body=${body}`;
 
-  addToHistory(ord, email);
+  recordSent(ord, email);
 
   if (full.length > 8000) {
     toast('Body too long for direct mailto \u2014 use COPY BODY & OPEN EMAIL and paste for best results.');
-    window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}`;
+    window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subj}`;
     return;
   }
   window.location.href = full;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// BUILD HTML BODY (for clipboard — renders as formatted email when pasted)
+// BUILD HTML BODY  (pasted into email client — renders as rich HTML)
 // ═══════════════════════════════════════════════════════════════════════════
-function buildHTMLBody(ord, email, name, prods) {
+function buildHTML(ord, email, name, prods) {
   let linkLines = '';
   prods.forEach(p => {
     linksFor(p).forEach(lnk => {
-      const {prefix, linked} = splitName(lnk.name);
-      linkLines +=
-        `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? he(prefix)+' &ndash; ' : ''}<a href="${ha(lnk.url)}">${he(linked)}</a><br>\n`;
+      const {prefix, last} = splitLast(lnk.name);
+      linkLines += `&nbsp;&nbsp;&nbsp;&nbsp;${prefix ? escH(prefix)+' &ndash; ' : ''}<a href="${escA(lnk.url)}">${escH(last)}</a><br>\n`;
     });
     linkLines += '<br>\n';
   });
@@ -619,39 +606,34 @@ function buildHTMLBody(ord, email, name, prods) {
   const seenTips = new Set();
   let ptLines = '';
   prods.forEach(p => {
-    protipsFor(p).forEach(tip => {
-      if (!seenTips.has(tip)) {
-        seenTips.add(tip);
-        ptLines += `<p><em><strong>Protip:</strong> ${he(tip)}</em></p>\n`;
-      }
+    (PROTIPS[p]||[]).forEach(tip => {
+      if (!seenTips.has(tip)) { seenTips.add(tip); ptLines += `<p><em><strong>Protip:</strong> ${escH(tip)}</em></p>\n`; }
     });
   });
 
-  return `<html><body style="font-family:Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.75;color:#1A2535;">
-<p>${he(email)}</p>
-<p>${he(prods.join('   '))}</p>
-<p>Hi ${he(name)},</p>
+  return `<html><body style="font-family:Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.8;color:#222;">
+<p>${escH(email)}</p>
+<p>${escH(prods.join('   '))}</p>
+<p>Hi ${escH(name)},</p>
 <p>Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.</p>
 <p style="margin:0;">${linkLines}</p>
 ${ptLines}
 <p>Remember to bookmark <a href="https://support.binmaster.com/">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.</p>
 <p>BinMaster Technical Support<br>
 <a href="https://www.binmaster.com">https://www.binmaster.com</a><br>
-402-434-9102<br>
-3435 Schworer Dr<br>
-Lincoln, NE 68504</p>
+402-434-9102<br>3435 Schworer Dr<br>Lincoln, NE 68504</p>
 </body></html>`;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// BUILD PLAIN TEXT (for mailto body)
+// BUILD PLAIN TEXT  (used in mailto body — links as "Label - URL")
 // ═══════════════════════════════════════════════════════════════════════════
 function buildPlain(ord, email, name, prods) {
   let linkLines = '';
   prods.forEach(p => {
     linksFor(p).forEach(lnk => {
-      const {prefix, linked} = splitName(lnk.name);
-      linkLines += `    ${prefix ? prefix+' - ' : ''}${linked} - ${lnk.url}\r\n`;
+      const {prefix, last} = splitLast(lnk.name);
+      linkLines += `    ${prefix ? prefix+' - ' : ''}${last} - ${lnk.url}\r\n`;
     });
     linkLines += '\r\n';
   });
@@ -659,11 +641,8 @@ function buildPlain(ord, email, name, prods) {
   const seenTips = new Set();
   let ptLines = '';
   prods.forEach(p => {
-    protipsFor(p).forEach(tip => {
-      if (!seenTips.has(tip)) {
-        seenTips.add(tip);
-        ptLines += `Protip: ${tip}\r\n\r\n`;
-      }
+    (PROTIPS[p]||[]).forEach(tip => {
+      if (!seenTips.has(tip)) { seenTips.add(tip); ptLines += `Protip: ${tip}\r\n\r\n`; }
     });
   });
 
@@ -678,118 +657,107 @@ function buildPlain(ord, email, name, prods) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// HISTORY — auto-saves on every email generation
+// HISTORY  — auto-saved on every generate action; no duplicates added
 // ═══════════════════════════════════════════════════════════════════════════
 function loadHist() {
-  try { sentHistory = JSON.parse(localStorage.getItem('bm_sent_hist') || '[]'); }
+  try { sentHistory = JSON.parse(localStorage.getItem('bm_hist')||'[]'); }
   catch(e) { sentHistory = []; }
   renderHist();
 }
-function storeHist() {
-  try { localStorage.setItem('bm_sent_hist', JSON.stringify(sentHistory)); } catch(e) {}
+function saveHist() {
+  try { localStorage.setItem('bm_hist', JSON.stringify(sentHistory)); } catch(e) {}
 }
 
-function addToHistory(ord, email) {
+function recordSent(ord, email) {
   if (!ord && !email) return;
-  const date = new Date().toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
-  const dup = isDuplicate ? ' [DUPLICATE]' : '';
-  sentHistory.push({ord: (ord||'—')+dup, email: email||'—', date});
-  storeHist();
-  renderHist();
-  isDuplicate = false; // reset
+  // Do NOT add if ORD already in history
+  const exists = sentHistory.some(h => h.ord.toLowerCase() === (ord||'').toLowerCase());
+  if (exists) return; // duplicate — already warned via modal
+  const date = new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+  sentHistory.push({ord:ord||'—', email:email||'—', date});
+  saveHist(); renderHist();
 }
 
 function renderHist() {
   document.getElementById('h-count').textContent = sentHistory.length;
   const tbody = document.getElementById('hist-tbody');
   if (!sentHistory.length) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#90A4AE;padding:20px;">No history yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#A0AABB;padding:20px;">No emails sent yet.</td></tr>';
     return;
   }
   tbody.innerHTML = '';
   [...sentHistory].reverse().forEach((item, ri) => {
     const i = sentHistory.length - 1 - ri;
-    const isDup = item.ord.includes('[DUPLICATE]');
     const tr = document.createElement('tr');
     tr.innerHTML =
-      `<td class="h-ord" style="${isDup?'color:var(--red)':''}">${h(item.ord)}</td>`+
-      `<td class="h-em">${h(item.email)}</td>`+
-      `<td class="h-dt">${h(item.date)}</td>`+
+      `<td class="h-ord">${esc(item.ord)}</td>`+
+      `<td class="h-em">${esc(item.email)}</td>`+
+      `<td class="h-dt">${esc(item.date)}</td>`+
       `<td><button class="del-btn" onclick="delHist(${i})" title="Remove">&times;</button></td>`;
     tbody.appendChild(tr);
   });
 }
 
-function delHist(i) { sentHistory.splice(i, 1); storeHist(); renderHist(); }
-
+function delHist(i) { sentHistory.splice(i,1); saveHist(); renderHist(); }
 function clearHist() {
   if (!confirm('Clear all sent email history?')) return;
-  sentHistory = []; storeHist(); renderHist();
+  sentHistory = []; saveHist(); renderHist();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// ORD DUPLICATE CHECK
+// ORD DUPLICATE CHECK  — runs as user types in ORD field
 // ═══════════════════════════════════════════════════════════════════════════
-let _dupChecked = '';
+let _lastWarnedOrd = '';
 function onOrdInput() {
   autoPreview();
-  const ord = v('f-ord');
-  const badge = document.getElementById('dup-badge');
-
-  // Check for duplicate (ignore [DUPLICATE] suffix when comparing)
-  const found = sentHistory.find(item =>
-    item.ord.replace(/\s*\[DUPLICATE\]/,'').toLowerCase() === ord.toLowerCase()
-  );
-
-  if (found && ord && ord !== _dupChecked) {
-    _dupChecked = ord;
-    badge.classList.add('on');
+  const ord = val('f-ord');
+  if (!ord || ord === _lastWarnedOrd) return;
+  const found = sentHistory.find(h => h.ord.toLowerCase() === ord.toLowerCase());
+  if (found) {
+    _lastWarnedOrd = ord;
     document.getElementById('dup-msg').textContent =
-      `ORD "${found.ord.replace(' [DUPLICATE]','')}" was previously sent to ${found.email} on ${found.date}.`;
+      `ORD "${found.ord}" was previously sent to ${found.email} on ${found.date}. Any further emails for this ORD should be considered a duplicate.`;
     document.getElementById('dup-modal').classList.add('on');
-  } else if (!found) {
-    badge.classList.remove('on');
-    _dupChecked = '';
+  } else {
+    _lastWarnedOrd = '';
   }
 }
-
-function closeModal(markDup) {
-  document.getElementById('dup-modal').classList.remove('on');
-  if (markDup) isDuplicate = true;
-}
+function closeModal() { document.getElementById('dup-modal').classList.remove('on'); }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════════════════════════════════════════
 
-// Return selected products in the order they appear in ROW_DEFS
+// Return selected products in row order (preserves logical grouping)
 function getSelOrdered() {
-  const order = ROW_DEFS.flatMap(r => r.products);
-  const inOrder = order.filter(p => selected.has(p));
-  // add any selected not in ROW_DEFS (shouldn't happen but safety net)
-  selected.forEach(p => { if (!inOrder.includes(p)) inOrder.push(p); });
-  return [...new Set(inOrder)];
+  const order = ROWS.flatMap(r => r.prods);
+  const result = order.filter(p => selected.has(p));
+  // safety: include any selected not captured above
+  selected.forEach(p => { if (!result.includes(p)) result.push(p); });
+  return [...new Set(result)];
 }
 
-// Split "NCR Manual" → {prefix:"NCR", linked:"Manual"}
-// Single word → {prefix:"", linked:"word"}
-function splitName(name) {
+function linksFor(prod) { return RAW.filter(r => r.product === prod); }
+
+// Split "NCR Manual" → {prefix:"NCR", last:"Manual"}
+// Single word   → {prefix:"",    last:"word"}
+function splitLast(name) {
   const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) return {prefix:'', linked:parts[0]};
-  return {prefix: parts.slice(0,-1).join(' '), linked: parts[parts.length-1]};
+  if (parts.length === 1) return {prefix:'', last:parts[0]};
+  return {prefix: parts.slice(0,-1).join(' '), last: parts[parts.length-1]};
 }
 
-function v(id) { return document.getElementById(id).value.trim(); }
-function h(s)  { if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function he(s) { return h(s); }
-function ha(s) { if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function val(id)  { return document.getElementById(id).value.trim(); }
+function esc(s)   { return s==null?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escH(s)  { return esc(s); }
+function escA(s)  { return s==null?'':String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-let _tt;
+let _ttTimer;
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('on');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => t.classList.remove('on'), 5000);
+  clearTimeout(_ttTimer);
+  _ttTimer = setTimeout(() => t.classList.remove('on'), 5000);
 }
 </script>
 </body>
