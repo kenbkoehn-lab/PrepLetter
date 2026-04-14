@@ -121,6 +121,20 @@ td[contenteditable=true]:focus{background:var(--blue-lt);outline:1px solid var(-
 .td-info{color:var(--text-m);font-style:italic;font-size:10px;}
 .tbl-foot{padding:9px 14px;border-top:1px solid var(--border);display:flex;gap:8px;background:#FAFBFD;}
 
+/* ── ADD-ROW FORM ────────────────────────────────────────────────────────── */
+.add-row-form{padding:10px 14px;border-top:2px dashed var(--border);background:#F9FAFB;display:flex;gap:7px;align-items:flex-end;flex-wrap:wrap;}
+.add-row-form .arf{display:flex;flex-direction:column;gap:3px;flex:1;min-width:90px;}
+.add-row-form .arf label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-m);}
+.add-row-form .arf input{border:1.5px solid var(--border);border-radius:var(--r);padding:6px 9px;font-size:12px;color:var(--text);outline:none;background:var(--white);}
+.add-row-form .arf input:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,96,168,.13);}
+.add-row-form .arf input.protip-active{border-color:var(--gold);background:#FFFDF0;}
+.add-row-form .arf input:disabled{background:#F0F2F5;color:#AAA;cursor:not-allowed;}
+.add-row-form .type-toggle{display:flex;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;flex-shrink:0;align-self:flex-end;margin-bottom:0;}
+.add-row-form .type-toggle button{padding:6px 10px;border:none;font-size:10px;font-weight:700;cursor:pointer;background:var(--white);color:var(--text-m);transition:all .13s;letter-spacing:.3px;}
+.add-row-form .type-toggle button.active-link{background:var(--blue);color:var(--white);}
+.add-row-form .type-toggle button.active-tip{background:var(--gold);color:#333;}
+.add-row-form .arf-label-note{font-size:8.5px;color:#A0AABB;font-style:italic;margin-top:1px;}
+
 /* ── HISTORY ─────────────────────────────────────────────────────────────── */
 .h-ord{font-weight:700;font-family:monospace;color:var(--nav);}
 .h-em{color:var(--blue);}
@@ -248,6 +262,39 @@ td[contenteditable=true]:focus{background:var(--blue-lt);outline:1px solid var(-
           </thead>
           <tbody id="prod-tbody"></tbody>
         </table>
+      </div>
+      <!-- ADD ROW FORM -->
+      <div class="add-row-form" id="add-row-form">
+
+        <!-- Type toggle: Link or Protip -->
+        <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0;">
+          <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-m);">Type</span>
+          <div class="type-toggle">
+            <button id="tog-link" class="active-link" onclick="setAddType('link')">&#128279; Link</button>
+            <button id="tog-tip"  onclick="setAddType('tip')">&#128161; Protip</button>
+          </div>
+        </div>
+
+        <div class="arf" style="max-width:130px;">
+          <label>Product</label>
+          <input type="text" id="ar-prod" placeholder="e.g. NCR">
+        </div>
+
+        <div class="arf" style="flex:2;">
+          <label id="ar-name-label">Link Text / Name</label>
+          <input type="text" id="ar-name" placeholder="e.g. NCR Quick Start Guide">
+          <div class="arf-label-note" id="ar-name-note">For a Protip, enter the full tip text here</div>
+        </div>
+
+        <div class="arf" style="flex:2;" id="ar-url-wrap">
+          <label>URL <span style="font-weight:400;color:#A0AABB;">(leave blank for Protip)</span></label>
+          <input type="text" id="ar-url" placeholder="https://...">
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:3px;justify-content:flex-end;">
+          <button class="btn btn-red btn-sm" style="white-space:nowrap;height:31px;" onclick="addTableRow()">&#43; Add Row</button>
+        </div>
+
       </div>
       <div class="tbl-foot">
         <button class="btn btn-gray btn-sm" onclick="exportJSON()">&#11015;&nbsp;Export product.json</button>
@@ -751,6 +798,97 @@ function val(id)  { return document.getElementById(id).value.trim(); }
 function esc(s)   { return s==null?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function escH(s)  { return esc(s); }
 function escA(s)  { return s==null?'':String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ADD ROW TO PRODUCT TABLE
+// ═══════════════════════════════════════════════════════════════════════════
+let _addType = 'link'; // 'link' | 'tip'
+
+function setAddType(type) {
+  _addType = type;
+  document.getElementById('tog-link').className = type === 'link' ? 'active-link' : '';
+  document.getElementById('tog-tip').className  = type === 'tip'  ? 'active-tip'  : '';
+
+  const urlWrap  = document.getElementById('ar-url-wrap');
+  const urlInput = document.getElementById('ar-url');
+  const nameNote = document.getElementById('ar-name-note');
+  const nameLbl  = document.getElementById('ar-name-label');
+
+  if (type === 'tip') {
+    urlInput.value    = '';
+    urlInput.disabled = true;
+    urlInput.classList.add('protip-active');
+    nameLbl.textContent  = 'Protip Text';
+    nameNote.textContent = 'Enter the full protip text — URL is not needed for protips';
+    document.getElementById('ar-name').placeholder = 'e.g. Water and radars do not mix...';
+  } else {
+    urlInput.disabled = false;
+    urlInput.classList.remove('protip-active');
+    nameLbl.textContent  = 'Link Text / Name';
+    nameNote.textContent = 'For a Protip, switch type to Protip above';
+    document.getElementById('ar-name').placeholder = 'e.g. NCR Quick Start Guide';
+    document.getElementById('ar-url').placeholder  = 'https://...';
+  }
+}
+
+function addTableRow() {
+  const prod = document.getElementById('ar-prod').value.trim();
+  const name = document.getElementById('ar-name').value.trim();
+  const url  = document.getElementById('ar-url').value.trim();
+
+  if (!prod) { toast('Please enter a Product name.'); document.getElementById('ar-prod').focus(); return; }
+  if (!name) { toast(_addType === 'tip' ? 'Please enter the Protip text.' : 'Please enter a Link Text / Name.'); document.getElementById('ar-name').focus(); return; }
+  if (_addType === 'link' && !url) { toast('Please enter a URL for the link.'); document.getElementById('ar-url').focus(); return; }
+
+  if (_addType === 'tip') {
+    // Add to PROTIPS dictionary
+    if (!PROTIPS[prod]) PROTIPS[prod] = [];
+    PROTIPS[prod].push(name); // name field holds the tip text
+    // Add a visual-only row to the table (greyed, labelled Protip)
+    const tbody = document.getElementById('prod-tbody');
+    const idx   = RAW.length; // beyond RAW, so no RAW mutation needed
+    const tr    = document.createElement('tr');
+    tr.style.background = '#FFFDF0';
+    tr.innerHTML =
+      `<td class="td-prod" style="color:var(--gold);">${esc(prod)} <span style="font-size:9px;font-weight:400;">[protip]</span></td>`+
+      `<td style="font-style:italic;color:#666;" colspan="2">${esc(name)}</td>`+
+      `<td><button class="del-btn" title="Remove protip" onclick="removeProtipRow(this,'${esc(prod).replace(/'/g,"\\'")}','${name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">&times;</button></td>`;
+    tbody.appendChild(tr);
+    toast(`\u2713 Protip added for "${prod}". Export product.json to make permanent.`);
+  } else {
+    // Add to RAW array
+    const newEntry = {product: prod, name, url};
+    RAW.push(newEntry);
+    // Append a new editable row
+    const tbody = document.getElementById('prod-tbody');
+    const i     = RAW.length - 1;
+    const tr    = document.createElement('tr');
+    tr.innerHTML =
+      `<td class="td-prod">${esc(prod)}</td>`+
+      `<td contenteditable="true" oninput="RAW[${i}].name=this.innerText;autoPreview()">${esc(name)}</td>`+
+      `<td class="td-url" contenteditable="true" oninput="RAW[${i}].url=this.innerText.trim();autoPreview()">${esc(url)}</td>`+
+      `<td class="td-info" contenteditable="true"></td>`;
+    tbody.appendChild(tr);
+    autoPreview();
+    toast(`\u2713 Link row added for "${prod}". Export product.json to make permanent.`);
+  }
+
+  // Clear inputs
+  document.getElementById('ar-prod').value = '';
+  document.getElementById('ar-name').value = '';
+  document.getElementById('ar-url').value  = '';
+}
+
+function removeProtipRow(btn, prod, tip) {
+  // Remove from PROTIPS
+  if (PROTIPS[prod]) {
+    PROTIPS[prod] = PROTIPS[prod].filter(t => t !== tip);
+    if (!PROTIPS[prod].length) delete PROTIPS[prod];
+  }
+  btn.closest('tr').remove();
+  autoPreview();
+  toast(`Protip removed for "${prod}".`);
+}
 
 let _ttTimer;
 function toast(msg) {
