@@ -68,17 +68,15 @@ header{background:var(--white);border-bottom:4px solid var(--red);box-shadow:0 1
 .fg input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,96,168,.15);}
 
 /* ── PRODUCT BUTTONS ─────────────────────────────────────────────────────── */
-.btn-section{display:flex;flex-direction:column;gap:7px;}
-.row-hd{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text-m);border-left:3px solid var(--red);padding-left:7px;}
-.btn-grp{display:flex;flex-wrap:wrap;gap:5px;}
-.row-sep{border:none;border-top:1px dashed var(--border);margin:1px 0;}
+.btn-section{display:flex;flex-direction:column;gap:6px;}
+.row-hd{display:none;}
+.btn-grp{display:flex;flex-wrap:wrap;gap:6px;}
+.row-sep{border:none;border-top:1px solid var(--border);margin:2px 0;}
 
-.pb{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;background:var(--white);cursor:pointer;font-size:11px;font-weight:600;color:var(--text);transition:all .13s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;user-select:none;}
+.pb{padding:6px 14px;border:1.5px solid var(--border);border-radius:20px;background:var(--white);cursor:pointer;font-size:12px;font-weight:500;color:var(--text);transition:all .13s;display:inline-flex;align-items:center;white-space:nowrap;user-select:none;letter-spacing:.01px;}
 .pb:hover{border-color:var(--red);color:var(--red);background:var(--red-lt);}
 .pb.active{background:var(--red);color:var(--white);border-color:var(--red-dk);}
-.pb .ic{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:800;flex-shrink:0;}
-.pb:not(.active) .ic{background:#F0E8E8;color:var(--red);}
-.pb.active .ic{background:rgba(255,255,255,.25);color:var(--white);}
+.pb .ic{display:none;}
 
 /* ── BUTTONS ─────────────────────────────────────────────────────────────── */
 .btn{padding:8px 15px;border-radius:var(--r);border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all .13s;display:inline-flex;align-items:center;gap:6px;}
@@ -193,11 +191,11 @@ td[contenteditable=true]:focus{background:var(--blue-lt);outline:1px solid var(-
         </div>
         <div class="fg">
           <label>Email Address</label>
-          <input type="email" id="f-email" placeholder="customer@example.com" oninput="autoPreview()">
+          <input type="email" id="f-email" placeholder="customer@example.com" autocomplete="email" oninput="autoPreview()">
         </div>
         <div class="fg">
-          <label>Email Name</label>
-          <input type="text" id="f-name" placeholder="First name" oninput="autoPreview()">
+          <label>Name</label>
+          <input type="text" id="f-name" placeholder="First name" autocomplete="given-name" oninput="autoPreview()">
         </div>
       </div>
     </div>
@@ -410,14 +408,16 @@ const PROTIPS = {
 // Row 4: BinCloud, Binventory
 const ROW1 = ["NCR","CNCR","3D","SmartBob","Senix","GWR"];
 const ROW2 = ["Gateway","LTX","C100","C-50","LTR-100","DPM"];
+const ROW3_FIXED = ["Capacitance Probe","Rotary","Vibrating Probe","Diaphragm","Tilt Switch","FD-2000","Airbrator"];
 const ROW4 = ["BinCloud","Binventory"];
 
 // All product names in the data
 const ALL_PRODS = [...new Set(RAW.map(r => r.product))];
 
-// Row 3 = everything not in rows 1, 2, or 4, sorted alpha
-const FIXED = new Set([...ROW1, ...ROW2, ...ROW4]);
-const ROW3  = ALL_PRODS.filter(p => !FIXED.has(p)).sort((a,b) => a.localeCompare(b));
+// Row 3 = ROW3_FIXED order, then any remaining not in rows 1, 2, 3fixed, or 4
+const FIXED = new Set([...ROW1, ...ROW2, ...ROW3_FIXED, ...ROW4]);
+const ROW3_EXTRA = ALL_PRODS.filter(p => !FIXED.has(p)).sort((a,b) => a.localeCompare(b));
+const ROW3 = [...ROW3_FIXED.filter(p => ALL_PRODS.includes(p)), ...ROW3_EXTRA];
 
 const ROWS = [
   {label:"Radar / Sonic / Wave Sensors",  prods: ROW1},
@@ -529,7 +529,7 @@ function autoPreview() {
   }
 
   const prodLine = prods.length
-    ? prods.map(p => `<strong>${esc(p)}</strong>`).join('&nbsp;&nbsp;&nbsp;')
+    ? prods.map(p => `<strong>${esc(p)}</strong>`).join(', ')
     : '<em style="color:#A0AABB;">[no products selected]</em>';
 
   // Product link lines
@@ -561,13 +561,18 @@ function autoPreview() {
       `<div><b>To:</b> ${esc(email||'[email address]')}</div>` +
       `<div><b>Subject:</b> BinMaster Preparation ${esc(ord||'[ORD]')}</div>` +
     `</div>` +
-    `${esc(email||'[email address]')}<br><br>` +
-    `${prodLine}<br><br>` +
-    `Hi ${esc(name||'[Name]')},<br><br>` +
-    `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.<br><br>` +
+    `${esc(email||'[email address]')}<br>` +
+    `${prodLine}<br>` +
+    `<span style="background:#FFE500;padding:0 2px;border-radius:2px;font-size:10px;color:#333;">&lt;CR&gt;</span><br>` +
+    `Hi ${esc(name||'[Name]')},<br>` +
+    `<span style="background:#FFE500;padding:0 2px;border-radius:2px;font-size:10px;color:#333;">&lt;CR&gt;</span><br>` +
+    `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.<br>` +
+    `<span style="background:#FFE500;padding:0 2px;border-radius:2px;font-size:10px;color:#333;">&lt;CR&gt;</span><br>` +
     linkHTML +
     ptHTML +
-    `Remember to bookmark <a href="https://support.binmaster.com/" target="_blank">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.<br><br>` +
+    `<span style="background:#FFE500;padding:0 2px;border-radius:2px;font-size:10px;color:#333;">&lt;CR&gt;</span><br>` +
+    `Remember to bookmark <a href="https://support.binmaster.com/" target="_blank">https://support.binmaster.com/</a> if you need to chat, search our knowledge base, or contact BinMaster Tech.<br>` +
+    `<span style="background:#FFE500;padding:0 2px;border-radius:2px;font-size:10px;color:#333;">&lt;CR&gt;</span><br>` +
     `BinMaster Technical Support<br>` +
     `<a href="https://www.binmaster.com" target="_blank">https://www.binmaster.com</a><br>` +
     `402-434-9102<br>3435 Schworer Dr<br>Lincoln, NE 68504`;
@@ -660,7 +665,7 @@ function buildHTML(ord, email, name, prods) {
 
   return `<html><body style="font-family:Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.8;color:#222;">
 <p>${escH(email)}</p>
-<p>${escH(prods.join('   '))}</p>
+<p>${escH(prods.join(', '))}</p>
 <p>Hi ${escH(name)},</p>
 <p>Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.</p>
 <p style="margin:0;">${linkLines}</p>
@@ -694,7 +699,7 @@ function buildPlain(ord, email, name, prods) {
   });
 
   return `${email}\r\n\r\n`+
-    `${prods.join('   ')}\r\n\r\n`+
+    `${prods.join(', ')}\r\n\r\n`+
     `Hi ${name},\r\n\r\n`+
     `Thanks again for choosing BinMaster for your state-of-the-art level measurement system. Looking ahead to your system, we figure you could use some resources.\r\n\r\n`+
     linkLines+
